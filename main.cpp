@@ -3,6 +3,8 @@
 #include <stdexcept>
 #include <iostream>
 
+#include <glad/glad.h>
+
 #ifdef _WIN32
     #include <Windows.h>
 #endif
@@ -14,6 +16,17 @@ class application_t
 public:
     application_t(): m_window(window_t::get_instance())
     {
+        glEnable(GL_DEBUG_OUTPUT);
+        glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+        
+        glDebugMessageCallback(
+            [] (GLenum source,GLenum type,GLuint id,GLenum severity,GLsizei length,const GLchar *message,const void *userParam) -> void
+            {
+                std::cout << "[OPENGL]: " << message << std::endl;
+            },
+            nullptr
+        );
+        
         m_window.show();
     }
     

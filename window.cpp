@@ -52,6 +52,7 @@ window_t::window_t()
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
     glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+    glfwWindowHint(GLFW_CONTEXT_DEBUG, GLFW_TRUE);
     
     const GLFWvidmode* video_mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
     
