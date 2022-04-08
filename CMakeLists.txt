@@ -17,6 +17,6 @@ add_executable(
     main.cpp
 )
 
-target_link_libraries(chess GLFW::GLFW)
+target_link_libraries(chess GLFW::GLFW glad)
 
 target_include_directories(chess PRIVATE ${GLFW_INCLUDE_DIR} deps/glad/include)
