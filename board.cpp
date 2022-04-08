@@ -30,6 +30,9 @@ namespace
     
     uint32_t shader_program = 0;
     
+    glm::mat4 model;
+    glm::mat4 projection;
+    
     std::vector<vertex_t> generate_board_vertices()
     {
         float x_offset = 0.0f;
@@ -46,34 +49,51 @@ namespace
         {
             for (uint8_t j = 0; j < 8; j++)
             {
-                std::array<vertex_t, 4> square_indices;
+                std::array<vertex_t, 4> square_vertices;
                 
-                square_indices[0].position = glm::vec2(x_offset + 1.0f, y_offset);
-                square_indices[1].position = glm::vec2(x_offset + 1.0f, y_offset + 1.0f);
-                square_indices[2].position = glm::vec2(x_offset, y_offset + 1.0f);
-                square_indices[3].position = glm::vec2(x_offset, y_offset);
+                square_vertices[0].position = glm::vec2(x_offset + 1.0f, y_offset);
+                square_vertices[1].position = glm::vec2(x_offset + 1.0f, y_offset + 1.0f);
+                square_vertices[2].position = glm::vec2(x_offset, y_offset + 1.0f);
+                square_vertices[3].position = glm::vec2(x_offset, y_offset);
                 
                 if (color == color_e::light)
                 {
-                    for (uint8_t k = 0; i < 4; i++)
+                    for (uint8_t k = 0; k < 4; k++)
                     {
-                        square_indices[i].color = glm::vec3(1.0f, 0.9f, 0.9f);
+                        square_vertices[k].color = glm::vec3(0.97f, 0.9f, 0.9f);
                     }
+                    color = color_e::dark;
                 } else if (color == color_e::dark)
                 {
-                    for (uint8_t k = 0; i < 4; i++)
+                    for (uint8_t k = 0; k < 4; k++)
                     {
-                        square_indices[i].color = glm::vec3(1.0f, 0.1f, 0.1f);
+                        square_vertices[k].color = glm::vec3(0.17f, 0.1f, 0.1f);
                     }
+                    color = color_e::light;
                 }
                 
-                vertices.emplace_back(square_indices);
+                for (vertex_t vertex: square_vertices)
+                {
+                    vertices.emplace_back(vertex);
+                }
                 
                 x_offset += 1.0f;
             }
             
             y_offset += 1.0f;
+            x_offset = 0.0f;
+            
+            if (color == color_e::light)
+            {
+                color = color_e::dark;
+            }
+            else 
+            {
+                color = color_e::light;
+            }
         }
+        
+        return vertices;
     }
     
     std::vector<uint32_t> generated_board_indices()
@@ -165,6 +185,12 @@ namespace
 
 void board::init()
 {
+    model = glm::mat4(1.0f);
+    projection = glm::ortho(0.0f, 40.0f, 30.0f, 0.0f, 0.0f, 100.0f);
+    
+    model = glm::translate(model, glm::vec3((40.0f - (8.0f * 2.5f)) / 2.0f, (30.0f - (8.0f * 2.5f)) / 2.0f, 0.0f));
+    model = glm::scale(model, glm::vec3(2.5f));
+    
     uint32_t vertex_shader = create_shader("board-shader.vert", GL_VERTEX_SHADER);
     uint32_t fragment_shader = create_shader("board-shader.frag", GL_FRAGMENT_SHADER);
     
@@ -175,9 +201,6 @@ void board::init()
 
 void board::render()
 {
-    glm::mat4 projection = glm::ortho(0.0f, 400.0f, 400.0f, 0.0f);
-    glm::mat4 model = glm::mat4(1.0f);
-    
     glUseProgram(shader_program);
     
     glUniformMatrix4fv(glGetUniformLocation(shader_program, "model"), 1, GL_FALSE, glm::value_ptr(model));
