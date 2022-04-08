@@ -5,11 +5,6 @@
 
 #include "window.hpp"
 
-static void glfw_error_callback(int p_code, const char* p_message)
-{
-    std::cerr << "[GLFW ERROR " << p_code << "]: " << p_message << "\n";
-}
-
 window_t& window_t::get_instance()
 {
     static window_t instance;
@@ -44,6 +39,13 @@ window_t::window_t()
     {
         throw std::runtime_error("failed to initialize glfw.");
     }
+    
+    glfwSetErrorCallback(
+        [] (int p_code, const char* p_message)
+        {
+            std::cerr << "[GLFW ERROR " << p_code << "]: " << p_message << "\n";
+        }
+    );
     
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
