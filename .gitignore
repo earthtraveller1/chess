@@ -444,3 +444,6 @@ _deps
 
 *.vcxproj*
 *.sln
+
+launch.json
+tasks.json
