@@ -14,11 +14,14 @@ target_include_directories(glad PRIVATE deps/glad/include)
 add_executable(
     chess
     
+    board.cpp 
     main.cpp
     window.cpp 
+    
     window.hpp 
+    board.hpp
 )
 
 target_link_libraries(chess GLFW::GLFW glad)
 
-target_include_directories(chess PRIVATE ${GLFW_INCLUDE_DIR} deps/glad/include)
+target_include_directories(chess PRIVATE ${GLFW_INCLUDE_DIR} deps/glad/include deps/glm)
