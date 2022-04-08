@@ -5,6 +5,9 @@
 
 #include "window.hpp"
 
+static const uint16_t WIDTH = 800;
+static const uint16_t HEIGHT = 600;
+
 static void glfw_error_callback(int p_code, const char* p_message)
 {
     std::cerr << "[GLFW ERROR " << p_code << "]: " << p_message << "\n";
@@ -50,12 +53,15 @@ window_t::window_t()
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
     
-    m_handle = glfwCreateWindow(800, 600, "Chess", nullptr, nullptr);
+    m_handle = glfwCreateWindow(WIDTH, HEIGHT, "Chess", nullptr, nullptr);
     
     if (!m_handle)
     {
         throw std::runtime_error("failed to create the glfw window.");
     }
+    
+    const GLFWvidmode* video_mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+    glfwSetWindowPos(m_handle, (video_mode->width - WIDTH) / 2, (video_mode->height - HEIGHT) / 2);
     
     glfwMakeContextCurrent(m_handle);
     
