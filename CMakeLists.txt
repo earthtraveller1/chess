@@ -18,8 +18,8 @@ add_executable(
     main.cpp
     window.cpp 
     
-    window.hpp 
     board.hpp
+    window.hpp 
 )
 
 target_link_libraries(chess GLFW::GLFW glad)
