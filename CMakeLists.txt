@@ -15,6 +15,8 @@ add_executable(
     chess
     
     main.cpp
+    window.cpp 
+    window.hpp 
 )
 
 target_link_libraries(chess GLFW::GLFW glad)
