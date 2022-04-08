@@ -10,6 +10,7 @@
 #endif
 
 #include "window.hpp"
+#include "board.hpp"
 
 class application_t
 {
@@ -27,6 +28,8 @@ public:
             nullptr
         );
         
+        board::init();
+        
         m_window.show();
     }
     
@@ -37,6 +40,8 @@ public:
     
     void update()
     {
+        board::render();
+        
         m_window.update();
     }
     
