@@ -23,6 +23,9 @@ private:
     window_t();
     
     GLFWwindow* m_handle;
+    
+    uint32_t m_width;
+    uint32_t m_height;
 };
 
 #endif /* E7285229_48B6_455A_A806_FA24E7743CB1 */
