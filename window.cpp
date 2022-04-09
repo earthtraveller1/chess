@@ -5,9 +5,9 @@
 
 #include "window.hpp"
 
-window_t& window_t::get_instance()
+window_t& window_t::get_instance(bool p_enable_context_debugging)
 {
-    static window_t instance;
+    static window_t instance(p_enable_context_debugging);
     return instance;
 }
 
@@ -33,7 +33,7 @@ window_t::~window_t()
     glfwTerminate();
 }
 
-window_t::window_t()
+window_t::window_t(bool p_enable_context_debugging)
 {
     if (!glfwInit())
     {
@@ -47,12 +47,21 @@ window_t::window_t()
         }
     );
     
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    if (p_enable_context_debugging)
+    {
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+        glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
+    }
+    else 
+    {
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    }
+    
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
     glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-    //glfwWindowHint(GLFW_CONTEXT_DEBUG, GLFW_TRUE);
     
 #ifdef __APPLE__
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);

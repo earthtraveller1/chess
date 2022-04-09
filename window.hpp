@@ -9,7 +9,7 @@ public:
     window_t(window_t&) = delete;
     window_t& operator=(window_t&) = delete;
     
-    static window_t& get_instance();
+    static window_t& get_instance(bool enable_context_debugging);
     
     void show() const;
     
@@ -20,7 +20,7 @@ public:
     ~window_t();
     
 private:
-    window_t();
+    window_t(bool enable_context_debugging);
     
     GLFWwindow* m_handle;
     

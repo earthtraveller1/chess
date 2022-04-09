@@ -15,18 +15,20 @@
 class application_t
 {
 public:
-    application_t(): m_window(window_t::get_instance())
+    application_t(bool p_enable_context_debugging): m_window(window_t::get_instance(p_enable_context_debugging))
     {
-        //glEnable(GL_DEBUG_OUTPUT);
-        //glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
-        
-        /*glDebugMessageCallback(
-            [] (GLenum source,GLenum type,GLuint id,GLenum severity,GLsizei length,const GLchar *message,const void *userParam) -> void
-            {
-                std::cout << "[OPENGL]: " << message << std::endl;
-            },
-            nullptr
-        );*/
+        if (p_enable_context_debugging)
+        {
+            glEnable(GL_DEBUG_OUTPUT);
+            glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+
+            glDebugMessageCallback(
+                [](GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar *message, const void *userParam) -> void
+                {
+                    std::cout << "[OPENGL]: " << message << std::endl;
+                },
+                nullptr);
+        }
         
         board::init();
         
@@ -54,9 +56,9 @@ private:
     window_t& m_window;
 };
 
-static void run()
+static void run(bool p_enable_context_debug)
 {
-    application_t application;
+    application_t application(p_enable_context_debug);
     
     while (application.is_running())
     {
@@ -79,11 +81,22 @@ static void display_fatal_error(const char* p_error_message)
     #endif
 }
 
-int main()
+int main(int argc, char** argv)
 {
+    bool enable_context_debug = false;
+    
+    for (int32_t i = 0; i < argc; i++)
+    {
+        if (std::strcmp(argv[i], "--enable-context-debugging") == 0)
+        {
+            enable_context_debug = true;
+            std::cout << "[INFO]: Enabling context debugging (requires OpenGL 4.3)\n";
+        }
+    }
+    
     try
     {
-        run();
+        run(enable_context_debug);
     }
     catch(const std::runtime_error& e)
     {
