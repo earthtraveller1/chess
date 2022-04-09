@@ -447,3 +447,8 @@ _deps
 
 launch.json
 tasks.json
+
+# Ninja clutters
+.ninja_deps
+.ninja_log
+build.ninja
