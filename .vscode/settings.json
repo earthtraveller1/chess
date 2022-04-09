@@ -15,5 +15,10 @@
         "*.vcxproj": true,
         "**/cmake_install.cmake": true,
         "CMakeCache.txt": true,
+        ".ninja_deps": true,
+        ".ninja_log": true,
+        "build.ninja": true,
+        "*.out": true,
+        "*.a": true,
     }
 }
