@@ -11,6 +11,10 @@ find_package(GLFW)
 add_library(glad STATIC deps/glad/src/glad.c)
 target_include_directories(glad PRIVATE deps/glad/include)
 
+if (UNIX AND NOT APPLE)
+    target_link_libraries(glad dl)
+endif()
+
 add_executable(
     chess
     
