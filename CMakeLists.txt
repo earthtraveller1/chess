@@ -5,6 +5,11 @@ project(chess)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR})
 
+# Give executables on Linux the .out extension
+if (UNIX)
+    set(CMAKE_EXECUTABLE_SUFFIX .out)
+endif()
+
 find_package(GLFW)
 
 # GLAD
