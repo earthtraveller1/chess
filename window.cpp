@@ -54,6 +54,10 @@ window_t::window_t()
     glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
     glfwWindowHint(GLFW_CONTEXT_DEBUG, GLFW_TRUE);
     
+#ifdef __APPLE__
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+#endif
+    
     const GLFWvidmode* video_mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
     
     if (video_mode->height >= 2160)
