@@ -12,6 +12,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "shaders.hpp"
+
 #include "board.hpp"
 
 namespace 
@@ -141,46 +143,6 @@ namespace
         glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(vertex_t), reinterpret_cast<void *>(offsetof(vertex_t, color)));
         glEnableVertexAttribArray(1);
     }
-    
-    uint32_t create_shader(std::string_view p_path, uint32_t p_type)
-    {
-        std::ifstream file_stream(p_path.data());
-        
-        if (!file_stream)
-        {
-            std::cerr << "[ERROR]: Failed to open " << p_path << std::endl;
-            return 0;
-        }
-        
-        std::string source;
-        
-        while (file_stream.good())
-        {
-            std::string line;
-            std::getline(file_stream, line);
-            source += line += '\n';
-        }
-        
-        file_stream.close();
-        
-        const char* source_c_str = source.c_str();
-        
-        uint32_t shader = glCreateShader(p_type);
-        glShaderSource(shader, 1, &source_c_str, nullptr);
-        glCompileShader(shader);
-        
-        return shader;
-    }
-    
-    uint32_t create_shader_program(uint32_t p_vertex, uint32_t p_fragment)
-    {
-        uint32_t program = glCreateProgram();
-        glAttachShader(program, p_vertex);
-        glAttachShader(program, p_fragment);
-        glLinkProgram(program);
-        
-        return program;
-    }
 }
 
 void board::init()
@@ -191,10 +153,10 @@ void board::init()
     model = glm::translate(model, glm::vec3((40.0f - (8.0f * 2.5f)) / 2.0f, (30.0f - (8.0f * 2.5f)) / 2.0f, 0.0f));
     model = glm::scale(model, glm::vec3(2.5f));
     
-    uint32_t vertex_shader = create_shader("board-shader.vert", GL_VERTEX_SHADER);
-    uint32_t fragment_shader = create_shader("board-shader.frag", GL_FRAGMENT_SHADER);
+    uint32_t vertex_shader = shaders::create_shader("board-shader.vert", GL_VERTEX_SHADER);
+    uint32_t fragment_shader = shaders::create_shader("board-shader.frag", GL_FRAGMENT_SHADER);
     
-    shader_program = create_shader_program(vertex_shader, fragment_shader);
+    shader_program = shaders::create_shader_program(vertex_shader, fragment_shader);
     
     initialize_vertex_data();
 }
