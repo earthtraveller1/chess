@@ -25,9 +25,13 @@ add_executable(
     
     board.cpp 
     main.cpp
+    renderer.cpp
+    shaders.cpp
     window.cpp 
     
     board.hpp
+    renderer.hpp
+    shaders.hpp
     window.hpp 
 )
 
