@@ -30,7 +30,8 @@ public:
                 nullptr);
         }
         
-        board::init();
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         
         m_window.show();
     }
@@ -42,6 +43,8 @@ public:
     
     void update()
     {
+        glClear(GL_COLOR_BUFFER_BIT);
+        
         board::render();
         
         m_window.update();
