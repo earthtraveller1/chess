@@ -109,6 +109,47 @@ void renderer::draw_colored_rectangle(float p_left, float p_up, float p_right, f
     element_buffer_offset += 6;
 }
 
+void renderer::draw_circle(float p_x, float p_y, float p_radius, float p_red, float p_green, float p_blue, float p_alpha)
+{
+    renderer::draw_ellipse(p_x, p_y, p_radius, p_radius, p_red, p_green, p_blue, p_alpha);
+}
+
+void renderer::draw_ellipse(float p_left, float p_up, float p_right, float p_bottom, float p_red, float p_green, float p_blue, float p_alpha)
+{
+    std::array<vertex_t, 4> vertices;
+    
+    vertices[0].pos = glm::vec2(p_right, p_up);
+    vertices[1].pos = glm::vec2(p_right, p_bottom);
+    vertices[2].pos = glm::vec2(p_left, p_bottom);
+    vertices[3].pos = glm::vec2(p_left, p_up);
+    
+    vertices[0].local_pos = glm::vec2(1.0f, 1.0f);
+    vertices[1].local_pos = glm::vec2(1.0f, -1.0f);
+    vertices[2].local_pos = glm::vec2(-1.0f, -1.0f);
+    vertices[3].local_pos = glm::vec2(-1.0f, 1.0f);
+    
+    for (uint8_t i = 0; i < 4; i++)
+    {
+        vertices[i].color = glm::vec4(p_red, p_green, p_blue, p_alpha);
+        vertices[i].circle = 1;
+    }
+    
+    std::array<uint32_t, 6> indices;
+    
+    indices[0] = 0 + vertex_offset;
+    indices[1] = 1 + vertex_offset;
+    indices[2] = 2 + vertex_offset;
+    indices[3] = 0 + vertex_offset;
+    indices[4] = 3 + vertex_offset;
+    indices[5] = 2 + vertex_offset;
+    
+    glBufferSubData(GL_ARRAY_BUFFER, vertex_offset * sizeof(vertex_t), 4 * sizeof(vertex_t), vertices.data());
+    glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, element_buffer_offset * sizeof(uint32_t), 6 * sizeof(uint32_t), indices.data());
+    
+    vertex_offset += 4;
+    element_buffer_offset += 6;
+}
+
 void renderer::end()
 {
     glUseProgram(shader_program);

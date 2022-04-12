@@ -15,7 +15,7 @@ namespace renderer
     void draw_colored_rectangle(float left, float up, float right, float bottom, float red, float green, float blue, float alpha);
     
     // Draw a circle.
-    void draw_circle(float radius, float red, float green, float blue, float alpha);
+    void draw_circle(float x, float y, float radius, float red, float green, float blue, float alpha);
     
     // Draw an ellipse.
     void draw_ellipse(float left, float up, float right, float bottom, float red, float green, float blue, float alpha);
