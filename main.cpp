@@ -11,11 +11,12 @@
 
 #include "window.hpp"
 #include "board.hpp"
+#include "renderer.hpp"
 
 class application_t
 {
 public:
-    application_t(bool p_enable_context_debugging): m_window(window_t::get_instance(p_enable_context_debugging))
+    application_t(bool p_enable_context_debugging): m_window(window_t::get_instance(p_enable_context_debugging)), m_rectangle_angle { 0.0f }
     {
         if (p_enable_context_debugging)
         {
@@ -34,6 +35,7 @@ public:
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         
         board::init();
+        renderer::init();
         
         m_window.show();
     }
@@ -49,16 +51,32 @@ public:
         
         board::render();
         
+        renderer::begin();
+        
+        renderer::draw_rotated_colored_rectangle(10.0f, 7.5f, 2.5f, 2.5f, m_rectangle_angle, 1.0f, 1.0f, 0.0f, 1.0f);
+        renderer::draw_rotated_ellipse(20.0f, 10.0f, 5.0f, 2.0f, m_rectangle_angle, 0.0f, 1.0f, 0.5f, 1.0f);
+        
+        renderer::draw_circle(20.0f, 15.0f, 5.0f, 1.0f, 0.0f, 0.0f, 1.0f);
+        renderer::draw_colored_rectangle(30.0f, 15.0f, 10.0f, 10.0f, 1.0f, 1.0f, 0.5f, 1.0f);
+        
+        renderer::draw_rotated_ellipse(15.0f, 15.0f, 10.0f, 7.0f, 45.0f, 1.0f, 0.0f, 1.0f, 1.0f);
+        
+        renderer::end();
+        
+        m_rectangle_angle += 1.0f;
+        
         m_window.update();
     }
     
     ~application_t()
     {
         board::cleanup();
+        renderer::cleanup();
     }
     
 private:
     window_t& m_window;
+    float m_rectangle_angle;
 };
 
 static void run(bool p_enable_context_debug)
