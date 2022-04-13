@@ -73,14 +73,14 @@ void renderer::begin()
     element_buffer_offset = 0;
 }
 
-void renderer::draw_colored_rectangle(float p_left, float p_up, float p_right, float p_bottom, float p_red, float p_green, float p_blue, float p_alpha)
+void renderer::draw_colored_rectangle(float p_pos_x, float p_pos_y, float p_width, float p_height, float p_red, float p_green, float p_blue, float p_alpha)
 {
     std::array<vertex_t, 4> vertices;
     
-    vertices[0].pos = glm::vec2(p_right, p_up);
-    vertices[1].pos = glm::vec2(p_right, p_bottom);
-    vertices[2].pos = glm::vec2(p_left, p_bottom);
-    vertices[3].pos = glm::vec2(p_left, p_up);
+    vertices[0].pos = glm::vec2(p_width + p_pos_x, p_pos_y);
+    vertices[1].pos = glm::vec2(p_width + p_pos_x, p_height + p_pos_y);
+    vertices[2].pos = glm::vec2(p_pos_x, p_height + p_pos_y);
+    vertices[3].pos = glm::vec2(p_pos_x, p_pos_y);
     
     vertices[0].local_pos = glm::vec2(1.0f, 1.0f);
     vertices[1].local_pos = glm::vec2(1.0f, -1.0f);
@@ -114,14 +114,14 @@ void renderer::draw_circle(float p_x, float p_y, float p_radius, float p_red, fl
     renderer::draw_ellipse(p_x, p_y, p_radius, p_radius, p_red, p_green, p_blue, p_alpha);
 }
 
-void renderer::draw_ellipse(float p_left, float p_up, float p_right, float p_bottom, float p_red, float p_green, float p_blue, float p_alpha)
+void renderer::draw_ellipse(float p_pos_x, float p_pos_y, float p_width, float p_height, float p_red, float p_green, float p_blue, float p_alpha)
 {
     std::array<vertex_t, 4> vertices;
     
-    vertices[0].pos = glm::vec2(p_right, p_up);
-    vertices[1].pos = glm::vec2(p_right, p_bottom);
-    vertices[2].pos = glm::vec2(p_left, p_bottom);
-    vertices[3].pos = glm::vec2(p_left, p_up);
+    vertices[0].pos = glm::vec2(p_width + p_pos_x, p_pos_y);
+    vertices[1].pos = glm::vec2(p_width + p_pos_x, p_height + p_pos_y);
+    vertices[2].pos = glm::vec2(p_pos_x, p_height + p_pos_y);
+    vertices[3].pos = glm::vec2(p_pos_x, p_pos_y);
     
     vertices[0].local_pos = glm::vec2(1.0f, 1.0f);
     vertices[1].local_pos = glm::vec2(1.0f, -1.0f);
