@@ -155,3 +155,12 @@ void renderer::end()
     glUseProgram(shader_program);
     glDrawElements(GL_TRIANGLES, element_buffer_offset, GL_UNSIGNED_INT, nullptr);
 }
+
+void renderer::cleanup()
+{
+    glDeleteBuffers(1, &vertex_buffer);
+    glDeleteBuffers(1, &element_buffer);
+    glDeleteVertexArrays(1, &vertex_array);
+    
+    glDeleteProgram(shader_program);
+}

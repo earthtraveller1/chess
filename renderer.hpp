@@ -22,6 +22,9 @@ namespace renderer
     
     // Stop drawing.
     void end();
+    
+    // Deallocate resources used by the renderer.
+    void cleanup();
 }
 
 #endif /* C9ED662A_A3A4_4703_96CE_E18151D35843 */
