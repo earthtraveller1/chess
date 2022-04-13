@@ -54,7 +54,7 @@ public:
     
     ~application_t()
     {
-        
+        board::cleanup();
     }
     
 private:

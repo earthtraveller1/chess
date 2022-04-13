@@ -44,6 +44,9 @@ namespace shaders
         glAttachShader(program, p_fragment);
         glLinkProgram(program);
         
+        glDeleteShader(p_vertex);
+        glDeleteShader(p_fragment);
+        
         return program;
     }
 }

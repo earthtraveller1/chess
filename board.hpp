@@ -6,6 +6,8 @@ namespace board
     void init();
     
     void render();
+    
+    void cleanup();
 }
 
 #endif /* DF568D06_F47E_476E_A999_E6CF11E12D0E */

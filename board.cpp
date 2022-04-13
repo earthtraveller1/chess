@@ -171,3 +171,12 @@ void board::render()
     glBindVertexArray(vertex_array);
     glDrawElements(GL_TRIANGLES, index_count, GL_UNSIGNED_INT, nullptr);
 }
+
+void board::cleanup()
+{
+    glDeleteBuffers(1, &vertex_buffer);
+    glDeleteBuffers(1, &index_buffer);
+    glDeleteVertexArrays(1, &vertex_array);
+    
+    glDeleteProgram(shader_program);
+}
