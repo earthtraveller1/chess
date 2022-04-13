@@ -12,6 +12,7 @@
 #include "window.hpp"
 #include "board.hpp"
 #include "renderer.hpp"
+#include "pieces.hpp"
 
 class application_t
 {
@@ -53,9 +54,10 @@ public:
         
         renderer::begin();
         
-        renderer::draw_circle(0.3f * 2.5f, 0.1f * 2.5f, 0.4f * 2.5f, 1.0f, 1.0f, 1.0f, 1.0f);
-        renderer::draw_colored_rectangle(0.4f * 2.5f, 0.45f * 2.5f, 0.2f * 2.5f, 0.25f * 2.5f, 1.0f, 1.0f, 1.0f, 1.0f);
-        renderer::draw_colored_rectangle(0.2f * 2.5f, 0.7f * 2.5f, 0.6f * 2.5f, 0.2f * 2.5f, 1.0f, 1.0f, 1.0f, 1.0f);
+        for (auto i = static_cast<uint8_t>(0); i < 8; i++)
+        {
+            pieces::draw_pawn(10.0f + (static_cast<float>(i) * 2.5f), 5.0f + (2.5f * 6.0f));
+        }
         
         renderer::end();
         
