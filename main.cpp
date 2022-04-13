@@ -53,13 +53,9 @@ public:
         
         renderer::begin();
         
-        renderer::draw_rotated_colored_rectangle(10.0f, 7.5f, 2.5f, 2.5f, m_rectangle_angle, 1.0f, 1.0f, 0.0f, 1.0f);
-        renderer::draw_rotated_ellipse(20.0f, 10.0f, 5.0f, 2.0f, m_rectangle_angle, 0.0f, 1.0f, 0.5f, 1.0f);
-        
-        renderer::draw_circle(20.0f, 15.0f, 5.0f, 1.0f, 0.0f, 0.0f, 1.0f);
-        renderer::draw_colored_rectangle(30.0f, 15.0f, 10.0f, 10.0f, 1.0f, 1.0f, 0.5f, 1.0f);
-        
-        renderer::draw_rotated_ellipse(15.0f, 15.0f, 10.0f, 7.0f, 45.0f, 1.0f, 0.0f, 1.0f, 1.0f);
+        renderer::draw_circle(0.3f * 2.5f, 0.1f * 2.5f, 0.4f * 2.5f, 1.0f, 1.0f, 1.0f, 1.0f);
+        renderer::draw_colored_rectangle(0.4f * 2.5f, 0.45f * 2.5f, 0.2f * 2.5f, 0.25f * 2.5f, 1.0f, 1.0f, 1.0f, 1.0f);
+        renderer::draw_colored_rectangle(0.2f * 2.5f, 0.7f * 2.5f, 0.6f * 2.5f, 0.2f * 2.5f, 1.0f, 1.0f, 1.0f, 1.0f);
         
         renderer::end();
         
