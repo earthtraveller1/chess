@@ -14,11 +14,17 @@ namespace renderer
     // Draw a solid colored rectangle
     void draw_colored_rectangle(float pos_x, float pos_y, float width, float height, float red, float green, float blue, float alpha);
     
+    // Draw a solid colored rectangle that's rotated.
+    void draw_rotated_colored_rectangle(float pos_x, float pos_y, float width, float height, float angle, float red, float green, float blue, float alpha);
+    
     // Draw a circle.
     void draw_circle(float x, float y, float radius, float red, float green, float blue, float alpha);
     
     // Draw an ellipse.
     void draw_ellipse(float pos_x, float pos_y, float width, float height, float red, float green, float blue, float alpha);
+    
+    // Draw an ellipse.
+    void draw_rotated_ellipse(float pos_x, float pos_y, float width, float height, float angle, float red, float green, float blue, float alpha);
     
     // Stop drawing.
     void end();
