@@ -14,6 +14,14 @@
 #include "renderer.hpp"
 #include "pieces.hpp"
 
+namespace
+{
+
+void debug_break()
+{
+    
+}
+
 class application_t
 {
 public:
@@ -28,6 +36,7 @@ public:
                 [](GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar *message, const void *userParam) -> void
                 {
                     std::cout << "[OPENGL]: " << message << std::endl;
+                    debug_break();
                 },
                 nullptr);
         }
@@ -37,6 +46,7 @@ public:
         
         board::init();
         renderer::init();
+        pieces::init();
         
         m_window.show();
     }
@@ -56,7 +66,7 @@ public:
         
         for (auto i = static_cast<uint8_t>(0); i < 8; i++)
         {
-            pieces::draw_pawn(10.0f + (static_cast<float>(i) * 2.5f), 5.0f + (2.5f * 6.0f));
+            pieces::draw_pieces();
         }
         
         renderer::end();
@@ -100,6 +110,7 @@ static void display_fatal_error(const char* p_error_message)
     #else 
         std::cerr << "[FATAL ERROR]: " << p_error_message << "\n";
     #endif
+}
 }
 
 int main(int argc, char** argv)
