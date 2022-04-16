@@ -28,8 +28,6 @@ namespace
         piece_army_t army;
     };
     
-    std::vector<piece_t> vector_of_pieces;
-    
     // The entire board, represented in the form a two-dimensional array.
     std::array<std::array<piece_t, 8>, 8> board;
     
@@ -56,8 +54,6 @@ void pieces::init()
         pawn.row = 7;
         pawn.type = piece_class_t::PAWN;
         
-        vector_of_pieces.push_back(pawn);
-        
         board[i - 1][6] = pawn;
     }
     
@@ -69,8 +65,6 @@ void pieces::init()
         pawn.column = i;
         pawn.row = 2;
         pawn.type = piece_class_t::PAWN;
-        
-        vector_of_pieces.push_back(pawn);
         
         board[i - 1][1] = pawn;
     }
