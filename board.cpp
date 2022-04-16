@@ -158,6 +158,9 @@ void board::init()
     
     shader_program = shaders::create_shader_program(vertex_shader, fragment_shader);
     
+    glDeleteShader(vertex_shader);
+    glDeleteShader(fragment_shader);
+    
     initialize_vertex_data();
 }
 
