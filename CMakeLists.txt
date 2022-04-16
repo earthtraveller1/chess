@@ -5,6 +5,8 @@ project(chess)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR})
 
+option(CMAKE_WIN32_EXECUTABLE "Make the executables a Win32 executable rather than a traditional console app" OFF)
+
 # Give executables on Linux the .out extension
 if (UNIX)
     set(CMAKE_EXECUTABLE_SUFFIX .out)

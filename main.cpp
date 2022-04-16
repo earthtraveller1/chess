@@ -2,6 +2,8 @@
 #include <cstring>
 #include <stdexcept>
 #include <iostream>
+#include <vector>
+#include <sstream>
 
 #include <glad/glad.h>
 
@@ -111,7 +113,57 @@ static void display_fatal_error(const char* p_error_message)
         std::cerr << "[FATAL ERROR]: " << p_error_message << "\n";
     #endif
 }
+
+static std::vector<std::wstring> split_string(std::wstring_view p_master_string)
+{
+    std::vector<std::wstring> result;
+    
+    std::wstringstream master_string(p_master_string.data());
+    
+    std::wstring token;
+    while (std::getline(master_string, token, L' '))
+    {
+        result.push_back(token);
+    }
+    
+    return result;
 }
+}
+
+#ifdef _WIN32
+int WINAPI wWinMain(HINSTANCE p_h_instance, HINSTANCE, PWSTR p_command_line, int p_show)
+{
+    auto enable_context_debug = false;
+    
+    auto command_line_arguments = split_string(p_command_line);
+    
+    for (const auto& argument: command_line_arguments)
+    {
+        if (argument == L"--enable-context-debugging")
+        {
+            enable_context_debug = true;
+        }
+    }
+    
+    try
+    {
+        run(enable_context_debug);
+    }
+    catch (const std::runtime_error& e)
+    {
+        auto error_message_ascii = e.what();
+        auto size = std::strlen(error_message_ascii);
+        auto error_message = new wchar_t[size];
+        auto bytes_converted { static_cast<size_t>(0) };
+        mbstowcs_s(&bytes_converted, error_message, size, error_message_ascii, size);
+        
+        MessageBoxW(nullptr, error_message, L"FATAL ERROR", MB_OK | MB_ICONERROR);
+        return EXIT_FAILURE;
+    }
+    
+    return EXIT_SUCCESS;
+}
+#endif
 
 int main(int argc, char** argv)
 {
