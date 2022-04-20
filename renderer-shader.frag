@@ -13,7 +13,7 @@ void main()
         float opacity = 1.0;
         
         float my_distance = 1.0 - length(local_position);
-        opacity = smoothstep(0.0, 0.01, my_distance);
+        opacity = smoothstep(0.0, 0.11125, my_distance);
         
         fragment_color = vec4(vertex_color.xyz, opacity);
     }
