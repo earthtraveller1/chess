@@ -73,6 +73,10 @@ public:
         
         renderer::end();
         
+        /*renderer::begin();
+        renderer::draw_rotated_colored_rectangle(15.0f, 20.0f, 10.0f, 10.0f, m_rectangle_angle, 1.0f, 0.0f, 0.0f, 1.0f);
+        renderer::end();*/
+        
         m_rectangle_angle += 1.0f;
         
         m_window.update();

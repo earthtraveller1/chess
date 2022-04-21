@@ -114,10 +114,10 @@ void renderer::draw_rotated_colored_rectangle(float p_pos_x, float p_pos_y, floa
 {
     std::array<vertex_t, 4> vertices;
     
-    vertices[0].pos = glm::vec2(p_width, 0.0f);
-    vertices[1].pos = glm::vec2(p_width, p_height);
-    vertices[2].pos = glm::vec2(0.0f, p_height);
-    vertices[3].pos = glm::vec2(0.0f, 0.0f);
+    vertices[0].pos = glm::vec2(p_width / 2.0f, p_width / 2.0f);
+    vertices[1].pos = glm::vec2(p_width / 2.0f, -p_height / 2.0f);
+    vertices[2].pos = glm::vec2(-p_width / 2.0f, -p_height / 2.0f);
+    vertices[3].pos = glm::vec2(-p_height / 2.0f, p_height / 2.0f);
     
     auto rotation_matrix { glm::mat2(1.0f) };
     rotation_matrix[0][0] = std::cos(glm::radians(p_angle));
@@ -129,7 +129,7 @@ void renderer::draw_rotated_colored_rectangle(float p_pos_x, float p_pos_y, floa
     {
         vertex.pos = vertex.pos * rotation_matrix;
         
-        vertex.pos.x += p_pos_x;
+        vertex.pos.x += p_pos_x + p_width;
         vertex.pos.y += p_pos_y;
     }
     
@@ -205,10 +205,10 @@ void renderer::draw_rotated_ellipse(float p_pos_x, float p_pos_y, float p_width,
 {
     std::array<vertex_t, 4> vertices;
     
-    vertices[0].pos = glm::vec2(p_width, 0.0f);
-    vertices[1].pos = glm::vec2(p_width, p_height);
-    vertices[2].pos = glm::vec2(0.0f, p_height);
-    vertices[3].pos = glm::vec2(0.0f, 0.0f);
+    vertices[0].pos = glm::vec2(p_width / 2.0f, p_width / 2.0f);
+    vertices[1].pos = glm::vec2(p_width / 2.0f, -p_height / 2.0f);
+    vertices[2].pos = glm::vec2(-p_width / 2.0f, -p_height / 2.0f);
+    vertices[3].pos = glm::vec2(-p_height / 2.0f, p_height / 2.0f);
     
     auto rotation_matrix { glm::mat2(1.0f) };
     rotation_matrix[0][0] = std::cos(glm::radians(p_angle));
@@ -220,7 +220,7 @@ void renderer::draw_rotated_ellipse(float p_pos_x, float p_pos_y, float p_width,
     {
         vertex.pos = vertex.pos * rotation_matrix;
         
-        vertex.pos.x += p_pos_x;
+        vertex.pos.x += p_pos_x + p_width;
         vertex.pos.y += p_pos_y;
     }
     

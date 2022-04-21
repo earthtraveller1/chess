@@ -62,6 +62,103 @@ namespace
         );
     }
     
+    // Simple inline function to draw a shape with local coordinates
+    inline void draw_local_rotated_rectangle(float p_global_x, float p_global_y, float p_local_x, float p_local_y, float p_width, float p_height, float p_angle, float p_red, float p_green, float p_blue)
+    {
+        renderer::draw_rotated_colored_rectangle(
+            p_global_x + p_local_x,
+            p_global_y + p_local_y,
+            std::forward<float>(p_width),
+            std::forward<float>(p_height),
+            std::forward<float>(p_angle),
+            std::forward<float>(p_red),
+            std::forward<float>(p_green),
+            std::forward<float>(p_blue),
+            1.0f
+        );
+    }
+    
+    // Simple inline function to draw an outline with local coordinates
+    inline void draw_local_rotated_rectangle_outline(float p_global_x, float p_global_y, float p_local_x, float p_local_y, float p_width, float p_height, float p_angle, float p_red, float p_green, float p_blue)
+    {
+        draw_local_rotated_rectangle(
+            std::forward<float>(p_global_x),
+            std::forward<float>(p_global_y),
+            p_local_x - BORDER_WEIGHT,
+            p_local_y - BORDER_WEIGHT,
+            p_width + BORDER_WEIGHT * 2,
+            p_height + BORDER_WEIGHT * 2,
+            std::forward<float>(p_angle),
+            std::forward<float>(p_red),
+            std::forward<float>(p_green),
+            std::forward<float>(p_blue)
+        );
+    }
+    
+    // Simple inline function to draw a shape with local coordinates
+    inline void draw_local_ellipse(float p_global_x, float p_global_y, float p_local_x, float p_local_y, float p_width, float p_height, float p_red, float p_green, float p_blue)
+    {
+        renderer::draw_ellipse(
+            p_global_x + p_local_x,
+            p_global_y + p_local_y,
+            std::forward<float>(p_width),
+            std::forward<float>(p_height),
+            std::forward<float>(p_red),
+            std::forward<float>(p_green),
+            std::forward<float>(p_blue),
+            1.0f
+        );
+    }
+    
+    // Simple inline function to draw an outline with local coordinates
+    inline void draw_local_ellipse_outline(float p_global_x, float p_global_y, float p_local_x, float p_local_y, float p_width, float p_height, float p_red, float p_green, float p_blue)
+    {
+        draw_local_ellipse(
+            std::forward<float>(p_global_x),
+            std::forward<float>(p_global_y),
+            p_local_x - BORDER_WEIGHT,
+            p_local_y - BORDER_WEIGHT,
+            p_width + BORDER_WEIGHT * 2,
+            p_height + BORDER_WEIGHT * 2,
+            std::forward<float>(p_red),
+            std::forward<float>(p_green),
+            std::forward<float>(p_blue)
+        );
+    }
+    
+    // Simple inline function to draw a shape with local coordinates
+    inline void draw_local_rotated_ellipse(float p_global_x, float p_global_y, float p_local_x, float p_local_y, float p_width, float p_height, float p_angle, float p_red, float p_green, float p_blue)
+    {
+        renderer::draw_rotated_ellipse(
+            p_global_x + p_local_x,
+            p_global_y + p_local_y,
+            std::forward<float>(p_width),
+            std::forward<float>(p_height),
+            std::forward<float>(p_angle),
+            std::forward<float>(p_red),
+            std::forward<float>(p_green),
+            std::forward<float>(p_blue),
+            1.0f
+        );
+    }
+    
+    // Simple inline function to draw an outline with local coordinates
+    inline void draw_local_rotated_ellipse_outline(float p_global_x, float p_global_y, float p_local_x, float p_local_y, float p_width, float p_height, float p_angle, float p_red, float p_green, float p_blue)
+    {
+        draw_local_rotated_ellipse(
+            std::forward<float>(p_global_x),
+            std::forward<float>(p_global_y),
+            p_local_x - BORDER_WEIGHT,
+            p_local_y - BORDER_WEIGHT,
+            p_width + BORDER_WEIGHT * 2,
+            p_height + BORDER_WEIGHT * 2,
+            std::forward<float>(p_angle),
+            std::forward<float>(p_red),
+            std::forward<float>(p_green),
+            std::forward<float>(p_blue)
+        );
+    }
+    
     void draw_pawn(float p_x, float p_y, float p_red, float p_green, float p_blue)
     {
         renderer::draw_circle(p_x + .79f - BORDER_WEIGHT, p_y + .2f - BORDER_WEIGHT, .94f + BORDER_WEIGHT * 2, 1.0f - p_red, 1.0f - p_green, 1.0f - p_blue, 1.0f);
@@ -92,6 +189,21 @@ namespace
         draw_local_rectangle(p_x, p_y, 0.41f, 0.56f, 1.68f, 0.19f, p_red, p_green, p_blue);
         draw_local_rectangle(p_x, p_y, 0.79f, 0.75f, 0.94f, 1.26f, p_red, p_green, p_blue);
         draw_local_rectangle(p_x, p_y, 0.42f, 2.01f, 1.68f, 0.20f, p_red, p_green, p_blue);
+    }
+    
+    void draw_knight(float p_x, float p_y, float p_red, float p_green, float p_blue)
+    {
+        draw_local_rotated_rectangle_outline(p_x, p_y, 0.40245795f, 1.8982753f, 1.7282557f, 0.26761174f, 32.692229f, p_red, p_green, p_blue);
+        draw_local_rotated_rectangle_outline(p_x, p_y, 1.6558334f, 0.31492606f, 0.61311883f, 1.4028288f, 33.892245f, p_red, p_green, p_blue);
+        draw_local_rotated_rectangle_outline(p_x, p_y, 1.3587698f, 0.40717965f, 0.90308946f, 0.48286062f, 33.892245f, p_red, p_green, p_blue);
+        draw_local_rotated_ellipse_outline(p_x, p_y, 1.2598225f, 0.06585265f, 0.28904197f, 0.5840748f, 36.209387f, p_red, p_green, p_blue);
+        draw_local_rectangle_outline(p_x, p_y, 0.80591816f, 1.8099205f, 0.1772694f, 0.18848059f, p_red, p_green, p_blue);
+        
+        draw_local_rotated_rectangle(p_x, p_y, 0.40245795f, 1.8982753f, 1.7282557f, 0.26761174f, 32.692229f, p_red, p_green, p_blue);
+        draw_local_rotated_rectangle(p_x, p_y, 1.6558334f, 0.31492606f, 0.61311883f, 1.4028288f, 33.892245f, p_red, p_green, p_blue);
+        draw_local_rotated_rectangle(p_x, p_y, 1.3587698f, 0.40717965f, 0.90308946f, 0.48286062f, 33.892245f, p_red, p_green, p_blue);
+        draw_local_rotated_ellipse(p_x, p_y, 1.2598225f, 0.06585265f, 0.28904197f, 0.5840748f, 36.209387f, p_red, p_green, p_blue);
+        draw_local_rectangle(p_x, p_y, 0.80591816f, 1.8099205f, 0.1772694f, 0.18848059f, p_red, p_green, p_blue);
     }
 }
 
@@ -146,6 +258,9 @@ void pieces::init()
     return;
 }
 
+#define TESTING
+
+#ifndef TESTING
 void pieces::draw_pieces()
 {
     for (const auto& column: board)
@@ -182,3 +297,9 @@ void pieces::draw_pieces()
         }
     }
 }
+#else
+void pieces::draw_pieces()
+{
+    draw_knight(10.0f, 10.0f, 1.0f, 1.0f, 1.0f);
+}
+#endif
