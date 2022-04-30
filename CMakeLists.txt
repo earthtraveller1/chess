@@ -43,6 +43,7 @@ add_executable(
     window.cpp 
     
     application.hpp 
+    utilities.hpp 
     window.hpp 
 )
 
