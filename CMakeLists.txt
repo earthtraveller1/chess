@@ -25,7 +25,10 @@ endif()
 add_executable(
     chess
     
+    application.cpp 
+    main.cpp 
     
+    application.hpp 
 )
 
 target_link_libraries(chess GLFW::GLFW glad)
