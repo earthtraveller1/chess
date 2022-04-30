@@ -12,6 +12,19 @@ if (UNIX)
     set(CMAKE_EXECUTABLE_SUFFIX .out)
 endif()
 
+# Use the highest warning levels possible
+if (MSVC)
+    add_compile_options(/Wall)
+else()
+    add_compile_options(-Wall -Wextra)
+endif()
+
+# Use full paths whenever possible
+if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    add_compile_options(-fdiagnostics-absolute-paths)
+    add_link_options(-fdiagnostics-absolute-paths)
+endif()
+
 find_package(GLFW)
 
 # GLAD
