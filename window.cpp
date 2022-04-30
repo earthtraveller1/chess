@@ -16,6 +16,11 @@ window_t& window_t::get_instance()
     return instance;
 }
 
+void window_t::show()
+{
+    glfwShowWindow(m_window);
+}
+
 void window_t::update()
 {
     glfwSwapBuffers(m_window);
