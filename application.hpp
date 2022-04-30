@@ -3,6 +3,8 @@
 
 namespace chess
 {
+    class window_t;
+    
     // Thrown when the game exits.
     struct exit_exception_t {};
     
@@ -19,6 +21,9 @@ namespace chess
         void is_open() const;
         
         ~application_t();
+        
+    private:
+        window_t& m_window;
     };
 }
 
