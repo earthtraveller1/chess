@@ -25,18 +25,7 @@ endif()
 add_executable(
     chess
     
-    board.cpp 
-    main.cpp
-    pieces.cpp
-    renderer.cpp
-    shaders.cpp
-    window.cpp 
     
-    board.hpp
-    pieces.hpp
-    renderer.hpp
-    shaders.hpp
-    window.hpp 
 )
 
 target_link_libraries(chess GLFW::GLFW glad)
