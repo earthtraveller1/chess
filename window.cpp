@@ -2,6 +2,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include <array>
 
 #include "application.hpp"
 #include "utilities.hpp"
@@ -90,6 +91,33 @@ window_t::window_t()
     }
     
     glfwSetWindowPos(m_window, (video_mode->width - window_size) / 2, (video_mode->height - window_size) / 2);
+    
+    std::array<std::array<uint32_t, 24>, 24> icon_pixels;
+    
+    for (auto& icon_pixel_row: icon_pixels)
+    {
+        for (auto i { static_cast<uint8_t>(0) }; i < 8; i++)
+        {
+            icon_pixel_row[i] = 0xffff0000;
+        }
+        
+        for (auto i { static_cast<uint8_t>(8) }; i < 16; i++)
+        {
+            icon_pixel_row[i] = 0xffffffff;
+        }
+        
+        for (auto i { static_cast<uint8_t>(16) }; i < 24; i++)
+        {
+            icon_pixel_row[i] = 0xff0000ff;
+        }
+    }
+    
+    GLFWimage icon;
+    icon.height = 24;
+    icon.width = 24;
+    icon.pixels = reinterpret_cast<unsigned char*>(icon_pixels.data());
+    
+    glfwSetWindowIcon(m_window, 1, &icon);
     
     glfwMakeContextCurrent(m_window);
     
