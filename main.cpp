@@ -3,6 +3,10 @@
 #include <iostream>
 #include <cstdlib>
 
+#ifdef _WIN32
+#include <Windows.h>
+#endif
+
 namespace 
 {
     int run()
@@ -33,3 +37,10 @@ int main()
 {
     return run();
 }
+
+#ifdef _WIN32
+int WINAPI wWinMain(HINSTANCE p_instance, HINSTANCE, LPWSTR p_command_line_arguments, int p_show_command)
+{
+    run();
+}
+#endif
