@@ -41,6 +41,6 @@ int main()
 #ifdef _WIN32
 int WINAPI wWinMain(HINSTANCE p_instance, HINSTANCE, LPWSTR p_command_line_arguments, int p_show_command)
 {
-    run();
+    return run();
 }
 #endif
