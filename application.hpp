@@ -18,7 +18,7 @@ namespace chess
         
         void render();
         
-        void is_open() const;
+        bool is_open() const;
         
         ~application_t();
         

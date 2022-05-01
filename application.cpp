@@ -20,6 +20,11 @@ void application_t::render()
     m_window.update();
 }
 
+bool application_t::is_open() const
+{
+    return m_window.is_open();
+}
+
 application_t::~application_t()
 {
     

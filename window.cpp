@@ -11,15 +11,20 @@
 
 using chess::window_t;
 
-window_t& window_t::get_instance()
+window_t& window_t::get_instance() noexcept
 {
     static window_t instance;
     return instance;
 }
 
-void window_t::show()
+void window_t::show() const noexcept
 {
     glfwShowWindow(m_window);
+}
+
+bool window_t::is_open() const noexcept
+{
+    return !glfwWindowShouldClose(m_window);
 }
 
 void window_t::update()
@@ -125,17 +130,9 @@ window_t::window_t()
     {
         throw std::runtime_error("Failed to load OpenGL ICD.");
     }
-    
-    glfwSetWindowCloseCallback(m_window, glfw_close_callback);
 }
 
 void window_t::glfw_error_callback(int p_error_code, const char* p_error_message)
 {
     std::cerr << "[GLFW ERROR " << p_error_code << "]: " << p_error_message << std::endl;
-}
-
-void window_t::glfw_close_callback(GLFWwindow* p_window)
-{
-    UNUSED_PARAM(p_window);
-    throw exit_exception_t {};
 }

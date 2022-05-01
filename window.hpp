@@ -10,14 +10,17 @@ namespace chess
     {
     public:
         // Obtain the instance of the class.
-        static window_t& get_instance();
+        static window_t& get_instance() noexcept;
         
         // Not allowing you to copy windows.
         window_t(window_t&) = delete;
         window_t& operator=(window_t&) = delete;
         
         // Show the window.
-        void show();
+        void show() const noexcept;
+        
+        // Returns whether the window is still open or not.
+        bool is_open() const noexcept;
         
         // Update the window.
         void update();
@@ -33,9 +36,6 @@ namespace chess
         
         // The error callback.
         static void glfw_error_callback(int error_code, const char* error_message);
-        
-        // The close callback
-        static void glfw_close_callback(GLFWwindow* window);
     };
 }
 

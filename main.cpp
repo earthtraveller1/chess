@@ -15,7 +15,7 @@ namespace
         {
             chess::application_t application;
             
-            while (true)
+            while (application.is_open())
             {
                 application.update(0);
                 application.render();
