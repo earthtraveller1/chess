@@ -46,10 +46,13 @@ add_executable(
     chess ${CHESS_EXECUTABLE_TYPE}
     
     application.cpp 
+    board.cpp 
     main.cpp 
+    utilities.cpp 
     window.cpp 
     
     application.hpp 
+    board.hpp 
     utilities.hpp 
     window.hpp 
 )
