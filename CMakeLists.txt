@@ -35,8 +35,15 @@ if (UNIX AND NOT APPLE)
     target_link_libraries(glad dl)
 endif()
 
+if (WIN32)
+    option(CHESS_USE_WWINMAIN "Use wWinMain instead of main as the entry point" ON)
+    if (CHESS_USE_WWINMAIN)
+        set(CHESS_EXECUTABLE_TYPE WIN32)
+    endif()
+endif()
+
 add_executable(
-    chess
+    chess ${CHESS_EXECUTABLE_TYPE}
     
     application.cpp 
     main.cpp 
