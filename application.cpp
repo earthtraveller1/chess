@@ -1,3 +1,6 @@
+#include <glad/glad.h>
+#include <iostream>
+
 #include "window.hpp"
 #include "utilities.hpp"
 
@@ -7,6 +10,16 @@ using chess::application_t;
 
 application_t::application_t(): m_window(window_t::get_instance())
 {
+    #ifndef NDEBUG
+    glEnable(GL_DEBUG_OUTPUT);
+    glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+    
+    glDebugMessageCallback([] (GLenum,GLenum,GLuint,GLenum,GLsizei,const GLchar *p_message,const void*) {
+        std::clog << "[OPENGL]: " << p_message;
+        std::clog << std::endl;
+    }, nullptr);
+    #endif
+    
     m_window.show();
 }
 
