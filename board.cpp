@@ -71,10 +71,10 @@ board_t::board_t()
     std::array<float, 4 * 4> vertices
     {
         // Positions    // UVs
-         1.0f,  1.0f,   1.0f, 1.0f,
-         1.0f, -1.0f,   1.0f, 0.0f,
-        -1.0f, -1.0f,   0.0f, 0.0f,
-        -1.0f,  1.0f,   0.0f, 1.0f
+         1.0f,  1.0f,   1.0f, 0.0f,
+         1.0f, -1.0f,   1.0f, 1.0f,
+        -1.0f, -1.0f,   0.0f, 1.0f,
+        -1.0f,  1.0f,   0.0f, 0.0f
     };
     
     glGenBuffers(1, &m_vbo);
