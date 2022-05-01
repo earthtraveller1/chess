@@ -1,7 +1,9 @@
-#include "application.hpp"
 #include <stdexcept>
 #include <iostream>
 #include <cstdlib>
+
+#include "application.hpp"
+#include "utilities.hpp"
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -26,10 +28,8 @@ namespace
             std::cerr << "[FATAL ERROR]: " << e.what() << std::endl;
             return EXIT_FAILURE;
         }
-        catch (const chess::exit_exception_t& e)
-        {
-            return EXIT_SUCCESS;
-        }
+        
+        return EXIT_SUCCESS;
     }
 }
 
@@ -41,6 +41,10 @@ int main()
 #ifdef _WIN32
 int WINAPI wWinMain(HINSTANCE p_instance, HINSTANCE, LPWSTR p_command_line_arguments, int p_show_command)
 {
+    UNUSED_PARAM(p_instance);
+    UNUSED_PARAM(p_command_line_arguments);
+    UNUSED_PARAM(p_show_command);
+    
     return run();
 }
 #endif
