@@ -35,7 +35,7 @@ namespace chess
         GLFWwindow* m_window;
         
         // The error callback.
-        static void glfw_error_callback(int error_code, const char* error_message);
+        static void glfw_error_callback(int error_code, const char* error_message) noexcept;
     };
 }
 

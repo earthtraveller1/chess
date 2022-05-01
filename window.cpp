@@ -132,7 +132,7 @@ window_t::window_t()
     }
 }
 
-void window_t::glfw_error_callback(int p_error_code, const char* p_error_message)
+void window_t::glfw_error_callback(int p_error_code, const char* p_error_message) noexcept
 {
     std::cerr << "[GLFW ERROR " << p_error_code << "]: " << p_error_message << std::endl;
 }

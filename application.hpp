@@ -14,6 +14,10 @@ namespace chess
     public:
         application_t();
         
+        // Prevent copying
+        application_t(application_t&) = delete;
+        application_t& operator=(application_t&) = delete;
+        
         void update(double delta_time);
         
         void render();
