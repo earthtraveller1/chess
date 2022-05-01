@@ -1,6 +1,8 @@
 #ifndef BB8F30B8_A881_40E4_B62B_1F740D539CD1
 #define BB8F30B8_A881_40E4_B62B_1F740D539CD1
 
+#include "board.hpp"
+
 namespace chess
 {
     class window_t;
@@ -28,6 +30,8 @@ namespace chess
         
     private:
         window_t& m_window;
+        
+        board_t m_board;
     };
 }
 
