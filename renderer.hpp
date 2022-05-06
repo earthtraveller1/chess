@@ -21,7 +21,7 @@ namespace chess
         renderer_t& operator=(renderer_t&) = delete;
         
         // Add a texture.
-        void set_texture(std::string_view path, uint8_t slot);
+        void set_texture(std::string_view path, uint8_t slot) noexcept;
         
         // Start drawing
         void begin();
@@ -92,18 +92,18 @@ namespace chess
         uint32_t m_max_number_of_quads;
         
         // CPU-side buffers
-        std::vector<vertex_t> vertices;
-        std::vector<uint32_t> indices;
+        std::vector<vertex_t> m_vertices;
+        std::vector<uint32_t> m_indices;
         
         // Iterators for CPU side buffers.
-        std::vector<vertex_t>::iterator vertices_iterator;
-        
+        std::vector<vertex_t>::iterator m_vertices_iterator;
+        std::vector<uint32_t>::iterator m_indices_iterator;
         
         // Shader
         uint32_t m_shader_program;
         
         // Textures
-        std::array<int32_t, 32> m_textures;
+        std::array<uint32_t, 32> m_textures;
     };
 }
 
