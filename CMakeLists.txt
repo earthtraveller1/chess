@@ -45,6 +45,8 @@ endif()
 add_executable(
     chess ${CHESS_EXECUTABLE_TYPE}
     
+    stb-image.c 
+    
     application.cpp 
     board.cpp 
     main.cpp 
@@ -59,4 +61,4 @@ add_executable(
 
 target_link_libraries(chess GLFW::GLFW glad)
 
-target_include_directories(chess PRIVATE ${GLFW_INCLUDE_DIR} deps/glad/include deps/glm)
+target_include_directories(chess PRIVATE ${GLFW_INCLUDE_DIR} deps/glad/include deps/glm deps/stb)
