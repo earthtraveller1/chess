@@ -3,6 +3,8 @@
 #include <stb_image.h>
 #include <iostream>
 #include <string>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include "utilities.hpp"
 
@@ -69,8 +71,14 @@ renderer_t::renderer_t(uint32_t p_max_quads):
         texture = 0;
     }
     
-    // Initialize all of the texture uniforms
     glUseProgram(m_shader_program);
+    
+    auto projection { glm::ortho(0.0f, 400.0f, 300.0f, 0.0f, 0.0f, 1.0f) };
+    
+    auto projection_uniform_location { glGetUniformLocation(m_shader_program, "projection") };
+    glUniformMatrix4fv(projection_uniform_location, 1, GL_FALSE, glm::value_ptr(projection));
+    
+    // Initialize all of the texture uniforms
     for (auto i { 0 }; i < 32; i++)
     {
         std::string uniform_name { "texture_samplers["s + std::to_string(i) + "]"s };
@@ -174,7 +182,7 @@ void renderer_t::end()
     glBindVertexArray(m_vao);
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
     
-    glBufferSubData(GL_ARRAY_BUFFER, 0, m_vertices.size(), m_vertices.data());
+    glBufferSubData(GL_ARRAY_BUFFER, 0, m_vertices.size() * sizeof(vertex_t), m_vertices.data());
     
     for (auto i { 0 }; i < m_textures.size(); i++)
     {
