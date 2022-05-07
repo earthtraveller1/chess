@@ -40,6 +40,22 @@ uint32_t utilities::create_shader(std::string_view p_source, uint32_t p_type) no
     glShaderSource(shader, 1, &source, nullptr);
     glCompileShader(shader);
     
+    // Check if the shader has been successfully compiled.
+    auto success { 0 };
+    glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+    if (success != GL_TRUE)
+    {
+        auto error_log_length { 0 };
+        glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &error_log_length);
+        auto error_log { new char[error_log_length] };
+        glGetShaderInfoLog(shader, error_log_length, &error_log_length, error_log);
+        
+        std::cerr << "[ERROR]: Compiliation error for " << p_source << ":\n";
+        std::cerr << error_log << "\n\n";
+        
+        delete[] error_log;
+    }
+    
     return shader;
 }
 
@@ -49,6 +65,22 @@ uint32_t utilities::create_shader_program(uint32_t p_vertex, uint32_t p_fragment
     glAttachShader(program, p_vertex);
     glAttachShader(program, p_fragment);
     glLinkProgram(program);
+    
+    // Check if the program has been successfully linked.
+    auto success { 0 };
+    glGetProgramiv(program, GL_LINK_STATUS, &success);
+    if (success != GL_TRUE)
+    {
+        auto error_log_length { 0 };
+        glGetProgramiv(program, GL_INFO_LOG_LENGTH, &error_log_length);
+        auto error_log { new char[error_log_length] };
+        glGetProgramInfoLog(program, error_log_length, &error_log_length, error_log);
+        
+        std::cerr << "[ERROR]: Link error for " << program << ":\n";
+        std::cerr << error_log << "\n\n";
+        
+        delete[] error_log;
+    }
     
     return program;
 }
