@@ -31,7 +31,7 @@ renderer_t::renderer_t(uint32_t p_max_quads):
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
     glBufferData(GL_ARRAY_BUFFER, m_max_number_of_quads * sizeof(vertex_t) * 4, nullptr, GL_DYNAMIC_DRAW);
     
-    std::vector<uint32_t> indices;
+    std::vector<uint32_t> indices(p_max_quads * 6);
     
     // Initialize all the indices.
     for (auto i { 0 }, vertex_offset { 0 }; i < (m_max_number_of_quads * 6); i += 6, vertex_offset += 4)
