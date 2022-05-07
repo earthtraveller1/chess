@@ -35,15 +35,17 @@ void application_t::update(double p_delta_time)
 
 void application_t::render()
 {
+    glClear(GL_COLOR_BUFFER_BIT);
+    
     //m_board.render();
     
     m_renderer.begin();
     
     renderer_t::quad_t quad = {};
-    quad.position.x = -0.5f;
-    quad.position.y = 0.5f;
-    quad.size.x = 1.0f;
-    quad.size.y = 1.0f;
+    quad.position.x = 200.0f;
+    quad.position.y = 100.0f;
+    quad.size.x = 100.0f;
+    quad.size.y = 100.0f;
     quad.color = { 1.0f, 1.0f, 1.0f, 1.0f };
     quad.texture = -1;
     
