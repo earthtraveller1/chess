@@ -172,6 +172,9 @@ void renderer_t::end()
     glUseProgram(m_shader_program);
     
     glBindVertexArray(m_vao);
+    glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+    
+    glBufferSubData(GL_ARRAY_BUFFER, 0, m_vertices.size(), m_vertices.data());
     
     for (auto i { 0 }; i < m_textures.size(); i++)
     {
