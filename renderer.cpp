@@ -128,4 +128,12 @@ void renderer_t::draw_quad(const quad_t& p_quad)
     (*(m_vertices_iterator + 1)).uv = glm::vec2(p_quad.uv.position.x + p_quad.uv.size.x, p_quad.uv.position.y + p_quad.uv.size.y);
     (*(m_vertices_iterator + 2)).uv = glm::vec2(p_quad.uv.position.x, p_quad.uv.position.y + p_quad.uv.size.y);
     (*(m_vertices_iterator + 3)).uv = glm::vec2(p_quad.uv.position.x, p_quad.uv.position.y);
+    
+    for (auto i { 0 }; i < 4; i++)
+    {
+        (*(m_vertices_iterator + i)).color.x = p_quad.color.red;
+        (*(m_vertices_iterator + i)).color.y = p_quad.color.green;
+        (*(m_vertices_iterator + i)).color.z = p_quad.color.blue;
+        (*(m_vertices_iterator + i)).color.w = p_quad.color.alpha;
+    }
 }
