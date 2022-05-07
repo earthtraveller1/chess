@@ -35,17 +35,19 @@ void application_t::update(double p_delta_time)
 
 void application_t::render()
 {
-    m_board.render();
+    //m_board.render();
     
     m_renderer.begin();
     
-    renderer_t::quad_t orange_quad = {};
-    orange_quad.position.x = -0.5f;
-    orange_quad.position.y = 0.5f;
-    orange_quad.size.x = 1.0f;
-    orange_quad.size.y = 1.0f;
-    orange_quad.color = { 1.0f, 1.0f, 0.5f, 1.0f };
-    m_renderer.draw_quad(orange_quad);
+    renderer_t::quad_t quad = {};
+    quad.position.x = -0.5f;
+    quad.position.y = 0.5f;
+    quad.size.x = 1.0f;
+    quad.size.y = 1.0f;
+    quad.color = { 1.0f, 1.0f, 1.0f, 1.0f };
+    quad.texture = -1;
+    
+    m_renderer.draw_quad(quad);
     
     m_renderer.end();
     
