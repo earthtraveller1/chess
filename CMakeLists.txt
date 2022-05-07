@@ -50,11 +50,13 @@ add_executable(
     application.cpp 
     board.cpp 
     main.cpp 
+    renderer.cpp 
     utilities.cpp 
     window.cpp 
     
     application.hpp 
     board.hpp 
+    renderer.hpp 
     utilities.hpp 
     window.hpp 
 )
