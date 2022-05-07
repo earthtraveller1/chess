@@ -2,19 +2,19 @@
 #include <glm/glm.hpp>
 #include <stb_image.h>
 #include <iostream>
+#include <string>
 
 #include "utilities.hpp"
 
 #include "renderer.hpp"
 
 using chess::renderer_t;
+using namespace std::literals::string_literals;
 
 renderer_t::renderer_t(uint32_t p_max_quads): 
     m_max_number_of_quads(p_max_quads),
     m_vertices(m_max_number_of_quads * 4),
-    m_indices(m_max_number_of_quads * 6),
-    m_vertices_iterator(m_vertices.begin()),
-    m_indices_iterator(m_indices.begin())
+    m_vertices_iterator(m_vertices.begin())
 {
     auto vertex_shader { utilities::create_shader("renderer-shader.vert", GL_VERTEX_SHADER) };
     auto fragment_shader { utilities::create_shader("renderer-shader.frag", GL_FRAGMENT_SHADER) };
@@ -31,9 +31,22 @@ renderer_t::renderer_t(uint32_t p_max_quads):
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
     glBufferData(GL_ARRAY_BUFFER, m_max_number_of_quads * sizeof(vertex_t) * 4, nullptr, GL_DYNAMIC_DRAW);
     
+    std::vector<uint32_t> indices;
+    
+    // Initialize all the indices.
+    for (auto i { 0 }, vertex_offset { 0 }; i < (m_max_number_of_quads * 6); i += 6, vertex_offset += 4)
+    {
+        indices[i + 0] = vertex_offset + 0;
+        indices[i + 1] = vertex_offset + 1;
+        indices[i + 2] = vertex_offset + 2;
+        indices[i + 3] = vertex_offset + 0;
+        indices[i + 4] = vertex_offset + 3;
+        indices[i + 5] = vertex_offset + 2;
+    }
+    
     glGenBuffers(1, &m_ebo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_max_number_of_quads * 6 * sizeof(uint32_t), nullptr, GL_DYNAMIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_max_number_of_quads * 6 * sizeof(uint32_t), indices.data(), GL_STATIC_DRAW);
     
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(vertex_t), reinterpret_cast<void*>(offsetof(vertex_t, position)));
     glEnableVertexAttribArray(0);
@@ -51,6 +64,15 @@ renderer_t::renderer_t(uint32_t p_max_quads):
     for (auto& texture: m_textures)
     {
         texture = 0;
+    }
+    
+    // Initialize all of the texture uniforms
+    glUseProgram(m_shader_program);
+    for (auto i { 0 }; i < 32; i++)
+    {
+        std::string uniform_name { "texture_samplers["s + std::to_string(i) + "]"s };
+        auto uniform_location { glGetUniformLocation(m_shader_program, uniform_name.data()) };
+        glUniform1i(uniform_location, i);
     }
 }
 
@@ -114,7 +136,6 @@ void renderer_t::set_texture(std::string_view p_path, uint8_t p_slot) noexcept
 void renderer_t::begin()
 {
     m_vertices_iterator = m_vertices.begin();
-    m_indices_iterator = m_indices.begin();
 }
 
 void renderer_t::draw_quad(const quad_t& p_quad)
@@ -135,5 +156,52 @@ void renderer_t::draw_quad(const quad_t& p_quad)
         (*(m_vertices_iterator + i)).color.y = p_quad.color.green;
         (*(m_vertices_iterator + i)).color.z = p_quad.color.blue;
         (*(m_vertices_iterator + i)).color.w = p_quad.color.alpha;
+        
+        (*(m_vertices_iterator + i)).texture = static_cast<float>(p_quad.texture);
+    }
+    
+    m_vertices_iterator += 4;
+    m_quads_to_draw++;
+}
+
+void renderer_t::end()
+{
+    glUseProgram(m_shader_program);
+    
+    glBindVertexArray(m_vao);
+    
+    for (auto i { 0 }; i < m_textures.size(); i++)
+    {
+        if (m_textures[i] != 0)
+        {
+            glActiveTexture(GL_TEXTURE0 + i);
+            glBindTexture(GL_TEXTURE_2D, m_textures[i]);
+        }
+    }
+    
+    glDrawElements(GL_TRIANGLES, m_quads_to_draw * 6, GL_UNSIGNED_INT, nullptr);
+}
+
+renderer_t::~renderer_t()
+{
+    glUseProgram(0);
+    glDeleteProgram(m_shader_program);
+    
+    glBindVertexArray(0);
+    glDeleteVertexArrays(1, &m_vao);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glDeleteBuffers(1, &m_vbo);
+    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    glDeleteBuffers(1, &m_ebo);
+    
+    glBindTexture(GL_TEXTURE_2D, 0);
+    for (auto& texture: m_textures)
+    {
+        if (texture != 0)
+        {
+            glDeleteTextures(1, &texture);
+        }
     }
 }

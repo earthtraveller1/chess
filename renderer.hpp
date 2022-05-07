@@ -73,6 +73,9 @@ namespace chess
         // Stop drawing
         void end();
         
+        // Cleans up resources.
+        ~renderer_t();
+        
     private:
         // No one else uses the vertex struct, so it's private.
         struct vertex_t
@@ -91,13 +94,14 @@ namespace chess
         // Maximum number of quads.
         uint32_t m_max_number_of_quads;
         
+        // The number of quads to draw.
+        uint32_t m_quads_to_draw { 0 };
+        
         // CPU-side buffers
         std::vector<vertex_t> m_vertices;
-        std::vector<uint32_t> m_indices;
         
         // Iterators for CPU side buffers.
         std::vector<vertex_t>::iterator m_vertices_iterator;
-        std::vector<uint32_t>::iterator m_indices_iterator;
         
         // Shader
         uint32_t m_shader_program;
