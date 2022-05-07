@@ -37,7 +37,7 @@ void application_t::render()
 {
     glClear(GL_COLOR_BUFFER_BIT);
     
-    //m_board.render();
+    m_board.render();
     
     m_renderer.begin();
     
@@ -46,7 +46,7 @@ void application_t::render()
     quad.position.y = 100.0f;
     quad.size.x = 100.0f;
     quad.size.y = 100.0f;
-    quad.color = { 1.0f, 1.0f, 1.0f, 1.0f };
+    quad.color = { 0.1f, 0.16f, 0.67f, 1.0f };
     quad.texture = -1;
     
     m_renderer.draw_quad(quad);
