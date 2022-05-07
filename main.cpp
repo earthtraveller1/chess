@@ -35,6 +35,7 @@ namespace
 
 int main()
 {
+    std::cout << "[INFO]: Hello!\n";
     return run();
 }
 
