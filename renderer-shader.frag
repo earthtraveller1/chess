@@ -11,9 +11,9 @@ void main()
 {
     if (texture_unit != -1.0)
     {
-        out_color = texture(texture_samplers[(int)texture_unit], uv) * color;
+        out_color = texture(texture_samplers[int(texture_unit)], uv) * color;
     }
-    else 
+    else
     {
         out_color = color;
     }
