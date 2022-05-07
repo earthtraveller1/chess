@@ -16,8 +16,11 @@ renderer_t::renderer_t(uint32_t p_max_quads):
     m_vertices(m_max_number_of_quads * 4),
     m_vertices_iterator(m_vertices.begin())
 {
-    auto vertex_shader { utilities::create_shader("renderer-shader.vert", GL_VERTEX_SHADER) };
-    auto fragment_shader { utilities::create_shader("renderer-shader.frag", GL_FRAGMENT_SHADER) };
+    auto vertex_shader_source { utilities::load_as_string("renderer-shader.vert") };
+    auto fragment_shader_source { utilities::load_as_string("renderer-shader.frag") };
+    
+    auto vertex_shader { utilities::create_shader(vertex_shader_source, GL_VERTEX_SHADER) };
+    auto fragment_shader { utilities::create_shader(fragment_shader_source, GL_FRAGMENT_SHADER) };
     
     m_shader_program = utilities::create_shader_program(vertex_shader, fragment_shader);
     
