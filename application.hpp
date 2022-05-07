@@ -2,6 +2,7 @@
 #define BB8F30B8_A881_40E4_B62B_1F740D539CD1
 
 #include "board.hpp"
+#include "renderer.hpp"
 
 namespace chess
 {
@@ -30,6 +31,13 @@ namespace chess
         
     private:
         window_t& m_window;
+        
+        struct context_debugger
+        {
+            context_debugger();
+        } m_context_debugger;
+        
+        renderer_t m_renderer;
         
         board_t m_board;
     };
