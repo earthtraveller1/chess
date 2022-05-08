@@ -25,6 +25,8 @@ application_t::context_debugger::context_debugger()
 
 application_t::application_t(): m_window(window_t::get_instance()), m_renderer(2)
 {
+    m_renderer.set_texture("test-texture.png", 0);
+    
     m_window.show();
 }
 
@@ -50,6 +52,20 @@ void application_t::render()
     quad.texture = -1;
     
     m_renderer.draw_quad(quad);
+    
+    renderer_t::quad_t quad_2 = {};
+    quad_2.position.x = 300.0f;
+    quad_2.position.y = 50.0f;
+    quad_2.size.x = 100.0f;
+    quad_2.size.y = 100.0f;
+    quad_2.uv.position.x = 0.0f;
+    quad_2.uv.position.y = 0.0f;
+    quad_2.uv.size.x = 1.0f;
+    quad_2.uv.size.y = 1.0f;
+    quad_2.color = { 1.0f, 1.0f, 1.0f, 1.0f };
+    quad_2.texture = 0;
+    
+    m_renderer.draw_quad(quad_2);
     
     m_renderer.end();
     
