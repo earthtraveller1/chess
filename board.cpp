@@ -114,6 +114,10 @@ board_t::board_t()
 void board_t::render()
 {
     glUseProgram(m_shader_program);
+    
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, m_texture);
+    
     glBindVertexArray(m_vao);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, nullptr);
 }
