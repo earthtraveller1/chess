@@ -9,7 +9,7 @@ uniform sampler2D texture_samplers[32];
 
 void main()
 {
-    if (texture_unit > 0.0)
+    if (texture_unit >= 0.0)
     {
         out_color = texture(texture_samplers[int(texture_unit)], uv) * color;
     }
