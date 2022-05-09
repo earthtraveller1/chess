@@ -48,20 +48,20 @@ void application_t::render()
     m_renderer.begin();
     
     renderer_t::quad_t quad = {};
-    quad.position.x = 200.0f;
-    quad.position.y = 100.0f;
-    quad.size.x = 100.0f;
-    quad.size.y = 100.0f;
+    quad.position.x = 2.0f;
+    quad.position.y = 1.0f;
+    quad.size.x = 3.0f;
+    quad.size.y = 3.0f;
     quad.color = { 0.1f, 0.16f, 0.67f, 1.0f };
     quad.texture = -1;
     
     m_renderer.draw_quad(quad);
     
     renderer_t::quad_t quad_2 = {};
-    quad_2.position.x = 300.0f;
-    quad_2.position.y = 50.0f;
-    quad_2.size.x = 100.0f;
-    quad_2.size.y = 100.0f;
+    quad_2.position.x = 3.0f;
+    quad_2.position.y = 5.0f;
+    quad_2.size.x = 2.0f;
+    quad_2.size.y = 2.0f;
     quad_2.uv.position.x = 0.0f;
     quad_2.uv.position.y = 0.0f;
     quad_2.uv.size.x = 1.0f;

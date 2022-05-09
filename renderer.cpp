@@ -73,7 +73,7 @@ renderer_t::renderer_t(uint32_t p_max_quads):
     
     glUseProgram(m_shader_program);
     
-    auto projection { glm::ortho(0.0f, 400.0f, 400.0f, 0.0f, 0.0f, 1.0f) };
+    auto projection { glm::ortho(0.0f, 8.0f, 8.0f, 0.0f, 0.0f, 1.0f) };
     
     auto projection_uniform_location { glGetUniformLocation(m_shader_program, "projection") };
     glUniformMatrix4fv(projection_uniform_location, 1, GL_FALSE, glm::value_ptr(projection));
