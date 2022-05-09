@@ -13,13 +13,13 @@
 using chess::renderer_t;
 using namespace std::literals::string_literals;
 
-renderer_t::renderer_t(uint32_t p_max_quads): 
+renderer_t::renderer_t(uint32_t p_max_quads, std::string_view p_vertex_shader, std::string_view p_fragment_shader): 
     m_max_number_of_quads(p_max_quads),
     m_vertices(m_max_number_of_quads * 4),
     m_vertices_iterator(m_vertices.begin())
 {
-    auto vertex_shader_source { utilities::load_as_string("renderer-shader.vert") };
-    auto fragment_shader_source { utilities::load_as_string("renderer-shader.frag") };
+    auto vertex_shader_source { utilities::load_as_string(p_vertex_shader) };
+    auto fragment_shader_source { utilities::load_as_string(p_fragment_shader) };
     
     auto vertex_shader { utilities::create_shader(vertex_shader_source, GL_VERTEX_SHADER) };
     auto fragment_shader { utilities::create_shader(fragment_shader_source, GL_FRAGMENT_SHADER) };

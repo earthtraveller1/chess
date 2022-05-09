@@ -27,7 +27,7 @@ application_t::context_debugger::context_debugger()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
-application_t::application_t(): m_window(window_t::get_instance()), m_renderer(2)
+application_t::application_t(): m_window(window_t::get_instance()), m_renderer(2, "renderer-shader.vert", "renderer-shader.frag")
 {
     m_renderer.set_texture("test-texture.png", 0);
     

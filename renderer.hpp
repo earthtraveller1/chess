@@ -14,7 +14,7 @@ namespace chess
     class renderer_t
     {
     public:
-        renderer_t(uint32_t max_quads);
+        renderer_t(uint32_t max_quads, std::string_view vertex_shader, std::string_view fragment_shader);
         
         // Disable copying.
         renderer_t(renderer_t&) = delete;
