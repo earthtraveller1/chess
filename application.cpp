@@ -21,6 +21,10 @@ application_t::context_debugger::context_debugger()
     
     std::cout << "[INFO]: Enabled OpenGL context debugging.\n";
     #endif
+    
+    // Technically, it does not go here, but okay.
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 application_t::application_t(): m_window(window_t::get_instance()), m_renderer(2)
