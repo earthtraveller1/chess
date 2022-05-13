@@ -2,6 +2,7 @@
 #define D3B264AE_83D2_4309_85D9_5D151A9D9EB3
 
 #include <map>
+#include <vector>
 
 #include "renderer.hpp"
 
@@ -23,10 +24,21 @@ namespace chess
         // The pieces that can be renderered by the renderer.
         renderer_t::quad_t m_pawn;
         
+        // The position of a piece
+        struct piece_position_t
+        {
+            piece_position_t() {}
+            
+            int row { 0 };
+            int column { 0 };
+        };
+        
         // A piece
         struct piece_t
         {
             piece_t() {}
+            
+            piece_position_t position;
             
             enum army_e
             {
@@ -39,17 +51,11 @@ namespace chess
             } role;
         };
         
-        // The position of a piece
-        struct piece_position_t
-        {
-            piece_position_t() {}
-            
-            int row { 0 };
-            int column { 0 };
-        };
+        // A map of all the positions to the index in the array.
+        std::map<piece_position_t, uint8_t> m_piece_indices;
         
-        // A full list of all the pieces.
-        std::map<piece_position_t, piece_t> m_pieces;
+        // A list of all the pieces.
+        std::vector<piece_t> m_pieces;
     };
 }
 
