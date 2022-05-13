@@ -50,12 +50,14 @@ add_executable(
     application.cpp 
     board.cpp 
     main.cpp 
+    piece-manager.cpp 
     renderer.cpp 
     utilities.cpp 
     window.cpp 
     
     application.hpp 
     board.hpp 
+    piece-manager.hpp 
     renderer.hpp 
     utilities.hpp 
     window.hpp 
