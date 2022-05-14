@@ -16,10 +16,12 @@ void main()
         if (texture_color.x < 0.5)
         {
             out_color = texture_color + color;
+            out_color.w = texture_color.w;
         }
         else if (texture_color.x > 0.5)
         {
             out_color = texture_color - color;
+            out_color.w = texture_color.w;
         }
     }
     else 
