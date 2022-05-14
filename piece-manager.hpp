@@ -1,8 +1,7 @@
 #ifndef D3B264AE_83D2_4309_85D9_5D151A9D9EB3
 #define D3B264AE_83D2_4309_85D9_5D151A9D9EB3
 
-#include <map>
-#include <vector>
+#include <array>
 
 #include "renderer.hpp"
 
@@ -27,10 +26,8 @@ namespace chess
         // The position of a piece
         struct piece_position_t
         {
-            piece_position_t() {}
-            
-            int row { 0 };
-            int column { 0 };
+            uint8_t column { 0 };
+            uint8_t row { 0 };
         };
         
         // A piece
@@ -38,24 +35,27 @@ namespace chess
         {
             piece_t() {}
             
+            // Is the piece empty?
+            bool is_empty { true };
+            
             piece_position_t position;
             
-            enum army_e
+            enum class army_e
             {
                 WHITE, BLACK
-            } army;
+            } army { army_e::WHITE };
             
-            enum role_e
+            enum class role_e
             {
                 PAWN, ROOK, KNIGHT, BISHOP, QUEEN, KING
-            } role;
+            } role { role_e::PAWN };
         };
         
-        // A map of all the positions to the index in the array.
-        std::map<piece_position_t, uint8_t> m_piece_indices;
+        // A 2D array representing the entire array of pieces on the board.
+        std::array<std::array<piece_t, 8>, 8> m_pieces;
         
-        // A list of all the pieces.
-        std::vector<piece_t> m_pieces;
+        // Utility functions for drawing specific pieces.
+        void draw_pawn(uint8_t x_position, uint8_t y_position, piece_t::army_e army);
     };
 }
 
