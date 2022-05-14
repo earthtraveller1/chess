@@ -26,6 +26,18 @@ piece_manager_t::piece_manager_t(): m_renderer { 64, "renderer-shader.vert", "pi
         pawn.role = piece_t::role_e::PAWN;
         pawn.position = { i, 6 };
         
+        m_pieces[i][6] = pawn;
+    }
+    
+    // Add the black pawns.
+    for (auto i { static_cast<uint8_t>(0) }; i < 8; i++)
+    {
+        piece_t pawn {};
+        pawn.is_empty = false;
+        pawn.army = piece_t::army_e::BLACK;
+        pawn.role = piece_t::role_e::PAWN;
+        pawn.position = { i, 1 };
+        
         m_pieces[i][1] = pawn;
     }
 }
