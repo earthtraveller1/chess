@@ -22,6 +22,11 @@ namespace chess
         
         // The pieces that can be renderered by the renderer.
         renderer_t::quad_t m_pawn;
+        renderer_t::quad_t m_rook;
+        renderer_t::quad_t m_knight;
+        renderer_t::quad_t m_bishop;
+        renderer_t::quad_t m_queen;
+        renderer_t::quad_t m_king;
         
         // The position of a piece
         struct piece_position_t
@@ -56,6 +61,12 @@ namespace chess
         
         // Utility functions for drawing specific pieces.
         void draw_pawn(uint8_t x_position, uint8_t y_position, piece_t::army_e army);
+        
+        // Put pieces back into their starting place.
+        void put_pieces_to_starting_place();
+        
+        // Set the quad configuration structs for the pieces
+        void initialize_piece_quads();
     };
 }
 
