@@ -174,4 +174,74 @@ void piece_manager_t::put_pieces_to_starting_place()
         
         m_pieces[6][0] = black_knight_2;
     }
+    
+    // Add the bishops
+    {
+        piece_t white_bishop_1 {};
+        white_bishop_1.is_empty = false;
+        white_bishop_1.army = piece_t::army_e::WHITE;
+        white_bishop_1.role = piece_t::role_e::BISHOP;
+        white_bishop_1.position = { 2, 7 };
+        
+        m_pieces[2][7] = white_bishop_1;
+        
+        piece_t white_bishop_2 {};
+        white_bishop_2.is_empty = false;
+        white_bishop_2.army = piece_t::army_e::WHITE;
+        white_bishop_2.role = piece_t::role_e::BISHOP;
+        white_bishop_2.position = { 5, 7 };
+        
+        m_pieces[5][7] = white_bishop_2;
+        
+        piece_t black_bishop_1 {};
+        black_bishop_1.is_empty = false;
+        black_bishop_1.army = piece_t::army_e::BLACK;
+        black_bishop_1.role = piece_t::role_e::BISHOP;
+        black_bishop_1.position = { 2, 0 };
+        
+        m_pieces[2][0] = black_bishop_1;
+        
+        piece_t black_bishop_2 {};
+        black_bishop_2.is_empty = false;
+        black_bishop_2.army = piece_t::army_e::BLACK;
+        black_bishop_2.role = piece_t::role_e::BISHOP;
+        black_bishop_2.position = { 5, 0 };
+        
+        m_pieces[5][0] = black_bishop_2;
+    }
+    
+    // Add the kings and queens
+    {
+        piece_t white_royal_1 {};
+        white_royal_1.is_empty = false;
+        white_royal_1.army = piece_t::army_e::WHITE;
+        white_royal_1.role = piece_t::role_e::KING;
+        white_royal_1.position = { 3, 7 };
+        
+        m_pieces[3][7] = white_royal_1;
+        
+        piece_t white_royal_2 {};
+        white_royal_2.is_empty = false;
+        white_royal_2.army = piece_t::army_e::WHITE;
+        white_royal_2.role = piece_t::role_e::QUEEN;
+        white_royal_2.position = { 4, 7 };
+        
+        m_pieces[4][7] = white_royal_2;
+        
+        piece_t black_royal_1 {};
+        black_royal_1.is_empty = false;
+        black_royal_1.army = piece_t::army_e::BLACK;
+        black_royal_1.role = piece_t::role_e::KING;
+        black_royal_1.position = { 3, 0 };
+        
+        m_pieces[3][0] = black_royal_1;
+        
+        piece_t black_royal_2 {};
+        black_royal_2.is_empty = false;
+        black_royal_2.army = piece_t::army_e::BLACK;
+        black_royal_2.role = piece_t::role_e::QUEEN;
+        black_royal_2.position = { 4, 0 };
+        
+        m_pieces[4][0] = black_royal_2;
+    }
 }
