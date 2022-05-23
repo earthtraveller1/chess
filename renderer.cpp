@@ -147,6 +147,7 @@ void renderer_t::set_texture(std::string_view p_path, uint8_t p_slot) noexcept
 void renderer_t::begin()
 {
     m_vertices_iterator = m_vertices.begin();
+    m_quads_to_draw = 0;
 }
 
 void renderer_t::draw_quad(const quad_t& p_quad)
