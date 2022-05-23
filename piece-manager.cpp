@@ -21,6 +21,37 @@ void piece_manager_t::move(const piece_position_t& original, const piece_positio
     m_pieces[original.column][original.row].is_empty = true;
 }
 
+void piece_manager_t::set_dragging(bool p_dragging) noexcept
+{
+    if (!p_dragging)
+    {
+        auto new_piece_x { static_cast<uint8_t>(m_cursor_x) };
+        auto new_piece_y { static_cast<uint8_t>(m_cursor_y) };
+        
+        m_dragged_piece.position.column = new_piece_x;
+        m_dragged_piece.position.row = new_piece_y;
+        
+        m_pieces[new_piece_x][new_piece_y] = m_dragged_piece;
+        
+        m_dragged_piece.is_empty = true;
+    }
+    else 
+    {
+        auto dragged_piece_x { static_cast<uint8_t>(m_cursor_x) };
+        auto dragged_piece_y { static_cast<uint8_t>(m_cursor_y) };
+        
+        m_dragged_piece = m_pieces[dragged_piece_x][dragged_piece_y];
+    }
+    
+    m_is_dragging = p_dragging;
+}
+
+void piece_manager_t::update_mouse_position(double p_x, double p_y)
+{
+    m_cursor_x = p_x;
+    m_cursor_y = p_y;
+}
+
 void piece_manager_t::render_pieces()
 {
     m_renderer.begin();
@@ -36,7 +67,7 @@ void piece_manager_t::render_pieces()
     m_renderer.end();
 }
 
-void piece_manager_t::draw_piece(piece_t p_piece)
+void piece_manager_t::draw_piece(const piece_t& p_piece)
 {
     if (p_piece.is_empty)
     {
@@ -45,6 +76,55 @@ void piece_manager_t::draw_piece(piece_t p_piece)
     
     renderer_t::quad_t piece {};
     piece.position = { static_cast<float>(p_piece.position.column), static_cast<float>(p_piece.position.row) };
+    piece.size = { 1.0f, 1.0f };
+    
+    piece.uv.position = { 0.0f, 0.0f };
+    piece.uv.size = { 1.0f, 1.0f };
+    
+    switch (p_piece.role)
+    {
+        case piece_t::role_e::PAWN:
+            piece.texture = 0;
+            break;
+        case piece_t::role_e::ROOK:
+            piece.texture = 1;
+            break;
+        case piece_t::role_e::KNIGHT:
+            piece.texture = 2;
+            break;
+        case piece_t::role_e::BISHOP:
+            piece.texture = 3;
+            break;
+        case piece_t::role_e::QUEEN:
+            piece.texture = 4;
+            break;
+        case piece_t::role_e::KING:
+            piece.texture = 5;
+            break;
+    }
+    
+    switch (p_piece.army)
+    {
+        case piece_t::army_e::WHITE:
+            piece.color = { 1.0f, 1.0f, 1.0f, 1.0f };
+            break;
+        case piece_t::army_e::BLACK:
+            piece.color = { 0.0f, 0.0f, 0.0f, 0.0f };
+            break;
+    }
+    
+    m_renderer.draw_quad(piece);
+}
+
+void piece_manager_t::draw_dragged_piece(const piece_t& p_piece)
+{
+    if (p_piece.is_empty)
+    {
+        return;
+    }
+    
+    renderer_t::quad_t piece {};
+    piece.position = { static_cast<float>(m_cursor_x - 0.5), static_cast<float>(m_cursor_y - 0.5) };
     piece.size = { 1.0f, 1.0f };
     
     piece.uv.position = { 0.0f, 0.0f };

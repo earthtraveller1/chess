@@ -24,7 +24,7 @@ namespace chess
         void move(const piece_position_t& original, const piece_position_t& new_position);
         
         // Start dragging if not already dragging, stop dragging if already dragging
-        void start_or_stop_dragging() noexcept;
+        void set_dragging(bool dragging) noexcept;
         
         // Update the mouse position (needed for dragging)
         void update_mouse_position(double x, double y);
@@ -57,11 +57,21 @@ namespace chess
             } role { role_e::PAWN };
         };
         
+        // Dragging information
+        bool m_is_dragging;
+        piece_t m_dragged_piece;
+        // The cursor positions are in a custom coordinate going from 0.0 to 7.0.
+        double m_cursor_x;
+        double m_cursor_y;
+        
         // A 2D array representing the entire array of pieces on the board.
         std::array<std::array<piece_t, 8>, 8> m_pieces;
         
         // Utility functions for drawing pieces
-        void draw_piece(piece_t piece);
+        void draw_piece(const piece_t& piece);
+        
+        // Utility function for drawing dragged piece
+        void draw_dragged_piece(const piece_t& piece);
         
         // Put pieces back into their starting place.
         void put_pieces_to_starting_place();
