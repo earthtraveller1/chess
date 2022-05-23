@@ -16,6 +16,9 @@ namespace chess
         window_t(window_t&) = delete;
         window_t& operator=(window_t&) = delete;
         
+        // Set the mouse button event handler
+        void set_mouse_button_event_handler(GLFWmousebuttonfun event_handler);
+        
         // Show the window.
         void show() const noexcept;
         

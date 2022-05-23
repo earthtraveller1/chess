@@ -17,6 +17,11 @@ window_t& window_t::get_instance() noexcept
     return instance;
 }
 
+void window_t::set_mouse_button_event_handler(GLFWmousebuttonfun p_handler)
+{
+    glfwSetMouseButtonCallback(m_window, p_handler);
+}
+
 void window_t::show() const noexcept
 {
     glfwShowWindow(m_window);
