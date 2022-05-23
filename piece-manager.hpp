@@ -13,19 +13,22 @@ namespace chess
         // Constructor
         piece_manager_t();
         
-        // Render the pieces
-        void render_pieces();
-        
-    private:
-        // The renderer used to render the stuff.
-        renderer_t m_renderer;
-        
         // The position of a piece
         struct piece_position_t
         {
             uint8_t column { 0 };
             uint8_t row { 0 };
         };
+        
+        // Move a piece from one position to another
+        void move(const piece_position_t& original, const piece_position_t& new_position);
+        
+        // Render the pieces
+        void render_pieces();
+        
+    private:
+        // The renderer used to render the stuff.
+        renderer_t m_renderer;
         
         // A piece
         struct piece_t

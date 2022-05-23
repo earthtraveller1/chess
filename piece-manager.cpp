@@ -15,6 +15,12 @@ piece_manager_t::piece_manager_t(): m_renderer { 64, "renderer-shader.vert", "pi
     put_pieces_to_starting_place();
 }
 
+void piece_manager_t::move(const piece_position_t& original, const piece_position_t& new_position)
+{
+    m_pieces[new_position.column][new_position.row] = m_pieces[original.column][original.row];
+    m_pieces[original.column][original.row].is_empty = true;
+}
+
 void piece_manager_t::render_pieces()
 {
     m_renderer.begin();
