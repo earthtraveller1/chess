@@ -19,15 +19,14 @@ namespace chess
         // Set the mouse button event handler
         void set_mouse_button_event_handler(GLFWmousebuttonfun event_handler);
         
+        // Set the mouse position event handler
+        void set_mouse_position_event_handler(GLFWcursorposfun event_handler);
+        
         // Show the window.
         void show() const noexcept;
         
         // Returns whether the window is still open or not.
         bool is_open() const noexcept;
-        
-        // Obtain the mouse X and Y
-        double get_mouse_x() const noexcept;
-        double get_mouse_y() const noexcept;
         
         // Update the window.
         void update();

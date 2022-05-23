@@ -22,6 +22,11 @@ void window_t::set_mouse_button_event_handler(GLFWmousebuttonfun p_handler)
     glfwSetMouseButtonCallback(m_window, p_handler);
 }
 
+void window_t::set_mouse_position_event_handler(GLFWcursorposfun p_handler)
+{
+    glfwSetCursorPosCallback(m_window, p_handler);
+}
+
 void window_t::show() const noexcept
 {
     glfwShowWindow(m_window);
@@ -30,24 +35,6 @@ void window_t::show() const noexcept
 bool window_t::is_open() const noexcept
 {
     return !glfwWindowShouldClose(m_window);
-}
-
-double window_t::get_mouse_x() const noexcept
-{
-    auto x { 0.0 };
-    auto y { 0.0 };
-    glfwGetCursorPos(m_window, &x, &y);
-    
-    return x;
-}
-
-double window_t::get_mouse_y() const noexcept
-{
-    auto x { 0.0 };
-    auto y { 0.0 };
-    glfwGetCursorPos(m_window, &x, &y);
-    
-    return y;
 }
 
 void window_t::update()
