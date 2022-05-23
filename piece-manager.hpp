@@ -20,9 +20,6 @@ namespace chess
             uint8_t row { 0 };
         };
         
-        // Move a piece from one position to another
-        void move(const piece_position_t& original, const piece_position_t& new_position);
-        
         // Start dragging if not already dragging, stop dragging if already dragging
         void set_dragging(bool dragging) noexcept;
         

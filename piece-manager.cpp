@@ -15,12 +15,6 @@ piece_manager_t::piece_manager_t(): m_renderer { 64, "renderer-shader.vert", "pi
     put_pieces_to_starting_place();
 }
 
-void piece_manager_t::move(const piece_position_t& original, const piece_position_t& new_position)
-{
-    m_pieces[new_position.column][new_position.row] = m_pieces[original.column][original.row];
-    m_pieces[original.column][original.row].is_empty = true;
-}
-
 void piece_manager_t::set_dragging(bool p_dragging) noexcept
 {
     if (!p_dragging)
@@ -28,12 +22,12 @@ void piece_manager_t::set_dragging(bool p_dragging) noexcept
         auto new_piece_x { static_cast<uint8_t>(m_cursor_x) };
         auto new_piece_y { static_cast<uint8_t>(m_cursor_y) };
         
-        m_dragged_piece.position.column = new_piece_x;
-        m_dragged_piece.position.row = new_piece_y;
+        m_dragged_piece.position = { new_piece_x, new_piece_y };
         
         m_pieces[new_piece_x][new_piece_y] = m_dragged_piece;
-        
         m_dragged_piece.is_empty = true;
+        
+        m_is_dragging = false;
     }
     else 
     {
@@ -41,9 +35,9 @@ void piece_manager_t::set_dragging(bool p_dragging) noexcept
         auto dragged_piece_y { static_cast<uint8_t>(m_cursor_y) };
         
         m_dragged_piece = m_pieces[dragged_piece_x][dragged_piece_y];
+        m_pieces[dragged_piece_x][dragged_piece_y].is_empty = true;
+        m_is_dragging = true;
     }
-    
-    m_is_dragging = p_dragging;
 }
 
 void piece_manager_t::update_mouse_position(double p_x, double p_y)
