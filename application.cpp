@@ -8,6 +8,39 @@
 
 using chess::application_t;
 
+namespace 
+{
+    chess::piece_manager_t* piece_manager = nullptr;
+    
+    void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
+    {
+        if (piece_manager != nullptr)
+        {
+            if (action == GLFW_PRESS)
+            {
+                piece_manager->set_dragging(true);
+            }
+            else if (action == GLFW_RELEASE)
+            {
+                piece_manager->set_dragging(false);
+            }
+        }
+    }
+    
+    void cursor_pos_callback(GLFWwindow* window, double xpos, double ypos)
+    {
+        auto window_width { 0 };
+        auto window_height { 0 };
+        
+        glfwGetWindowSize(window, &window_width, &window_height);
+        
+        auto normalized_x { (xpos / window_height) * 8.0 };
+        auto normalized_y { (ypos / window_height) * 8.0 };
+        
+        piece_manager->update_mouse_position(normalized_x, normalized_y);
+    }
+}
+
 application_t::context_debugger::context_debugger()
 {
     #ifndef NDEBUG
@@ -29,6 +62,11 @@ application_t::context_debugger::context_debugger()
 
 application_t::application_t(): m_window(window_t::get_instance())
 {
+    piece_manager = &m_piece_manager;
+    
+    m_window.set_mouse_button_event_handler(mouse_button_callback);
+    m_window.set_mouse_position_event_handler(cursor_pos_callback);
+    
     m_window.show();
 }
 
