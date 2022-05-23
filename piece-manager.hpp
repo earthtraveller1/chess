@@ -71,7 +71,7 @@ namespace chess
         void draw_piece(const piece_t& piece);
         
         // Utility function for drawing dragged piece
-        void draw_dragged_piece(const piece_t& piece);
+        void draw_dragged_piece();
         
         // Put pieces back into their starting place.
         void put_pieces_to_starting_place();

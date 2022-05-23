@@ -64,6 +64,11 @@ void piece_manager_t::render_pieces()
         }
     }
     
+    if (m_is_dragging)
+    {
+        draw_dragged_piece();
+    }
+    
     m_renderer.end();
 }
 
@@ -116,9 +121,9 @@ void piece_manager_t::draw_piece(const piece_t& p_piece)
     m_renderer.draw_quad(piece);
 }
 
-void piece_manager_t::draw_dragged_piece(const piece_t& p_piece)
+void piece_manager_t::draw_dragged_piece()
 {
-    if (p_piece.is_empty)
+    if (m_dragged_piece.is_empty)
     {
         return;
     }
@@ -130,7 +135,7 @@ void piece_manager_t::draw_dragged_piece(const piece_t& p_piece)
     piece.uv.position = { 0.0f, 0.0f };
     piece.uv.size = { 1.0f, 1.0f };
     
-    switch (p_piece.role)
+    switch (m_dragged_piece.role)
     {
         case piece_t::role_e::PAWN:
             piece.texture = 0;
@@ -152,7 +157,7 @@ void piece_manager_t::draw_dragged_piece(const piece_t& p_piece)
             break;
     }
     
-    switch (p_piece.army)
+    switch (m_dragged_piece.army)
     {
         case piece_t::army_e::WHITE:
             piece.color = { 1.0f, 1.0f, 1.0f, 1.0f };
