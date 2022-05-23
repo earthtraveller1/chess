@@ -22,6 +22,10 @@ namespace chess
         // Returns whether the window is still open or not.
         bool is_open() const noexcept;
         
+        // Obtain the mouse X and Y
+        double get_mouse_x() const noexcept;
+        double get_mouse_y() const noexcept;
+        
         // Update the window.
         void update();
         

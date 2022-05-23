@@ -27,6 +27,24 @@ bool window_t::is_open() const noexcept
     return !glfwWindowShouldClose(m_window);
 }
 
+double window_t::get_mouse_x() const noexcept
+{
+    auto x { 0.0 };
+    auto y { 0.0 };
+    glfwGetCursorPos(m_window, &x, &y);
+    
+    return x;
+}
+
+double window_t::get_mouse_y() const noexcept
+{
+    auto x { 0.0 };
+    auto y { 0.0 };
+    glfwGetCursorPos(m_window, &x, &y);
+    
+    return y;
+}
+
 void window_t::update()
 {
     glfwSwapBuffers(m_window);
