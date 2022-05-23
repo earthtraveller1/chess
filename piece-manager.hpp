@@ -23,6 +23,12 @@ namespace chess
         // Move a piece from one position to another
         void move(const piece_position_t& original, const piece_position_t& new_position);
         
+        // Start dragging if not already dragging, stop dragging if already dragging
+        void start_or_stop_dragging() noexcept;
+        
+        // Update the mouse position (needed for dragging)
+        void update_mouse_position(double x, double y);
+        
         // Render the pieces
         void render_pieces();
         
