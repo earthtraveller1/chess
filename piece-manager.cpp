@@ -1,3 +1,5 @@
+#include <cmath>
+
 #include "piece-manager.hpp"
 
 using chess::piece_manager_t;
@@ -17,14 +19,28 @@ piece_manager_t::piece_manager_t(): m_renderer { 64, "renderer-shader.vert", "pi
 
 void piece_manager_t::set_dragging(bool p_dragging) noexcept
 {
+    // When draggin is turned off, a move has been made.
     if (!p_dragging)
     {
+        // Keep the old position for validation purposes
+        piece_position_t previous_position = m_dragged_piece.position;
+        
         auto new_piece_x { static_cast<uint8_t>(m_cursor_x) };
         auto new_piece_y { static_cast<uint8_t>(m_cursor_y) };
         
         m_dragged_piece.position = { new_piece_x, new_piece_y };
         
-        m_pieces[new_piece_x][new_piece_y] = m_dragged_piece;
+        if (is_move_legal(m_dragged_piece, previous_position))
+        {
+            m_pieces[new_piece_x][new_piece_y] = m_dragged_piece;
+        }
+        else 
+        {
+            // Undo the move if it was found to be illegal
+            m_dragged_piece.position = previous_position;
+            m_pieces[previous_position.column][previous_position.row] = m_dragged_piece;
+        }
+        
         m_dragged_piece.is_empty = true;
         
         m_is_dragging = false;
@@ -162,6 +178,125 @@ void piece_manager_t::draw_dragged_piece()
     }
     
     m_renderer.draw_quad(piece);
+}
+
+bool piece_manager_t::is_move_legal(const piece_t& p_piece, const piece_position_t& p_original_position)
+{
+    // Prevent capturing of allies
+    if (!(m_pieces[p_piece.position.column][p_piece.position.row].is_empty) && m_pieces[p_piece.position.column][p_piece.position.row].army == p_piece.army)
+    {
+        return false;
+    }
+    
+    // Only knights can jump over pieces
+    if (check_space_in_between(p_piece.position, p_original_position) && (p_piece.role != piece_t::role_e::KNIGHT))
+    {
+        return false;
+    }
+    
+    // Different pieces have different moving rules.
+    switch (p_piece.role)
+    {
+        case piece_t::role_e::ROOK:
+            return ((p_piece.position.column == p_original_position.column) || (p_piece.position.row == p_original_position.row));
+        case piece_t::role_e::BISHOP:
+            return (std::abs(p_piece.position.column - p_original_position.column) == std::abs(p_piece.position.row - p_original_position.row));
+        default:
+            return true;
+    }
+}
+
+bool piece_manager_t::check_space_in_between(const piece_position_t& p_a, const piece_position_t& p_b)
+{
+    if (p_a.row == p_b.row)
+    {
+        uint8_t a;
+        uint8_t b;
+        
+        if (p_a.column > p_b.column)
+        {
+            a = p_b.column;
+            b = p_a.column;
+        }
+        else 
+        {
+            a = p_a.column;
+            b = p_b.column;
+        }
+        
+        for (auto i { a + 1 }; i < b; i++)
+        {
+            if (!m_pieces[i][p_a.row].is_empty)
+            {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    else if (p_a.column == p_b.column)
+    {
+        uint8_t a;
+        uint8_t b;
+        
+        if (p_a.row > p_b.row)
+        {
+            a = p_b.row;
+            b = p_a.row;
+        }
+        else 
+        {
+            a = p_a.row;
+            b = p_b.row;
+        }
+        
+        for (auto i { a + 1 }; i < b; i++)
+        {
+            if (!m_pieces[p_a.column][i].is_empty)
+            {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    else 
+    {
+        piece_position_t a;
+        piece_position_t b;
+        
+        if (p_a.row > p_b.row)
+        {
+            a.row = p_b.row;
+            b.row = p_a.row;
+        }
+        else 
+        {
+            a.row = p_a.row;
+            b.row = p_b.row;
+        }
+        
+        if (p_a.column > p_b.column)
+        {
+            a.column = p_b.column;
+            b.column = p_a.column;
+        }
+        else 
+        {
+            a.column = p_a.column;
+            b.column = p_b.column;
+        }
+        
+        for (auto i { a.column + 1 }, j { a.row + 1}; i < b.column, j < b.row; i++, j++)
+        {
+            if (!(m_pieces[i][j].is_empty))
+            {
+                return true;
+            }
+        }
+        
+        return false;
+    }
 }
 
 void piece_manager_t::put_pieces_to_starting_place()

@@ -18,6 +18,11 @@ namespace chess
         {
             uint8_t column { 0 };
             uint8_t row { 0 };
+            
+            inline bool operator!=(const piece_position_t& b)
+            {
+                return ((column != b.column) || (row != b.row));
+            }
         };
         
         // Start dragging if not already dragging, stop dragging if already dragging
@@ -45,12 +50,12 @@ namespace chess
             
             enum class army_e
             {
-                WHITE, BLACK
+                WHITE = 0, BLACK
             } army { army_e::WHITE };
             
             enum class role_e
             {
-                PAWN, ROOK, KNIGHT, BISHOP, QUEEN, KING
+                PAWN = 0, ROOK, KNIGHT, BISHOP, QUEEN, KING
             } role { role_e::PAWN };
         };
         
@@ -64,11 +69,23 @@ namespace chess
         // A 2D array representing the entire array of pieces on the board.
         std::array<std::array<piece_t, 8>, 8> m_pieces;
         
+        // Get a piece from a specific location on the board
+        inline piece_t& get_piece(const piece_position_t& position)
+        {
+            return m_pieces[position.column][position.row];
+        }
+        
         // Utility functions for drawing pieces
         void draw_piece(const piece_t& piece);
         
         // Utility function for drawing dragged piece
         void draw_dragged_piece();
+        
+        // Returns if the specified move is legal or not.
+        bool is_move_legal(const piece_t& piece, const piece_position_t& previous_position);
+        
+        // Returns if there's any non-empty pieces between two positions
+        bool check_space_in_between(const piece_position_t& a, const piece_position_t& b);
         
         // Put pieces back into their starting place.
         void put_pieces_to_starting_place();
