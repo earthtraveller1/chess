@@ -198,9 +198,85 @@ bool piece_manager_t::is_move_legal(const piece_t& p_piece, const piece_position
     switch (p_piece.role)
     {
         case piece_t::role_e::ROOK:
-            return ((p_piece.position.column == p_original_position.column) || (p_piece.position.row == p_original_position.row));
+            return 
+            (
+                (
+                    p_piece.position.column == p_original_position.column
+                ) 
+                || 
+                (
+                    p_piece.position.row == p_original_position.row
+                )
+            );
         case piece_t::role_e::BISHOP:
-            return (std::abs(p_piece.position.column - p_original_position.column) == std::abs(p_piece.position.row - p_original_position.row));
+            return 
+            (
+                std::abs
+                (
+                    p_piece.position.column - p_original_position.column
+                ) 
+                == 
+                std::abs
+                (
+                    p_piece.position.row - p_original_position.row
+                )
+            );
+        case piece_t::role_e::KNIGHT:
+            return 
+            (
+                (
+                    (
+                        std::abs
+                        (
+                            p_piece.position.column - p_original_position.column
+                        ) == 1
+                    ) 
+                    && 
+                    (
+                        std::abs
+                        (
+                            p_piece.position.row - p_original_position.row
+                        ) == 2
+                    )
+                ) 
+                || 
+                (
+                    (
+                        std::abs
+                        (
+                            p_piece.position.column - p_original_position.column
+                        ) == 2
+                    ) 
+                    && 
+                    (
+                        std::abs
+                        (
+                            p_piece.position.row - p_original_position.row
+                        ) == 1
+                    )
+                )
+            );
+        case piece_t::role_e::KING:
+            return 
+            (
+                (
+                    std::abs
+                    (
+                        p_piece.position.column - p_original_position.column
+                    ) <= 1
+                ) 
+                && 
+                (
+                    std::abs
+                    (
+                        p_piece.position.row - p_original_position.row
+                    ) <= 1
+                )
+            );
+        case piece_t::role_e::QUEEN:
+            return (((p_piece.position.column == p_original_position.column) || (p_piece.position.row == p_original_position.row)) || (std::abs(p_piece.position.column - p_original_position.column) == std::abs(p_piece.position.row - p_original_position.row)));
+        case piece_t::role_e::PAWN:
+            return ((p_piece.position.row == (p_original_position.row - 1)) && (p_piece.army == piece_t::army_e::WHITE)) || ((p_piece.position.row == p_original_position.row + 1) && p_piece.army == piece_t::army_e::BLACK);
         default:
             return true;
     }
