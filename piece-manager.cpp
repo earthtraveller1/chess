@@ -436,32 +436,32 @@ void piece_manager_t::put_pieces_to_starting_place()
         white_royal_1.is_empty = false;
         white_royal_1.army = piece_t::army_e::WHITE;
         white_royal_1.role = piece_t::role_e::KING;
-        white_royal_1.position = { 3, 7 };
+        white_royal_1.position = { 4, 7 };
         
-        m_pieces[3][7] = white_royal_1;
+        m_pieces[4][7] = white_royal_1;
         
         piece_t white_royal_2 {};
         white_royal_2.is_empty = false;
         white_royal_2.army = piece_t::army_e::WHITE;
         white_royal_2.role = piece_t::role_e::QUEEN;
-        white_royal_2.position = { 4, 7 };
+        white_royal_2.position = { 3, 7 };
         
-        m_pieces[4][7] = white_royal_2;
+        m_pieces[3][7] = white_royal_2;
         
         piece_t black_royal_1 {};
         black_royal_1.is_empty = false;
         black_royal_1.army = piece_t::army_e::BLACK;
         black_royal_1.role = piece_t::role_e::KING;
-        black_royal_1.position = { 3, 0 };
+        black_royal_1.position = { 4, 0 };
         
-        m_pieces[3][0] = black_royal_1;
+        m_pieces[4][0] = black_royal_1;
         
         piece_t black_royal_2 {};
         black_royal_2.is_empty = false;
         black_royal_2.army = piece_t::army_e::BLACK;
         black_royal_2.role = piece_t::role_e::QUEEN;
-        black_royal_2.position = { 4, 0 };
+        black_royal_2.position = { 3, 0 };
         
-        m_pieces[4][0] = black_royal_2;
+        m_pieces[3][0] = black_royal_2;
     }
 }
