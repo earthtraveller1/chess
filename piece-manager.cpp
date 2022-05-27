@@ -180,6 +180,27 @@ void piece_manager_t::draw_dragged_piece()
     m_renderer.draw_quad(piece);
 }
 
+bool piece_manager_t::is_pawn_move_legal(piece_t::army_e p_army, const piece_position_t& p_current_position, const piece_position_t& p_original_position)
+{
+    if (p_army == piece_t::army_e::WHITE)
+    {
+        if ((p_current_position.row == (p_original_position.row - 1)))
+        {
+            if (p_current_position.column == p_original_position.column)
+            {
+                return true;
+            }
+            
+            if (std::abs(p_current_position.column - p_original_position.row) == 1 && !(get_piece(p_current_position).is_empty))
+            {
+                
+            }
+        }
+        
+        
+    }
+}
+
 bool piece_manager_t::is_move_legal(const piece_t& p_piece, const piece_position_t& p_original_position)
 {
     // Prevent capturing of allies
@@ -298,6 +319,8 @@ bool piece_manager_t::is_move_legal(const piece_t& p_piece, const piece_position
                     )
                 )
             );
+        case piece_t::role_e::PAWN:
+            
         default:
             return true;
     }
