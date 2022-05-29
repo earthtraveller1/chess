@@ -191,13 +191,26 @@ bool piece_manager_t::is_pawn_move_legal(piece_t::army_e p_army, const piece_pos
                 return true;
             }
             
-            if (std::abs(p_current_position.column - p_original_position.row) == 1 && !(get_piece(p_current_position).is_empty))
+            if (std::abs(p_current_position.column - p_original_position.column) == 1 && !(get_piece(p_current_position).is_empty))
             {
-                
+                return true;
             }
         }
-        
-        
+    }
+    else if (p_army == piece_t::army_e::BLACK)
+    {
+        if ((p_current_position.row == (p_original_position.row + 1)))
+        {
+            if (p_current_position.column == p_original_position.column)
+            {
+                return true;
+            }
+            
+            if (std::abs(p_current_position.column - p_original_position.column) == 1 && !(get_piece(p_current_position).is_empty))
+            {
+                return true;
+            }
+        }
     }
 }
 
@@ -320,7 +333,7 @@ bool piece_manager_t::is_move_legal(const piece_t& p_piece, const piece_position
                 )
             );
         case piece_t::role_e::PAWN:
-            
+            return is_pawn_move_legal(p_piece.army, p_piece.position, p_original_position);
         default:
             return true;
     }
