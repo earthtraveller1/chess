@@ -200,6 +200,12 @@ bool piece_manager_t::is_pawn_move_legal(piece_t::army_e p_army, const piece_pos
             {
                 return true;
             }
+            
+            return false;
+        }
+        else 
+        {
+            return false;
         }
     }
     else if (p_army == piece_t::army_e::BLACK)
@@ -215,7 +221,17 @@ bool piece_manager_t::is_pawn_move_legal(piece_t::army_e p_army, const piece_pos
             {
                 return true;
             }
+            
+            return false;
         }
+        else 
+        {
+            return false;
+        }
+    }
+    else 
+    {
+        return false;
     }
 }
 
