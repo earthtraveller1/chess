@@ -20,7 +20,7 @@ piece_manager_t::piece_manager_t(): m_renderer { 64, "renderer-shader.vert", "pi
 void piece_manager_t::set_dragging(bool p_dragging) noexcept
 {
     // When draggin is turned off, a move has been made.
-    if (!p_dragging)
+    if (!p_dragging && !m_dragged_piece.is_empty)
     {
         // Keep the old position for validation purposes
         piece_position_t previous_position = m_dragged_piece.position;
@@ -49,6 +49,11 @@ void piece_manager_t::set_dragging(bool p_dragging) noexcept
     {
         auto dragged_piece_x { static_cast<uint8_t>(m_cursor_x) };
         auto dragged_piece_y { static_cast<uint8_t>(m_cursor_y) };
+        
+        if (m_pieces[dragged_piece_x][dragged_piece_y].is_empty)
+        {
+            return;
+        }
         
         m_dragged_piece = m_pieces[dragged_piece_x][dragged_piece_y];
         m_pieces[dragged_piece_x][dragged_piece_y].is_empty = true;
