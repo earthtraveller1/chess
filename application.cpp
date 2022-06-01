@@ -16,13 +16,21 @@ namespace
     {
         if (piece_manager != nullptr)
         {
-            if (action == GLFW_PRESS)
+            if (button == GLFW_MOUSE_BUTTON_LEFT)
             {
-                piece_manager->set_dragging(true);
+                if (action == GLFW_PRESS)
+                {
+                    piece_manager->set_dragging(true);
+                }
+                else if (action == GLFW_RELEASE)
+                {
+                    piece_manager->set_dragging(false);
+                }
             }
-            else if (action == GLFW_RELEASE)
+            else if (button == GLFW_MOUSE_BUTTON_RIGHT)
             {
-                piece_manager->set_dragging(false);
+                std::cout << "hello" << std::endl;
+                piece_manager->set_board_orientation(true);
             }
         }
     }

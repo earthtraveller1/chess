@@ -23,10 +23,21 @@ void piece_manager_t::set_dragging(bool p_dragging) noexcept
     if (!p_dragging && !m_dragged_piece.is_empty)
     {
         // Keep the old position for validation purposes
-        piece_position_t previous_position = m_dragged_piece.position;
+        auto previous_position = m_dragged_piece.position;
         
-        auto new_piece_x { static_cast<uint8_t>(m_cursor_x) };
-        auto new_piece_y { static_cast<uint8_t>(m_cursor_y) };
+        uint8_t new_piece_x {};
+        uint8_t new_piece_y {};
+        
+        if (m_flipped)
+        {
+            new_piece_x = static_cast<uint8_t>(m_cursor_x) - 1;
+            new_piece_y = static_cast<uint8_t>(m_cursor_y) - 1;
+        }
+        else 
+        {
+            new_piece_x = static_cast<uint8_t>(m_cursor_x);
+            new_piece_y = static_cast<uint8_t>(m_cursor_y);
+        }
         
         m_dragged_piece.position = { new_piece_x, new_piece_y };
         
@@ -62,10 +73,37 @@ void piece_manager_t::set_dragging(bool p_dragging) noexcept
     }
 }
 
+namespace 
+{
+    double flip(double p_number, double p_pivot)
+    {
+        if (p_number > p_pivot)
+        {
+            return p_pivot - std::abs(p_number - p_pivot);
+        }
+        else if (p_number < p_pivot)
+        {
+            return p_pivot + std::abs(p_number - p_pivot);
+        }
+        else 
+        {
+            return 0.0;
+        }
+    }
+}
+
 void piece_manager_t::update_mouse_position(double p_x, double p_y)
 {
+    if (m_flipped)
+    {
+        m_cursor_y = flip(p_y, 3.5);
+    }
+    else 
+    {
+        m_cursor_y = p_y;
+    }
+    
     m_cursor_x = p_x;
-    m_cursor_y = p_y;
 }
 
 void piece_manager_t::render_pieces()
@@ -76,7 +114,17 @@ void piece_manager_t::render_pieces()
     {
         for (auto j { static_cast<uint8_t>(0) }; j < 8; j++)
         {
-            draw_piece(m_pieces[i][j]);
+            if (m_flipped)
+            {
+                piece_t piece = get_piece({ i, j });
+                piece.position.row = flip(piece.position.row, 3.5);
+                piece.position.column = flip(piece.position.column, 3.5);
+                
+                draw_piece(piece);
+            } else 
+            {
+                draw_piece(m_pieces[i][j]);
+            }
         }
     }
     

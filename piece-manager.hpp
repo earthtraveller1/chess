@@ -21,6 +21,10 @@ namespace chess
         // Start dragging if not already dragging, stop dragging if already dragging
         void set_dragging(bool dragging) noexcept;
         
+        inline void set_board_orientation(bool is_black) noexcept {
+            m_flipped = is_black;
+        }
+        
         // Update the mouse position (needed for dragging)
         void update_mouse_position(double x, double y);
         
@@ -37,6 +41,9 @@ namespace chess
         // The cursor positions are in a custom coordinate going from 0.0 to 7.0.
         double m_cursor_x;
         double m_cursor_y;
+        
+        // Is the board flipped?
+        bool m_flipped;
         
         // A 2D array representing the entire array of pieces on the board.
         std::array<std::array<piece_t, 8>, 8> m_pieces;
