@@ -5,6 +5,8 @@
 
 #include "renderer.hpp"
 #include "move-checker.hpp"
+#include "piece.hpp"
+#include "piece-position.hpp"
 
 namespace chess
 {
@@ -15,42 +17,6 @@ namespace chess
         
         // Constructor
         piece_manager_t();
-        
-        // The position of a piece
-        struct piece_position_t
-        {
-            uint8_t column { 0 };
-            uint8_t row { 0 };
-            
-            inline bool operator!=(const piece_position_t& b)
-            {
-                return ((column != b.column) || (row != b.row));
-            }
-        };
-        
-        // A piece
-        struct piece_t
-        {
-            piece_t() {}
-            
-            // Is the piece empty?
-            bool is_empty { true };
-            
-            // Has the peice moved at all yet?
-            bool has_moved { false };
-            
-            piece_position_t position;
-            
-            enum class army_e
-            {
-                WHITE = 0, BLACK
-            } army { army_e::WHITE };
-            
-            enum class role_e
-            {
-                PAWN = 0, ROOK, KNIGHT, BISHOP, QUEEN, KING
-            } role { role_e::PAWN };
-        };
         
         // Start dragging if not already dragging, stop dragging if already dragging
         void set_dragging(bool dragging) noexcept;

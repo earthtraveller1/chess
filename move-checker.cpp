@@ -1,3 +1,7 @@
+#include "piece-manager.hpp"
+#include "piece.hpp"
+#include "piece-position.hpp"
+
 #include "move-checker.hpp"
 
 using chess::move_checker_t;
@@ -7,7 +11,7 @@ move_checker_t::move_checker_t(chess::piece_manager_t& p_piece_manager): m_piece
     
 }
 
-bool move_checker_t::is_move_legal(const piece_manager_t::piece_t& p_piece, const piece_manager_t::piece_position_t& p_original_position)
+bool move_checker_t::is_move_legal(const piece_t& p_piece, const piece_position_t& p_original_position)
 {
     // Prevent capturing of allies
     if (!(m_piece_manager.m_pieces[p_piece.position.column][p_piece.position.row].is_empty) && m_piece_manager.m_pieces[p_piece.position.column][p_piece.position.row].army == p_piece.army)
@@ -16,7 +20,7 @@ bool move_checker_t::is_move_legal(const piece_manager_t::piece_t& p_piece, cons
     }
     
     // Only knights can jump over pieces
-    if (!is_space_in_between_empty(p_piece.position, p_original_position) && (p_piece.role != piece_manager_t::piece_t::role_e::KNIGHT))
+    if (!is_space_in_between_empty(p_piece.position, p_original_position) && (p_piece.role != piece_t::role_e::KNIGHT))
     {
         return false;
     }
@@ -24,7 +28,7 @@ bool move_checker_t::is_move_legal(const piece_manager_t::piece_t& p_piece, cons
     // Different pieces have different moving rules.
     switch (p_piece.role)
     {
-        case piece_manager_t::piece_t::role_e::ROOK:
+        case piece_t::role_e::ROOK:
             return 
             (
                 (
@@ -35,7 +39,7 @@ bool move_checker_t::is_move_legal(const piece_manager_t::piece_t& p_piece, cons
                     p_piece.position.row == p_original_position.row
                 )
             );
-        case piece_manager_t::piece_t::role_e::BISHOP:
+        case piece_t::role_e::BISHOP:
             return 
             (
                 std::abs
@@ -48,7 +52,7 @@ bool move_checker_t::is_move_legal(const piece_manager_t::piece_t& p_piece, cons
                     p_piece.position.row - p_original_position.row
                 )
             );
-        case piece_manager_t::piece_t::role_e::KNIGHT:
+        case piece_t::role_e::KNIGHT:
             return 
             (
                 (
@@ -83,7 +87,7 @@ bool move_checker_t::is_move_legal(const piece_manager_t::piece_t& p_piece, cons
                     )
                 )
             );
-        case piece_manager_t::piece_t::role_e::KING:
+        case piece_t::role_e::KING:
             return 
             (
                 (
@@ -100,7 +104,7 @@ bool move_checker_t::is_move_legal(const piece_manager_t::piece_t& p_piece, cons
                     ) <= 1
                 )
             );
-        case piece_manager_t::piece_t::role_e::QUEEN:
+        case piece_t::role_e::QUEEN:
             return 
             (
                 (
@@ -125,16 +129,16 @@ bool move_checker_t::is_move_legal(const piece_manager_t::piece_t& p_piece, cons
                     )
                 )
             );
-        case piece_manager_t::piece_t::role_e::PAWN:
+        case piece_t::role_e::PAWN:
             return is_pawn_move_legal(p_piece, p_original_position);
         default:
             return true;
     }
 }
 
-bool move_checker_t::is_pawn_move_legal(const piece_manager_t::piece_t& p_piece, const piece_manager_t::piece_position_t& p_original_position)
+bool move_checker_t::is_pawn_move_legal(const piece_t& p_piece, const piece_position_t& p_original_position)
 {
-    if (p_piece.army == piece_manager_t::piece_t::army_e::WHITE)
+    if (p_piece.army == piece_t::army_e::WHITE)
     {
         if ((p_piece.position.row == (p_original_position.row - 1)) || (!p_piece.has_moved && (p_piece.position.row == (p_original_position.row - 2))))
         {
@@ -155,7 +159,7 @@ bool move_checker_t::is_pawn_move_legal(const piece_manager_t::piece_t& p_piece,
             return false;
         }
     }
-    else if (p_piece.army == piece_manager_t::piece_t::army_e::BLACK)
+    else if (p_piece.army == piece_t::army_e::BLACK)
     {
         if ((p_piece.position.row == (p_original_position.row + 1)) || (!p_piece.has_moved && (p_piece.position.row == (p_original_position.row - 2))))
         {
@@ -182,7 +186,7 @@ bool move_checker_t::is_pawn_move_legal(const piece_manager_t::piece_t& p_piece,
     }
 }
 
-bool move_checker_t::is_space_in_between_empty(const piece_manager_t::piece_position_t& p_a, const piece_manager_t::piece_position_t& p_b)
+bool move_checker_t::is_space_in_between_empty(const piece_position_t& p_a, const piece_position_t& p_b)
 {
     if (p_a.row == p_b.row)
     {
@@ -238,8 +242,8 @@ bool move_checker_t::is_space_in_between_empty(const piece_manager_t::piece_posi
     }
     else 
     {
-        piece_manager_t::piece_position_t a;
-        piece_manager_t::piece_position_t b;
+        piece_position_t a;
+        piece_position_t b;
         
         if (p_a.row > p_b.row)
         {
