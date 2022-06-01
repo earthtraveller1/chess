@@ -242,36 +242,54 @@ bool move_checker_t::is_space_in_between_empty(const piece_position_t& p_a, cons
     }
     else 
     {
-        piece_position_t a;
-        piece_position_t b;
+        piece_position_t a {};
+        piece_position_t b {};
         
-        if (p_a.row > p_b.row)
+        if ((p_a.row > p_b.row) && (p_a.column < p_b.column))
         {
-            a.row = p_b.row;
-            b.row = p_a.row;
-        }
-        else 
-        {
-            a.row = p_a.row;
-            b.row = p_b.row;
-        }
-        
-        if (p_a.column > p_b.column)
-        {
-            a.column = p_b.column;
-            b.column = p_a.column;
-        }
-        else 
-        {
-            a.column = p_a.column;
-            b.column = p_b.column;
-        }
-        
-        for (auto i { a.column + 1 }, j { a.row + 1}; i < b.column, j < b.row; i++, j++)
-        {
-            if (!(m_piece_manager.m_pieces[i][j].is_empty))
+            a = p_a;
+            b = p_b;
+            
+            for (auto i { a.column + 1 }, j { a.row - 1}; i > b.column, j < b.row; i--, j++)
             {
-                return false;
+                if (!(m_piece_manager.m_pieces[i][j].is_empty))
+                {
+                    return false;
+                }
+            }
+        }
+        else if ((p_a.column > p_b.column) && (p_a.row < p_b.row))
+        {
+            a = p_a;
+            b = p_b;
+            
+            for (auto i { a.column - 1 }, j { a.row + 1}; i < b.column, j < b.row; i--, j++)
+            {
+                if (!(m_piece_manager.m_pieces[i][j].is_empty))
+                {
+                    return false;
+                }
+            }
+        }
+        else 
+        {
+            if (p_a.row > p_b.row)
+            {
+                a = p_b;
+                b = p_a;
+            }
+            else 
+            {
+                a = p_a;
+                b = p_b;
+            }
+            
+            for (auto i { a.column + 1 }, j { a.row + 1}; i < b.column, j < b.row; i++, j++)
+            {
+                if (!(m_piece_manager.m_pieces[i][j].is_empty))
+                {
+                    return false;
+                }
             }
         }
         
