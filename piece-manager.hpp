@@ -25,19 +25,6 @@ namespace chess
             }
         };
         
-        // Start dragging if not already dragging, stop dragging if already dragging
-        void set_dragging(bool dragging) noexcept;
-        
-        // Update the mouse position (needed for dragging)
-        void update_mouse_position(double x, double y);
-        
-        // Render the pieces
-        void render_pieces();
-        
-    private:
-        // The renderer used to render the stuff.
-        renderer_t m_renderer;
-        
         // A piece
         struct piece_t
         {
@@ -61,6 +48,19 @@ namespace chess
                 PAWN = 0, ROOK, KNIGHT, BISHOP, QUEEN, KING
             } role { role_e::PAWN };
         };
+        
+        // Start dragging if not already dragging, stop dragging if already dragging
+        void set_dragging(bool dragging) noexcept;
+        
+        // Update the mouse position (needed for dragging)
+        void update_mouse_position(double x, double y);
+        
+        // Render the pieces
+        void render_pieces();
+        
+    private:
+        // The renderer used to render the stuff.
+        renderer_t m_renderer;
         
         // Dragging information
         bool m_is_dragging;
