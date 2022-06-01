@@ -33,6 +33,7 @@ void piece_manager_t::set_dragging(bool p_dragging) noexcept
         if (is_move_legal(m_dragged_piece, previous_position))
         {
             m_pieces[new_piece_x][new_piece_y] = m_dragged_piece;
+            m_pieces[new_piece_x][new_piece_y].has_moved = true;
         }
         else 
         {

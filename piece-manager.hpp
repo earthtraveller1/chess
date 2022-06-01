@@ -46,6 +46,9 @@ namespace chess
             // Is the piece empty?
             bool is_empty { true };
             
+            // Has the peice moved at all yet?
+            bool has_moved { false };
+            
             piece_position_t position;
             
             enum class army_e
