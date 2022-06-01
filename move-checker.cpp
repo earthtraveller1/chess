@@ -161,7 +161,7 @@ bool move_checker_t::is_pawn_move_legal(const piece_t& p_piece, const piece_posi
     }
     else if (p_piece.army == piece_t::army_e::BLACK)
     {
-        if ((p_piece.position.row == (p_original_position.row + 1)) || (!p_piece.has_moved && (p_piece.position.row == (p_original_position.row - 2))))
+        if ((p_piece.position.row == (p_original_position.row + 1)) || (!p_piece.has_moved && (p_piece.position.row == (p_original_position.row + 2))))
         {
             if ((p_piece.position.column == p_original_position.column) && m_piece_manager.get_piece(p_piece.position).is_empty)
             {
