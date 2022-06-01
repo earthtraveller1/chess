@@ -4,12 +4,15 @@
 #include <array>
 
 #include "renderer.hpp"
+#include "move-checker.hpp"
 
 namespace chess
 {
     class piece_manager_t
     {
     public:
+        friend class move_checker_t;
+        
         // Constructor
         piece_manager_t();
         
@@ -72,6 +75,9 @@ namespace chess
         // A 2D array representing the entire array of pieces on the board.
         std::array<std::array<piece_t, 8>, 8> m_pieces;
         
+        // The object that's responsible for checking moves.
+        move_checker_t m_move_checker;
+        
         // Get a piece from a specific location on the board
         inline piece_t& get_piece(const piece_position_t& position)
         {
@@ -83,15 +89,6 @@ namespace chess
         
         // Utility function for drawing dragged piece
         void draw_dragged_piece();
-        
-        // Validate the move of a pawn (moved to a function since it's mechanic is so complicated)
-        bool is_pawn_move_legal(piece_t::army_e army, bool has_moved, const piece_position_t& current_position, const piece_position_t& previous_position);
-        
-        // Returns if the specified move is legal or not.
-        bool is_move_legal(const piece_t& piece, const piece_position_t& previous_position);
-        
-        // Returns if there's any non-empty pieces between two positions
-        bool check_space_in_between(const piece_position_t& a, const piece_position_t& b);
         
         // Put pieces back into their starting place.
         void put_pieces_to_starting_place();
