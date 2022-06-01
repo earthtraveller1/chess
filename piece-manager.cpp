@@ -186,13 +186,13 @@ void piece_manager_t::draw_dragged_piece()
     m_renderer.draw_quad(piece);
 }
 
-bool piece_manager_t::is_pawn_move_legal(piece_t::army_e p_army, const piece_position_t& p_current_position, const piece_position_t& p_original_position)
+bool piece_manager_t::is_pawn_move_legal(piece_t::army_e p_army, bool p_has_moved, const piece_position_t& p_current_position, const piece_position_t& p_original_position)
 {
     if (p_army == piece_t::army_e::WHITE)
     {
-        if ((p_current_position.row == (p_original_position.row - 1)))
+        if ((p_current_position.row == (p_original_position.row - 1)) || (!p_has_moved && (p_current_position.row == (p_original_position.row - 2))))
         {
-            if (p_current_position.column == p_original_position.column)
+            if ((p_current_position.column == p_original_position.column) && get_piece(p_current_position).is_empty)
             {
                 return true;
             }
@@ -211,9 +211,9 @@ bool piece_manager_t::is_pawn_move_legal(piece_t::army_e p_army, const piece_pos
     }
     else if (p_army == piece_t::army_e::BLACK)
     {
-        if ((p_current_position.row == (p_original_position.row + 1)))
+        if ((p_current_position.row == (p_original_position.row + 1)) || (!p_has_moved && (p_current_position.row == (p_original_position.row - 2))))
         {
-            if (p_current_position.column == p_original_position.column)
+            if ((p_current_position.column == p_original_position.column) && get_piece(p_current_position).is_empty)
             {
                 return true;
             }
@@ -355,7 +355,7 @@ bool piece_manager_t::is_move_legal(const piece_t& p_piece, const piece_position
                 )
             );
         case piece_t::role_e::PAWN:
-            return is_pawn_move_legal(p_piece.army, p_piece.position, p_original_position);
+            return is_pawn_move_legal(p_piece.army, p_piece.has_moved, p_piece.position, p_original_position);
         default:
             return true;
     }

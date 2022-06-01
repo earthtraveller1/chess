@@ -85,7 +85,7 @@ namespace chess
         void draw_dragged_piece();
         
         // Validate the move of a pawn (moved to a function since it's mechanic is so complicated)
-        bool is_pawn_move_legal(piece_t::army_e army, const piece_position_t& current_position, const piece_position_t& previous_position);
+        bool is_pawn_move_legal(piece_t::army_e army, bool has_moved, const piece_position_t& current_position, const piece_position_t& previous_position);
         
         // Returns if the specified move is legal or not.
         bool is_move_legal(const piece_t& piece, const piece_position_t& previous_position);
