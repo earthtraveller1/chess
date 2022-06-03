@@ -25,19 +25,8 @@ void piece_manager_t::set_dragging(bool p_dragging) noexcept
         // Keep the old position for validation purposes
         auto previous_position = m_dragged_piece.position;
         
-        uint8_t new_piece_x {static_cast<uint8_t>(0)};
-        uint8_t new_piece_y {static_cast<uint8_t>(0)};
-        
-        if (m_flipped)
-        {
-            new_piece_x = m_cursor_x;
-            new_piece_y = m_cursor_y;
-        }
-        else 
-        {
-            new_piece_x = m_cursor_x;
-            new_piece_y = m_cursor_y + 1;
-        }
+        auto new_piece_x {static_cast<uint8_t>(m_cursor_x)};
+        auto new_piece_y {static_cast<uint8_t>(m_cursor_y)};
         
         m_dragged_piece.position = { new_piece_x, new_piece_y };
         
@@ -45,6 +34,7 @@ void piece_manager_t::set_dragging(bool p_dragging) noexcept
         {
             m_pieces[new_piece_x][new_piece_y] = m_dragged_piece;
             m_pieces[new_piece_x][new_piece_y].has_moved = true;
+            m_flipped = !m_flipped;
         }
         else 
         {
@@ -54,26 +44,14 @@ void piece_manager_t::set_dragging(bool p_dragging) noexcept
         }
         
         m_dragged_piece.is_empty = true;
-        
         m_is_dragging = false;
     }
     else 
     {
-        auto dragged_piece_x { static_cast<uint8_t>(0) };
-        auto dragged_piece_y { static_cast<uint8_t>(0) };
+        auto dragged_piece_x { static_cast<uint8_t>(m_cursor_x) };
+        auto dragged_piece_y { static_cast<uint8_t>(m_cursor_y) };
         
-        if (m_flipped)
-        {
-            dragged_piece_x = m_cursor_x;
-            dragged_piece_y = m_cursor_y;
-        }
-        else 
-        {
-            dragged_piece_x = m_cursor_x;
-            dragged_piece_y = m_cursor_y + 1;
-        }
-        
-        if (m_pieces[dragged_piece_x][dragged_piece_y].is_empty)
+        if ((m_pieces[dragged_piece_x][dragged_piece_y].is_empty) || (m_pieces[dragged_piece_x][dragged_piece_y].army == piece_t::army_e::BLACK && !m_flipped) || (m_pieces[dragged_piece_x][dragged_piece_y].army == piece_t::army_e::WHITE && m_flipped))
         {
             return;
         }
