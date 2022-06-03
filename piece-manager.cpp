@@ -25,18 +25,18 @@ void piece_manager_t::set_dragging(bool p_dragging) noexcept
         // Keep the old position for validation purposes
         auto previous_position = m_dragged_piece.position;
         
-        uint8_t new_piece_x {};
-        uint8_t new_piece_y {};
+        uint8_t new_piece_x {static_cast<uint8_t>(0)};
+        uint8_t new_piece_y {static_cast<uint8_t>(0)};
         
         if (m_flipped)
         {
-            new_piece_x = static_cast<uint8_t>(m_cursor_x) - 1;
-            new_piece_y = static_cast<uint8_t>(m_cursor_y) - 1;
+            new_piece_x = m_cursor_x;
+            new_piece_y = m_cursor_y;
         }
         else 
         {
-            new_piece_x = static_cast<uint8_t>(m_cursor_x);
-            new_piece_y = static_cast<uint8_t>(m_cursor_y);
+            new_piece_x = m_cursor_x;
+            new_piece_y = m_cursor_y + 1;
         }
         
         m_dragged_piece.position = { new_piece_x, new_piece_y };
@@ -59,8 +59,19 @@ void piece_manager_t::set_dragging(bool p_dragging) noexcept
     }
     else 
     {
-        auto dragged_piece_x { static_cast<uint8_t>(m_cursor_x) };
-        auto dragged_piece_y { static_cast<uint8_t>(m_cursor_y) };
+        auto dragged_piece_x { static_cast<uint8_t>(0) };
+        auto dragged_piece_y { static_cast<uint8_t>(0) };
+        
+        if (m_flipped)
+        {
+            dragged_piece_x = m_cursor_x;
+            dragged_piece_y = m_cursor_y;
+        }
+        else 
+        {
+            dragged_piece_x = m_cursor_x;
+            dragged_piece_y = m_cursor_y + 1;
+        }
         
         if (m_pieces[dragged_piece_x][dragged_piece_y].is_empty)
         {
@@ -96,7 +107,7 @@ void piece_manager_t::update_mouse_position(double p_x, double p_y)
 {
     if (m_flipped)
     {
-        m_cursor_y = flip(p_y, 3.5);
+        m_cursor_y = flip(p_y, 4.0);
     }
     else 
     {
@@ -118,7 +129,7 @@ void piece_manager_t::render_pieces()
             {
                 piece_t piece = get_piece({ i, j });
                 piece.position.row = flip(piece.position.row, 3.5);
-                piece.position.column = flip(piece.position.column, 3.5);
+                piece.position.column = piece.position.column;
                 
                 draw_piece(piece);
             } else 
@@ -193,7 +204,18 @@ void piece_manager_t::draw_dragged_piece()
     }
     
     renderer_t::quad_t piece {};
-    piece.position = { static_cast<float>(m_cursor_x - 0.5), static_cast<float>(m_cursor_y - 0.5) };
+    
+    if (m_flipped)
+    {
+        piece.position.x = static_cast<float>(m_cursor_x - 0.5);
+        piece.position.y = static_cast<float>(flip(m_cursor_y + 0.5, 4));
+    }
+    else 
+    {
+        piece.position.x = static_cast<float>(m_cursor_x - 0.5);
+        piece.position.y = static_cast<float>(m_cursor_y - 0.5);
+    }
+    
     piece.size = { 1.0f, 1.0f };
     
     piece.uv.position = { 0.0f, 0.0f };
