@@ -25,6 +25,57 @@ bool move_checker_t::is_move_legal(const piece_t& p_piece, const piece_position_
         return false;
     }
     
+    // Check if the move results in the king becoming checked
+    if (p_check_for_check)
+    {
+        // Create a copy of the piece positions
+        auto old_piece_positions { m_piece_manager.m_pieces };
+        
+        // Perform the move.
+        m_piece_manager.get_piece(p_piece.position) = p_piece;
+        
+        auto result { true };
+        
+        // Get the king
+        piece_t king {};
+        
+        for (auto& column: m_piece_manager.m_pieces)
+        {
+            for (auto& piece: column)
+            {
+                if (piece.army == p_piece.army && piece.role == piece_t::role_e::KING)
+                {
+                    king = piece;
+                }
+            }
+        }
+        
+        // Check if any of enemy pieces can capture the king
+        for (auto& column: m_piece_manager.m_pieces)
+        {
+            for (auto piece: column)
+            {
+                if (piece.army != p_piece.army)
+                {
+                    auto origina_piece_position { piece.position };
+                    piece.position = king.position;
+                    
+                    if (is_move_legal(piece, origina_piece_position, false))
+                    {
+                        result = false;
+                    }
+                }
+            }
+        }
+        
+        m_piece_manager.m_pieces = old_piece_positions;
+        
+        if (!result)
+        {
+            return false;
+        }
+    }
+    
     // Different pieces have different moving rules.
     switch (p_piece.role)
     {
@@ -184,6 +235,11 @@ bool move_checker_t::is_pawn_move_legal(const piece_t& p_piece, const piece_posi
     {
         return false;
     }
+}
+
+static void debug_break()
+{
+    return;
 }
 
 bool move_checker_t::is_space_in_between_empty(const piece_position_t& p_a, const piece_position_t& p_b)
