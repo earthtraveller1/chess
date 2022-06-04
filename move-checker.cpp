@@ -11,7 +11,7 @@ move_checker_t::move_checker_t(chess::piece_manager_t& p_piece_manager): m_piece
     
 }
 
-bool move_checker_t::is_move_legal(const piece_t& p_piece, const piece_position_t& p_original_position)
+bool move_checker_t::is_move_legal(const piece_t& p_piece, const piece_position_t& p_original_position, bool p_check_for_check)
 {
     // Prevent capturing of allies
     if (!(m_piece_manager.m_pieces[p_piece.position.column][p_piece.position.row].is_empty) && m_piece_manager.m_pieces[p_piece.position.column][p_piece.position.row].army == p_piece.army)

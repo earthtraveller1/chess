@@ -15,7 +15,7 @@ namespace chess
         move_checker_t(piece_manager_t& piece_manager);
         
         // Returns if the move is legal or not.
-        bool is_move_legal(const piece_t& piece, const piece_position_t& previous_position);
+        bool is_move_legal(const piece_t& piece, const piece_position_t& previous_position, bool check_for_check = true);
         
     private:
         // The piece manager for reference purposes
