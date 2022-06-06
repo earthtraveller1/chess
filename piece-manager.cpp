@@ -1,10 +1,14 @@
 #include <cmath>
+#include "board.hpp"
 
 #include "piece-manager.hpp"
 
 using chess::piece_manager_t;
 
-piece_manager_t::piece_manager_t(): m_renderer { 64, "renderer-shader.vert", "piece-shader.frag" }, m_move_checker { *this }
+piece_manager_t::piece_manager_t(board_t& p_board): 
+    m_renderer { 64, "renderer-shader.vert", "piece-shader.frag" }, 
+    m_board { p_board },
+    m_move_checker { *this }
 {
     // Load the textures.
     m_renderer.set_texture("pawn.png", 0);
@@ -35,6 +39,7 @@ void piece_manager_t::set_dragging(bool p_dragging) noexcept
             m_pieces[new_piece_x][new_piece_y] = m_dragged_piece;
             m_pieces[new_piece_x][new_piece_y].has_moved = true;
             m_flipped = !m_flipped;
+            m_board.set_flipped(m_flipped);
         }
         else 
         {

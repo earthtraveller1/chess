@@ -10,13 +10,15 @@
 
 namespace chess
 {
+    class board_t;
+    
     class piece_manager_t
     {
     public:
         friend class move_checker_t;
         
         // Constructor
-        piece_manager_t();
+        piece_manager_t(board_t& board);
         
         // Start dragging if not already dragging, stop dragging if already dragging
         void set_dragging(bool dragging) noexcept;
@@ -34,6 +36,9 @@ namespace chess
     private:
         // The renderer used to render the stuff.
         renderer_t m_renderer;
+        
+        // The board that the pieces sits on
+        board_t& m_board;
         
         // Dragging information
         bool m_is_dragging;

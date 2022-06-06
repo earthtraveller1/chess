@@ -66,7 +66,9 @@ application_t::context_debugger::context_debugger()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
-application_t::application_t(): m_window(window_t::get_instance())
+application_t::application_t(): 
+    m_window(window_t::get_instance()),
+    m_piece_manager(m_board)
 {
     piece_manager = &m_piece_manager;
     

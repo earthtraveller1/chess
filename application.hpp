@@ -37,9 +37,9 @@ namespace chess
             context_debugger();
         } m_context_debugger;
         
-        piece_manager_t m_piece_manager;
-        
         board_t m_board;
+        
+        piece_manager_t m_piece_manager;
     };
 }
 
