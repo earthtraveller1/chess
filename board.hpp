@@ -1,6 +1,8 @@
 #ifndef E942771D_AF05_461C_B90D_C920CF1D3BAF
 #define E942771D_AF05_461C_B90D_C920CF1D3BAF
 
+#include <cstdint>
+
 namespace chess
 {
     class board_t
