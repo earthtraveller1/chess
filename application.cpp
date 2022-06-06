@@ -10,10 +10,13 @@ using chess::application_t;
 
 namespace 
 {
-    chess::piece_manager_t* piece_manager = nullptr;
+    chess::piece_manager_t* piece_manager { nullptr };
     
     void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
     {
+        UNUSED_PARAM(window);
+        UNUSED_PARAM(mods);
+        
         if (piece_manager != nullptr)
         {
             if (button == GLFW_MOUSE_BUTTON_LEFT)
@@ -26,11 +29,6 @@ namespace
                 {
                     piece_manager->set_dragging(false);
                 }
-            }
-            else if (button == GLFW_MOUSE_BUTTON_RIGHT)
-            {
-                std::cout << "hello" << std::endl;
-                piece_manager->set_board_orientation(true);
             }
         }
     }
@@ -71,6 +69,7 @@ application_t::context_debugger::context_debugger()
 application_t::application_t(): m_window(window_t::get_instance())
 {
     piece_manager = &m_piece_manager;
+    board = &m_board;
     
     m_window.set_mouse_button_event_handler(mouse_button_callback);
     m_window.set_mouse_position_event_handler(cursor_pos_callback);
