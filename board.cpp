@@ -122,7 +122,7 @@ void board_t::render()
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, nullptr);
 }
 
-void board_t::set_flipped(bool p_is_flipped)
+void board_t::set_flipped(bool p_is_flipped) noexcept
 {
     glUseProgram(m_shader_program);
     auto uniform_location { glGetUniformLocation(m_shader_program, "flipped") };
