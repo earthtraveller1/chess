@@ -69,7 +69,6 @@ application_t::context_debugger::context_debugger()
 application_t::application_t(): m_window(window_t::get_instance())
 {
     piece_manager = &m_piece_manager;
-    board = &m_board;
     
     m_window.set_mouse_button_event_handler(mouse_button_callback);
     m_window.set_mouse_position_event_handler(cursor_pos_callback);
