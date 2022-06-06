@@ -14,6 +14,8 @@ namespace chess
         
         void render();
         
+        void set_flipped(bool is_flipped) noexcept;
+        
         ~board_t();
         
     private:
