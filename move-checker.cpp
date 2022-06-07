@@ -1,6 +1,9 @@
 #include "piece-manager.hpp"
 #include "piece.hpp"
 #include "piece-position.hpp"
+#include <iostream>
+#include <unistd.h>
+#include <signal.h>
 
 #include "move-checker.hpp"
 
@@ -33,6 +36,7 @@ bool move_checker_t::is_move_legal(const piece_t& p_piece, const piece_position_
         
         // Perform the move.
         m_piece_manager.get_piece(p_piece.position) = p_piece;
+        m_piece_manager.get_piece(p_piece.position).is_empty = false;
         
         auto result { true };
         
@@ -242,6 +246,8 @@ static void debug_break()
     return;
 }
 
+#define neng if (i == 6 && j == 5) raise(SIGTRAP)
+
 bool move_checker_t::is_space_in_between_empty(const piece_position_t& p_a, const piece_position_t& p_b)
 {
     if (p_a.row == p_b.row)
@@ -262,7 +268,7 @@ bool move_checker_t::is_space_in_between_empty(const piece_position_t& p_a, cons
         
         for (auto i { a + 1 }; i < b; i++)
         {
-            if (!m_piece_manager.m_pieces[i][p_a.row].is_empty)
+            if (!(m_piece_manager.m_pieces[i][p_a.row].is_empty))
             {
                 return false;
             }
@@ -288,7 +294,7 @@ bool move_checker_t::is_space_in_between_empty(const piece_position_t& p_a, cons
         
         for (auto i { a + 1 }; i < b; i++)
         {
-            if (!m_piece_manager.m_pieces[p_a.column][i].is_empty)
+            if (!(m_piece_manager.m_pieces[p_a.column][i].is_empty))
             {
                 return false;
             }
@@ -340,12 +346,18 @@ bool move_checker_t::is_space_in_between_empty(const piece_position_t& p_a, cons
                 b = p_b;
             }
             
+            std::cout << "\nStarting new check.\n";
             for (auto i { a.column + 1 }, j { a.row + 1}; i < b.column, j < b.row; i++, j++)
             {
+                std::cout << i << ", " << j;
+                
                 if (!(m_piece_manager.m_pieces[i][j].is_empty))
                 {
+                    std::cout << " is not empty.\n";
                     return false;
                 }
+                
+                std::cout << "\n";
             }
         }
         
