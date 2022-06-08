@@ -4,6 +4,7 @@
 #include <iostream>
 #include <unistd.h>
 #include <signal.h>
+#include "utilities.hpp"
 
 #include "move-checker.hpp"
 
@@ -47,7 +48,7 @@ bool move_checker_t::is_move_legal(const piece_t& p_piece, const piece_position_
         {
             for (auto& piece: column)
             {
-                if (piece.army == p_piece.army && piece.role == piece_t::role_e::KING)
+                if ((piece.army == p_piece.army) && (piece.role == piece_t::role_e::KING))
                 {
                     king = piece;
                 }
@@ -241,126 +242,46 @@ bool move_checker_t::is_pawn_move_legal(const piece_t& p_piece, const piece_posi
     }
 }
 
-static void debug_break()
-{
-    return;
-}
-
 #define neng if (i == 6 && j == 5) raise(SIGTRAP)
 
 bool move_checker_t::is_space_in_between_empty(const piece_position_t& p_a, const piece_position_t& p_b)
 {
-    if (p_a.row == p_b.row)
+    auto column_increment { static_cast<int8_t>(0) };
+    auto row_increment { static_cast<int8_t>(0) };
+    
+    if (p_b.column == p_a.column)
     {
-        uint8_t a;
-        uint8_t b;
-        
-        if (p_a.column > p_b.column)
-        {
-            a = p_b.column;
-            b = p_a.column;
-        }
-        else 
-        {
-            a = p_a.column;
-            b = p_b.column;
-        }
-        
-        for (auto i { a + 1 }; i < b; i++)
-        {
-            if (!(m_piece_manager.m_pieces[i][p_a.row].is_empty))
-            {
-                return false;
-            }
-        }
-        
-        return true;
+        column_increment = 0;
     }
-    else if (p_a.column == p_b.column)
+    else if (p_b.column > p_a.column)
     {
-        uint8_t a;
-        uint8_t b;
-        
-        if (p_a.row > p_b.row)
-        {
-            a = p_b.row;
-            b = p_a.row;
-        }
-        else 
-        {
-            a = p_a.row;
-            b = p_b.row;
-        }
-        
-        for (auto i { a + 1 }; i < b; i++)
-        {
-            if (!(m_piece_manager.m_pieces[p_a.column][i].is_empty))
-            {
-                return false;
-            }
-        }
-        
-        return true;
+        column_increment = 1;
     }
-    else 
+    else if (p_b.column < p_a.column)
     {
-        piece_position_t a {};
-        piece_position_t b {};
-        
-        if ((p_a.row > p_b.row) && (p_a.column < p_b.column))
-        {
-            a = p_a;
-            b = p_b;
-            
-            for (auto i { a.column + 1 }, j { a.row - 1}; i > b.column, j < b.row; i--, j++)
-            {
-                if (!(m_piece_manager.m_pieces[i][j].is_empty))
-                {
-                    return false;
-                }
-            }
-        }
-        else if ((p_a.column > p_b.column) && (p_a.row < p_b.row))
-        {
-            a = p_a;
-            b = p_b;
-            
-            for (auto i { a.column - 1 }, j { a.row + 1}; i < b.column, j < b.row; i--, j++)
-            {
-                if (!(m_piece_manager.m_pieces[i][j].is_empty))
-                {
-                    return false;
-                }
-            }
-        }
-        else 
-        {
-            if (p_a.row > p_b.row)
-            {
-                a = p_b;
-                b = p_a;
-            }
-            else 
-            {
-                a = p_a;
-                b = p_b;
-            }
-            
-            std::cout << "\nStarting new check.\n";
-            for (auto i { a.column + 1 }, j { a.row + 1}; i < b.column, j < b.row; i++, j++)
-            {
-                std::cout << i << ", " << j;
-                
-                if (!(m_piece_manager.m_pieces[i][j].is_empty))
-                {
-                    std::cout << " is not empty.\n";
-                    return false;
-                }
-                
-                std::cout << "\n";
-            }
-        }
-        
-        return true;
+        column_increment = -1;
     }
+        
+    if (p_b.row == p_a.row)
+    {
+        row_increment = 0;
+    }
+    else if (p_b.row > p_a.row)
+    {
+        row_increment = 1;
+    }
+    else if (p_b.row < p_a.row)
+    {
+        row_increment = -1;
+    }
+    
+    for (auto i { p_a.column + column_increment }, j { p_a.row + row_increment }; (i != p_b.column) && (j != p_b.row); i += column_increment, j += row_increment)
+    {
+        if (!(m_piece_manager.m_pieces[i][j].is_empty))
+        {
+            return false;
+        }
+    }
+    
+    return true;
 }
