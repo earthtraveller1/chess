@@ -17,6 +17,9 @@ namespace chess
         // Returns if the move is legal or not.
         bool is_move_legal(const piece_t& piece, const piece_position_t& previous_position, bool check_for_check = true);
         
+        // Returns if the piece should be promoted
+        bool should_promote(const piece_t& piece) const;
+        
     private:
         // The piece manager for reference purposes
         piece_manager_t& m_piece_manager;

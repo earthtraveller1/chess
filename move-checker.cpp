@@ -192,6 +192,25 @@ bool move_checker_t::is_move_legal(const piece_t& p_piece, const piece_position_
     }
 }
 
+bool move_checker_t::should_promote(const piece_t& p_piece) const
+{
+    if (p_piece.role == piece_t::role_e::PAWN)
+    {
+        if (p_piece.army == piece_t::army_e::WHITE)
+        {
+            return (p_piece.position.row == 7);
+        }
+        else 
+        {
+            return (p_piece.position.row == 0);
+        }
+    }
+    else 
+    {
+        return false;
+    }
+}
+
 bool move_checker_t::is_pawn_move_legal(const piece_t& p_piece, const piece_position_t& p_original_position)
 {
     if (p_piece.army == piece_t::army_e::WHITE)
