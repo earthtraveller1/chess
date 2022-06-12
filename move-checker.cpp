@@ -198,11 +198,11 @@ bool move_checker_t::should_promote(const piece_t& p_piece) const
     {
         if (p_piece.army == piece_t::army_e::WHITE)
         {
-            return (p_piece.position.row == 7);
+            return (p_piece.position.row == 0);
         }
         else 
         {
-            return (p_piece.position.row == 0);
+            return (p_piece.position.row == 7);
         }
     }
     else 
