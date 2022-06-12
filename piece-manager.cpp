@@ -38,6 +38,13 @@ void piece_manager_t::set_dragging(bool p_dragging) noexcept
         {
             m_pieces[new_piece_x][new_piece_y] = m_dragged_piece;
             m_pieces[new_piece_x][new_piece_y].has_moved = true;
+            
+            // If the piece should be promoted, make it a queen.
+            if (m_move_checker.should_promote(m_dragged_piece))
+            {
+                m_pieces[new_piece_x][new_piece_y].role = piece_t::role_e::QUEEN;
+            }
+            
             m_flipped = !m_flipped;
             m_board.set_flipped(m_flipped);
         }
