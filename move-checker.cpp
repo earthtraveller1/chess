@@ -38,6 +38,7 @@ bool move_checker_t::is_move_legal(const piece_t& p_piece, const piece_position_
         // Perform the move.
         m_piece_manager.get_piece(p_piece.position) = p_piece;
         m_piece_manager.get_piece(p_piece.position).is_empty = false;
+        m_piece_manager.get_piece(p_original_position).is_empty = true;
         
         auto result { true };
         
@@ -48,7 +49,7 @@ bool move_checker_t::is_move_legal(const piece_t& p_piece, const piece_position_
         {
             for (auto& piece: column)
             {
-                if ((piece.army == p_piece.army) && (piece.role == piece_t::role_e::KING))
+                if ((piece.army == p_piece.army) && (piece.role == piece_t::role_e::KING) && (!piece.is_empty))
                 {
                     king = piece;
                 }
@@ -60,7 +61,7 @@ bool move_checker_t::is_move_legal(const piece_t& p_piece, const piece_position_
         {
             for (auto piece: column)
             {
-                if (piece.army != p_piece.army)
+                if (piece.army != p_piece.army && !piece.is_empty)
                 {
                     auto origina_piece_position { piece.position };
                     piece.position = king.position;
@@ -265,6 +266,12 @@ bool move_checker_t::is_pawn_move_legal(const piece_t& p_piece, const piece_posi
 
 bool move_checker_t::is_space_in_between_empty(const piece_position_t& p_a, const piece_position_t& p_b)
 {
+    // If the two spaces are adjacent, then return true.
+    if (std::abs(p_a.row - p_b.row) <= 1 && std::abs(p_a.column - p_b.column) <= 1)
+    {
+        return true;
+    }
+    
     auto column_increment { static_cast<int8_t>(0) };
     auto row_increment { static_cast<int8_t>(0) };
     
