@@ -212,7 +212,7 @@ bool move_checker_t::should_promote(const piece_t& p_piece) const
     }
 }
 
-bool move_checker_t::handle_castling(const piece_t& p_piece)
+void move_checker_t::handle_castling(const piece_t& p_piece)
 {
     // The piece being moved has to be a King that has not moved yet.
     if (p_piece.role == piece_t::role_e::KING && !p_piece.has_moved)
@@ -225,7 +225,7 @@ bool move_checker_t::handle_castling(const piece_t& p_piece)
         {
             // The target rook cannot haved moved yet.
             if (m_piece_manager.get_piece({ 7, rook_row }).has_moved)
-                return false;
+                return;
             
             
         }
@@ -235,14 +235,14 @@ bool move_checker_t::handle_castling(const piece_t& p_piece)
         {
             // The target rook cannot haved moved yet.
             if (m_piece_manager.get_piece({ 0, rook_row }).has_moved)
-                return false;
+                return;
             
             
         }
     }
     else 
     {
-        return false;
+        return;
     }
 }
 

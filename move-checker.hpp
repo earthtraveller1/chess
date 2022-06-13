@@ -22,7 +22,7 @@ namespace chess
         
         // Checks if the move should result in castling and automatically cast-
         // le if yes.
-        bool handle_castling(const piece_t& piece);
+        void handle_castling(const piece_t& piece);
         
     private:
         // The piece manager for reference purposes
