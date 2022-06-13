@@ -212,6 +212,40 @@ bool move_checker_t::should_promote(const piece_t& p_piece) const
     }
 }
 
+bool move_checker_t::handle_castling(const piece_t& p_piece)
+{
+    // The piece being moved has to be a King that has not moved yet.
+    if (p_piece.role == piece_t::role_e::KING && !p_piece.has_moved)
+    {
+        // Determine the row of the rook.
+        auto rook_row { p_piece.army == piece_t::army_e::WHITE ? static_cast<uint8_t>(7) : static_cast<uint8_t>(0) };
+        
+        // King-side castling
+        if (p_piece.position.column == 6)
+        {
+            // The target rook cannot haved moved yet.
+            if (m_piece_manager.get_piece({ 7, rook_row }).has_moved)
+                return false;
+            
+            
+        }
+        
+        // Queen-side castling
+        else if (p_piece.position.column == 2)
+        {
+            // The target rook cannot haved moved yet.
+            if (m_piece_manager.get_piece({ 0, rook_row }).has_moved)
+                return false;
+            
+            
+        }
+    }
+    else 
+    {
+        return false;
+    }
+}
+
 bool move_checker_t::is_pawn_move_legal(const piece_t& p_piece, const piece_position_t& p_original_position)
 {
     if (p_piece.army == piece_t::army_e::WHITE)

@@ -20,6 +20,10 @@ namespace chess
         // Returns if the piece should be promoted
         bool should_promote(const piece_t& piece) const;
         
+        // Checks if the move should result in castling and automatically cast-
+        // le if yes.
+        bool handle_castling(const piece_t& piece);
+        
     private:
         // The piece manager for reference purposes
         piece_manager_t& m_piece_manager;
