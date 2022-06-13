@@ -43,7 +43,7 @@ bool move_checker_t::is_move_legal(const piece_t& p_piece, const piece_position_
         auto result { true };
         
         // Get the king
-        piece_t king {};
+        piece_position_t king {};
         
         for (auto& column: m_piece_manager.m_pieces)
         {
@@ -51,28 +51,13 @@ bool move_checker_t::is_move_legal(const piece_t& p_piece, const piece_position_
             {
                 if ((piece.army == p_piece.army) && (piece.role == piece_t::role_e::KING) && (!piece.is_empty))
                 {
-                    king = piece;
+                    king = piece.position;
                 }
             }
         }
         
         // Check if any of enemy pieces can capture the king
-        for (auto& column: m_piece_manager.m_pieces)
-        {
-            for (auto piece: column)
-            {
-                if (piece.army != p_piece.army && !piece.is_empty)
-                {
-                    auto origina_piece_position { piece.position };
-                    piece.position = king.position;
-                    
-                    if (is_move_legal(piece, origina_piece_position, false))
-                    {
-                        result = false;
-                    }
-                }
-            }
-        }
+        is_space_attacked(king, p_piece.army == piece_t::army_e::WHITE ? piece_t::army_e::WHITE : piece_t::army_e::BLACK);
         
         m_piece_manager.m_pieces = old_piece_positions;
         
