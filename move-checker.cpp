@@ -345,3 +345,26 @@ bool move_checker_t::is_space_in_between_empty(const piece_position_t& p_a, cons
     
     return true;
 }
+
+bool move_checker_t::is_space_attacked(const piece_position_t& p_position, piece_t::army_e p_enemy_army)
+{
+    for (const auto& column: m_piece_manager.m_pieces)
+    {
+        for (const auto& i_piece: column)
+        {
+            if (i_piece.army == p_enemy_army)
+            {
+                auto piece { i_piece };
+                auto original_position { i_piece.position };
+                piece.position = p_position;
+                
+                if (is_move_legal(piece, original_position))
+                {
+                    return false;
+                }
+            }
+        }
+    }
+    
+    return true;
+}

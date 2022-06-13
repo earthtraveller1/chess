@@ -34,6 +34,9 @@ namespace chess
         
         // Check if there's any non-empty pieces between two positons.
         bool is_space_in_between_empty(const piece_position_t& a, const piece_position_t& b);
+        
+        // Check if a specific position is attacked by any enemy pieces
+        bool is_space_attacked(const piece_position_t& position, piece_t::army_e enemy_army);
     };
 }
 
