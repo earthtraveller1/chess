@@ -1,6 +1,8 @@
 #ifndef D693ECB4_1C50_4E02_9987_E164647B99BF
 #define D693ECB4_1C50_4E02_9987_E164647B99BF
 
+#include "piece.hpp"
+
 namespace chess
 {
     class piece_manager_t;
