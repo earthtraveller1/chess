@@ -1,0 +1,15 @@
+name: build
+on: [ push ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: 'true'
+      - name: Install dependency
+        run: sudo apt install libglfw-dev
+      - name: Configure CMake
+        run: cmake ${{github.workspace}}
+      - name: Build
+        run: cmake --build ${{github.workspace}}
