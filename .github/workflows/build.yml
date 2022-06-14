@@ -8,7 +8,7 @@ jobs:
         with:
           submodules: 'true'
       - name: Install dependency
-        run: sudo apt install libglfw-dev
+        run: sudo apt install libglfw3-dev
       - name: Configure CMake
         run: cmake ${{github.workspace}}
       - name: Build
