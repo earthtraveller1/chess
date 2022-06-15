@@ -13,11 +13,11 @@ jobs:
           submodules: 'true'
       
       - name: Install dependency
-        if: ${{ matrix.so == ubuntu-latest }}
+        if: ${{ matrix.so == 'ubuntu-latest' }}
         run: sudo apt install libglfw3-dev
         
       - name: Configure dependency
-        if: ${{ matrix.os == windows-latest && matrix.so != ubuntu-latest }}
+        if: ${{ matrix.os == 'windows-latest' }}
         run: cmake ${{ github.workspace }}/deps/glfw -B ${{ github.workspace }}/deps/glfw/build -D GLFW_BUILD_TESTS=false -D GLFW_BUILD_EXAMPLES=false
       
       - name: Configure CMake
