@@ -5,6 +5,7 @@
 #include "option-loader.hpp"
 
 using chess::option_loader_t;
+using namespace std::string_literals;
 
 namespace 
 {
@@ -16,12 +17,28 @@ namespace
     
     option_t process_option(std::string_view p_line)
     {
-        std::string name;
+        auto name { ""s };
         
         for (auto character: p_line)
         {
-            
+            if (character == '=')
+            {
+                break;
+            }
+            else 
+            {
+                name += character;
+            }
         }
+        
+        auto value { ""s };
+        
+        for (auto i { p_line.find_first_of("=") + 1 }; i < p_line.size(); i++)
+        {
+            value += p_line[i];
+        }
+        
+        return { name, value };
     }
 }
 
@@ -33,7 +50,7 @@ option_loader_t::option_loader_t(std::string_view p_file)
     // Use default options if the option file doesn't exist.
     if (raw == "")
     {
-        m_options.at("flip_board_on_move") = "false";
+        m_options["flip_board_on_move"] = "false";
         return;
     }
     
@@ -41,6 +58,11 @@ option_loader_t::option_loader_t(std::string_view p_file)
     
     while (!stream.eof())
     {
+        auto line { ""s };
+        std::getline(stream, line);
         
+        auto option { process_option(line) };
+        
+        m_options[option.name] = option.value;
     }
 }
