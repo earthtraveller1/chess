@@ -11,13 +11,17 @@ jobs:
       - uses: actions/checkout@v3
         with:
           submodules: 'true'
+      
       - name: Install dependency
-        run: sudo apt install libglfw3-dev
         if: ${{ matrix.so }} == ubuntu-latest
+        run: sudo apt install libglfw3-dev
+        
       - name: Configure dependency
-        run: cmake ${{ github.workspace }}/deps/glfw -B ${{ github.workspace }}/deps/glfw/build -D GLFW_BUILD_TESTS=false -D GLFW_BUILD_EXAMPLES=false
         if: ${{ matrix.os }} == windows-latest
+        run: cmake ${{ github.workspace }}/deps/glfw -B ${{ github.workspace }}/deps/glfw/build -D GLFW_BUILD_TESTS=false -D GLFW_BUILD_EXAMPLES=false
+      
       - name: Configure CMake
         run: cmake ${{github.workspace}}
+      
       - name: Build
         run: cmake --build ${{github.workspace}}
