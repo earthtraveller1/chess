@@ -2,13 +2,21 @@ name: build
 on: [ push ]
 jobs:
   build:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, windows-latest ]
+    
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
         with:
           submodules: 'true'
       - name: Install dependency
         run: sudo apt install libglfw3-dev
+        if: ${{ matrix.so }} == ubuntu-latest
+      - name: Configure dependency
+        run: cmake ${{ github.workspace }}/deps/glfw -B ${{ github.workspace }}/deps/glfw/build -D GLFW_BUILD_TESTS=false -D GLFW_BUILD_EXAMPLES=false
+        if: ${{ matrix.os }} == windows-latest
       - name: Configure CMake
         run: cmake ${{github.workspace}}
       - name: Build
