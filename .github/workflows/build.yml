@@ -20,6 +20,10 @@ jobs:
         if: ${{ matrix.os == 'windows-latest' }}
         run: cmake ${{ github.workspace }}/deps/glfw -B ${{ github.workspace }}/deps/glfw/build -D GLFW_BUILD_TESTS=false -D GLFW_BUILD_EXAMPLES=false
       
+      - name: Build dependecy
+        if: matrix.os == 'windows-latest'
+        run: cmake --build ${{ github.workspace }}/deps/glfw/build
+      
       - name: Configure CMake
         run: cmake ${{github.workspace}}
       
