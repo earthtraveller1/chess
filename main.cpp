@@ -4,6 +4,7 @@
 
 #include "application.hpp"
 #include "utilities.hpp"
+#include "option-loader.hpp"
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -33,11 +34,24 @@ namespace
     }
 }
 
+#if 0
+int main()
+{
+    chess::option_loader_t options { "options.txt" };
+    
+    std::cout << "This thing is set to: " << options.get_option_value("flip_board_on_move") << "\n";
+    
+    return 0;
+}
+#endif
+
+//#if 0
 int main()
 {
     std::cout << "[INFO]: Hello!\n";
     return run();
 }
+//#endif
 
 #ifdef _WIN32
 int WINAPI wWinMain(HINSTANCE p_instance, HINSTANCE, LPWSTR p_command_line_arguments, int p_show_command)
