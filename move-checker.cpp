@@ -72,7 +72,10 @@ bool move_checker_t::is_move_legal(const piece_t& p_piece, const piece_position_
         }
         
         // Check if any of enemy pieces can capture the king
-        is_space_attacked(king, (p_piece.army == piece_t::army_e::WHITE ? piece_t::army_e::WHITE : piece_t::army_e::BLACK));
+        if (is_space_attacked(king, (p_piece.army == piece_t::army_e::WHITE ? piece_t::army_e::BLACK : piece_t::army_e::WHITE)))
+        {
+            return false;
+        }
         
         m_piece_manager.m_pieces = old_piece_positions;
         
@@ -358,13 +361,13 @@ bool move_checker_t::is_space_attacked(const piece_position_t& p_position, piece
                 auto original_position { i_piece.position };
                 piece.position = p_position;
                 
-                if (is_move_legal(piece, original_position))
+                if (is_move_legal(piece, original_position, false))
                 {
-                    return false;
+                    return true;
                 }
             }
         }
     }
     
-    return true;
+    return false;
 }
