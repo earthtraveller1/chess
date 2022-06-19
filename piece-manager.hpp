@@ -18,7 +18,7 @@ namespace chess
         friend class move_checker_t;
         
         // Constructor
-        piece_manager_t(board_t& board);
+        piece_manager_t(board_t& board, bool should_flip_on_turns);
         
         // Start dragging if not already dragging, stop dragging if already dragging
         void set_dragging(bool dragging) noexcept;
@@ -49,6 +49,12 @@ namespace chess
         
         // Is the board flipped?
         bool m_flipped;
+        
+        // Show the board flip after each turn?
+        bool m_should_flip_each_turn;
+        
+        // Whose turn is it?
+        piece_t::army_e m_playing;
         
         // A 2D array representing the entire array of pieces on the board.
         std::array<std::array<piece_t, 8>, 8> m_pieces;

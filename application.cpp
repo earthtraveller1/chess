@@ -3,6 +3,7 @@
 
 #include "window.hpp"
 #include "utilities.hpp"
+#include "option-loader.hpp"
 
 #include "application.hpp"
 
@@ -68,7 +69,7 @@ application_t::context_debugger::context_debugger()
 
 application_t::application_t(): 
     m_window(window_t::get_instance()),
-    m_piece_manager(m_board)
+    m_piece_manager(m_board, option_loader_t("options.txt").get_option_value("flip_board_on_move") == "true")
 {
     piece_manager = &m_piece_manager;
     

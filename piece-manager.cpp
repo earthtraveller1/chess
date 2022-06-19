@@ -5,9 +5,11 @@
 
 using chess::piece_manager_t;
 
-piece_manager_t::piece_manager_t(board_t& p_board): 
+piece_manager_t::piece_manager_t(board_t& p_board, bool p_should_flip_on_turns): 
     m_renderer { 64, "renderer-shader.vert", "piece-shader.frag" }, 
     m_board { p_board },
+    m_should_flip_each_turn { p_should_flip_on_turns },
+    m_playing { chess::piece_t::army_e::WHITE },
     m_move_checker { *this }
 {
     // Load the textures.
@@ -45,8 +47,13 @@ void piece_manager_t::set_dragging(bool p_dragging) noexcept
                 m_pieces[new_piece_x][new_piece_y].role = piece_t::role_e::QUEEN;
             }
             
-            m_flipped = !m_flipped;
-            m_board.set_flipped(m_flipped);
+            if (m_should_flip_each_turn)
+            {
+                m_flipped = !m_flipped;
+                m_board.set_flipped(m_flipped);
+            }
+            
+            m_playing = (m_playing == piece_t::army_e::WHITE ? piece_t::army_e::BLACK : piece_t::army_e::WHITE);
         }
         else 
         {
@@ -63,7 +70,7 @@ void piece_manager_t::set_dragging(bool p_dragging) noexcept
         auto dragged_piece_x { static_cast<uint8_t>(m_cursor_x) };
         auto dragged_piece_y { static_cast<uint8_t>(m_cursor_y) };
         
-        if ((m_pieces[dragged_piece_x][dragged_piece_y].is_empty) || (m_pieces[dragged_piece_x][dragged_piece_y].army == piece_t::army_e::BLACK && !m_flipped) || (m_pieces[dragged_piece_x][dragged_piece_y].army == piece_t::army_e::WHITE && m_flipped))
+        if ((m_pieces[dragged_piece_x][dragged_piece_y].is_empty) || (m_pieces[dragged_piece_x][dragged_piece_y].army != m_playing))
         {
             return;
         }
