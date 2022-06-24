@@ -36,7 +36,7 @@ void piece_manager_t::set_dragging(bool p_dragging) noexcept
         
         m_dragged_piece.position = { new_piece_x, new_piece_y };
         
-        if (m_move_checker.is_move_legal(m_dragged_piece, previous_position))
+        if (m_move_checker.is_move_legal(m_dragged_piece, previous_position) || m_move_checker.handle_castling(m_dragged_piece))
         {
             m_pieces[new_piece_x][new_piece_y] = m_dragged_piece;
             m_pieces[new_piece_x][new_piece_y].has_moved = true;

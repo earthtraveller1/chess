@@ -155,8 +155,8 @@ bool move_checker_t::is_move_legal(const piece_t& p_piece, const piece_position_
                     (
                         p_piece.position.column - p_original_position.column
                     ) <= 1
-                ) 
-                && 
+                )
+                &&
                 (
                     std::abs
                     (
@@ -215,7 +215,7 @@ bool move_checker_t::should_promote(const piece_t& p_piece) const
     }
 }
 
-void move_checker_t::handle_castling(const piece_t& p_piece)
+bool move_checker_t::handle_castling(const piece_t& p_piece)
 {
     // The piece being moved has to be a King that has not moved yet.
     if (p_piece.role == piece_t::role_e::KING && !p_piece.has_moved)
@@ -228,24 +228,35 @@ void move_checker_t::handle_castling(const piece_t& p_piece)
         {
             // The target rook cannot haved moved yet.
             if (m_piece_manager.get_piece({ 7, rook_row }).has_moved)
-                return;
+                return false;
             
+            // Checks if the pieces between the king and the rook are all empty
+            if (!(m_piece_manager.get_piece({ 6, rook_row }).is_empty) || !(m_piece_manager.get_piece({ 5, rook_row }).is_empty))
+                return false;
             
+            auto rook_to_move { m_piece_manager.get_piece({ 7, rook_row }) };
+            m_piece_manager.get_piece(rook_to_move.position).is_empty = true;
+            m_piece_manager.get_piece({ 5, rook_row }) = rook_to_move;
+            m_piece_manager.get_piece({ 5, rook_row }).position = { 5, rook_row };
+            
+            return true;
         }
         
         // Queen-side castling
         else if (p_piece.position.column == 2)
         {
+            #if 0
             // The target rook cannot haved moved yet.
             if (m_piece_manager.get_piece({ 0, rook_row }).has_moved)
                 return;
+            #endif
             
-            
+            return false;
         }
     }
     else 
     {
-        return;
+        return false;
     }
 }
 
@@ -338,7 +349,7 @@ bool move_checker_t::is_space_in_between_empty(const piece_position_t& p_a, cons
         row_increment = -1;
     }
     
-    for (auto i { p_a.column + column_increment }, j { p_a.row + row_increment }; (i != p_b.column) && (j != p_b.row); i += column_increment, j += row_increment)
+    for (auto i { p_a.column + column_increment }, j { p_a.row + row_increment }; ((i != p_b.column) && (column_increment != 0)) || ((j != p_b.row) && (row_increment != 0)); i += column_increment, j += row_increment)
     {
         if (!(m_piece_manager.m_pieces[i][j].is_empty))
         {
