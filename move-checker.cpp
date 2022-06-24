@@ -12,7 +12,7 @@ using chess::move_checker_t;
 
 namespace
 {
-    bool operator==(const chess::piece_position_t& a, const chess::piece_position_t& b)
+    inline bool operator==(const chess::piece_position_t& a, const chess::piece_position_t& b)
     {
         return ((a.column == b.column) && (a.row == b.row));
     }
@@ -271,6 +271,11 @@ bool move_checker_t::handle_castling(const piece_t& p_piece)
                 return;
             #endif
             
+            return false;
+        }
+
+        else
+        {
             return false;
         }
     }
