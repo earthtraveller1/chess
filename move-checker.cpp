@@ -16,6 +16,26 @@ namespace
     {
         return ((a.column == b.column) && (a.row == b.row));
     }
+
+    bool check_space_in_between_iterator(uint8_t p_i, uint8_t p_j, uint8_t p_colonm_increment, uint8_t p_row_increment, const chess::piece_position_t& p_a, const chess::piece_position_t& p_b)
+    {
+        if (p_colonm_increment != 0 && p_row_increment != 0)
+        {
+            return p_i != p_b.column && p_j != p_b.row;
+        }
+        else if (p_colonm_increment != 0)
+        {
+            return p_i != p_b.column;
+        }
+        else if (p_row_increment != 0)
+        {
+            return p_j != p_b.row;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
 
 move_checker_t::move_checker_t(chess::piece_manager_t& p_piece_manager): m_piece_manager { p_piece_manager }
@@ -312,6 +332,8 @@ bool move_checker_t::is_pawn_move_legal(const piece_t& p_piece, const piece_posi
 
 #define neng if (i == 6 && j == 5) raise(SIGTRAP)
 
+
+
 bool move_checker_t::is_space_in_between_empty(const piece_position_t& p_a, const piece_position_t& p_b)
 {
     // If the two spaces are adjacent, then return true.
@@ -349,7 +371,7 @@ bool move_checker_t::is_space_in_between_empty(const piece_position_t& p_a, cons
         row_increment = -1;
     }
     
-    for (auto i { p_a.column + column_increment }, j { p_a.row + row_increment }; ((i != p_b.column) && (column_increment != 0)) || ((j != p_b.row) && (row_increment != 0)); i += column_increment, j += row_increment)
+    for (auto i { p_a.column + column_increment }, j { p_a.row + row_increment }; check_space_in_between_iterator(i, j, column_increment, row_increment, p_a, p_b); i += column_increment, j += row_increment)
     {
         if (!(m_piece_manager.m_pieces[i][j].is_empty))
         {
@@ -366,7 +388,7 @@ bool move_checker_t::is_space_attacked(const piece_position_t& p_position, piece
     {
         for (const auto& i_piece: column)
         {
-            if (i_piece.army == p_enemy_army)
+            if ((i_piece.army == p_enemy_army) && (!i_piece.is_empty))
             {
                 auto piece { i_piece };
                 auto original_position { i_piece.position };
