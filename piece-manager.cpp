@@ -8,6 +8,7 @@ using chess::piece_manager_t;
 piece_manager_t::piece_manager_t(board_t& p_board, bool p_should_flip_on_turns): 
     m_renderer { 64, "renderer-shader.vert", "piece-shader.frag" }, 
     m_board { p_board },
+    m_flipped { false },
     m_should_flip_each_turn { p_should_flip_on_turns },
     m_playing { chess::piece_t::army_e::WHITE },
     m_move_checker { *this }
