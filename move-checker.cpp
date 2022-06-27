@@ -265,13 +265,25 @@ bool move_checker_t::handle_castling(const piece_t& p_piece)
         // Queen-side castling
         else if (p_piece.position.column == 2)
         {
-            #if 0
             // The target rook cannot haved moved yet.
             if (m_piece_manager.get_piece({ 0, rook_row }).has_moved)
-                return;
-            #endif
+                return false;
             
-            return false;
+            // Checks if the pieces between the king and the rook are all empty
+            if (
+                !(m_piece_manager.get_piece({ 1, rook_row }).is_empty) || 
+                !(m_piece_manager.get_piece({ 2, rook_row }).is_empty) ||
+                !(m_piece_manager.get_piece({ 3, rook_row }).is_empty))
+            {
+                return false;
+            }
+            
+            auto rook_to_move { m_piece_manager.get_piece({ 0, rook_row }) };
+            m_piece_manager.get_piece(rook_to_move.position).is_empty = true;
+            m_piece_manager.get_piece({ 3, rook_row }) = rook_to_move;
+            m_piece_manager.get_piece({ 3, rook_row }).position = { 3, rook_row };
+            
+            return true;
         }
 
         else
