@@ -17,7 +17,7 @@ namespace
         return ((a.column == b.column) && (a.row == b.row));
     }
 
-    bool check_space_in_between_iterator(uint8_t p_i, uint8_t p_j, uint8_t p_colonm_increment, uint8_t p_row_increment, const chess::piece_position_t& p_a, const chess::piece_position_t& p_b)
+    bool check_space_in_between_iterator(uint8_t p_i, uint8_t p_j, uint8_t p_colonm_increment, uint8_t p_row_increment, const chess::piece_position_t& p_b)
     {
         if (p_colonm_increment != 0 && p_row_increment != 0)
         {
@@ -388,7 +388,7 @@ bool move_checker_t::is_space_in_between_empty(const piece_position_t& p_a, cons
         row_increment = -1;
     }
     
-    for (auto i { p_a.column + column_increment }, j { p_a.row + row_increment }; check_space_in_between_iterator(i, j, column_increment, row_increment, p_a, p_b); i += column_increment, j += row_increment)
+    for (auto i { p_a.column + column_increment }, j { p_a.row + row_increment }; check_space_in_between_iterator(i, j, column_increment, row_increment, p_b); i += column_increment, j += row_increment)
     {
         if (!(m_piece_manager.m_pieces[i][j].is_empty))
         {
