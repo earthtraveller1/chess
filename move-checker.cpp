@@ -308,9 +308,16 @@ bool move_checker_t::is_pawn_move_legal(const piece_t& p_piece, const piece_posi
                 return true;
             }
             
-            if (std::abs(p_piece.position.column - p_original_position.column) == 1 && !(m_piece_manager.get_piece(p_piece.position).is_empty))
+            if (std::abs(p_piece.position.column - p_original_position.column) == 1)
             {
-                return true;
+                if (!(m_piece_manager.get_piece(p_piece.position).is_empty))
+                {
+                    return true;
+                }
+                else if (handle_en_passant(p_piece))
+                {
+                    return true;
+                }
             }
             
             return false;
@@ -329,9 +336,15 @@ bool move_checker_t::is_pawn_move_legal(const piece_t& p_piece, const piece_posi
                 return true;
             }
             
-            if (std::abs(p_piece.position.column - p_original_position.column) == 1 && !(m_piece_manager.get_piece(p_piece.position).is_empty))
+            if (std::abs(p_piece.position.column - p_original_position.column) == 1)
             {
-                return true;
+                if (!(m_piece_manager.get_piece(p_piece.position).is_empty))
+                {
+                    return true;
+                } else if (handle_en_passant(p_piece))
+                {
+                    return true;
+                }
             }
             
             return false;
@@ -347,9 +360,35 @@ bool move_checker_t::is_pawn_move_legal(const piece_t& p_piece, const piece_posi
     }
 }
 
-#define neng if (i == 6 && j == 5) raise(SIGTRAP)
-
-
+bool move_checker_t::handle_en_passant(const piece_t& p_piece)
+{
+    auto target_piece { m_piece_manager.m_pieces[p_piece.position.column][p_piece.army == piece_t::army_e::WHITE ? p_piece.position.row + 1 : p_piece.position.row - 1] };
+    
+    // For en passant to work, the target piece must not be empty
+    if (target_piece.is_empty)
+        return false;
+    
+    // En passant capturing only works on a pawn
+    if (target_piece.role != piece_t::role_e::PAWN)
+    {
+        return false;
+    }
+    
+    // Cannot en passant capture an ally
+    if (target_piece.army == p_piece.army)
+        return false;
+    
+    // The pawn must have moved 2 steps.
+    if (std::abs(target_piece.position.row - target_piece.previous_position.row) != 2)
+    {
+        return false;
+    }
+    
+    // Delete the piece once it's been captured.
+    m_piece_manager.get_piece(target_piece.position).is_empty = true;
+    
+    return true;
+}
 
 bool move_checker_t::is_space_in_between_empty(const piece_position_t& p_a, const piece_position_t& p_b)
 {

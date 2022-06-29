@@ -34,6 +34,10 @@ namespace chess
         // due to it's complexity
         bool is_pawn_move_legal(const piece_t& piece, const piece_position_t& previous_position);
         
+        // Check if the move should result in en passant capturing and automat-
+        // ically perform the en passant capturing if yes.
+        bool handle_en_passant(const piece_t& piece);
+        
         // Check if there's any non-empty pieces between two positons.
         bool is_space_in_between_empty(const piece_position_t& a, const piece_position_t& b);
         
