@@ -1,52 +1,16 @@
 #include <glad/glad.h>
 #include <iostream>
+#include <memory>
+#include <functional>
 
 #include "window.hpp"
 #include "utilities.hpp"
 #include "option-loader.hpp"
+#include "game-scene.hpp"
 
 #include "application.hpp"
 
 using chess::application_t;
-
-namespace 
-{
-    chess::piece_manager_t* piece_manager { nullptr };
-    
-    void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
-    {
-        UNUSED_PARAM(window);
-        UNUSED_PARAM(mods);
-        
-        if (piece_manager != nullptr)
-        {
-            if (button == GLFW_MOUSE_BUTTON_LEFT)
-            {
-                if (action == GLFW_PRESS)
-                {
-                    piece_manager->set_dragging(true);
-                }
-                else if (action == GLFW_RELEASE)
-                {
-                    piece_manager->set_dragging(false);
-                }
-            }
-        }
-    }
-    
-    void cursor_pos_callback(GLFWwindow* window, double xpos, double ypos)
-    {
-        auto window_width { 0 };
-        auto window_height { 0 };
-        
-        glfwGetWindowSize(window, &window_width, &window_height);
-        
-        auto normalized_x { (xpos / window_height) * 8.0 };
-        auto normalized_y { (ypos / window_height) * 8.0 };
-        
-        piece_manager->update_mouse_position(normalized_x, normalized_y);
-    }
-}
 
 application_t::context_debugger::context_debugger()
 {
@@ -69,10 +33,9 @@ application_t::context_debugger::context_debugger()
 
 application_t::application_t(): 
     m_window(window_t::get_instance()),
-    m_piece_manager(m_board, option_loader_t("options.txt").get_option_value("flip_board_on_move") == "true")
+    m_scene_manager(std::make_shared<game_scene_t>(m_window.get_width(), m_window.get_height()))
 {
-    piece_manager = &m_piece_manager;
-    
+    m_window.set_user_pointer(this);
     m_window.set_mouse_button_event_handler(mouse_button_callback);
     m_window.set_mouse_position_event_handler(cursor_pos_callback);
     
@@ -82,15 +45,15 @@ application_t::application_t():
 void application_t::update(double p_delta_time)
 {
     UNUSED_PARAM(p_delta_time);
+    
+    m_scene_manager.update_active();
 }
 
 void application_t::render()
 {
     glClear(GL_COLOR_BUFFER_BIT);
     
-    m_board.render();
-    
-    m_piece_manager.render_pieces();
+    m_scene_manager.render_active();
     
     m_window.update();
 }

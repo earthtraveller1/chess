@@ -1,8 +1,9 @@
 #ifndef BB8F30B8_A881_40E4_B62B_1F740D539CD1
 #define BB8F30B8_A881_40E4_B62B_1F740D539CD1
 
-#include "board.hpp"
-#include "piece-manager.hpp"
+#include <GLFW/glfw3.h>
+
+#include "scene-manager.hpp"
 
 namespace chess
 {
@@ -25,6 +26,16 @@ namespace chess
         
         void render();
         
+        inline static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
+        {
+            reinterpret_cast<application_t*>(glfwGetWindowUserPointer(window))->m_scene_manager.active_on_mouse_click(button, action);
+        }
+        
+        inline static void cursor_pos_callback(GLFWwindow* window, double xpos, double ypos)
+        {
+            reinterpret_cast<application_t*>(glfwGetWindowUserPointer(window))->m_scene_manager.active_on_mouse_move(xpos, ypos);
+        }
+        
         bool is_open() const;
         
         ~application_t();
@@ -37,9 +48,7 @@ namespace chess
             context_debugger();
         } m_context_debugger;
         
-        board_t m_board;
-        
-        piece_manager_t m_piece_manager;
+        scene_manager_t m_scene_manager;
     };
 }
 
