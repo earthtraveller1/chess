@@ -27,6 +27,34 @@ void window_t::set_mouse_position_event_handler(GLFWcursorposfun p_handler)
     glfwSetCursorPosCallback(m_window, p_handler);
 }
 
+uint16_t window_t::get_width() const 
+{
+    auto width { new int };
+    auto height { new int };
+    glfwGetWindowSize(m_window, width, height);
+    
+    auto result { *width };
+    
+    delete width;
+    delete height;
+    
+    return result;
+}
+
+uint16_t window_t::get_height() const 
+{
+    auto width { new int };
+    auto height { new int };
+    glfwGetWindowSize(m_window, width, height);
+    
+    auto result { *height };
+    
+    delete width;
+    delete height;
+    
+    return result;
+}
+
 void window_t::show() const noexcept
 {
     glfwShowWindow(m_window);

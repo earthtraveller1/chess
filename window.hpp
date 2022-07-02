@@ -22,6 +22,17 @@ namespace chess
         // Set the mouse position event handler
         void set_mouse_position_event_handler(GLFWcursorposfun event_handler);
         
+        // Set the user pointer of the window
+        template<typename T>
+        void set_user_pointer(T* p_user_pointer)
+        {
+            glfwSetWindowUserPointer(m_window, p_user_pointer);
+        }
+        
+        // Getters for the window sizes
+        uint16_t get_width() const;
+        uint16_t get_height() const;
+        
         // Show the window.
         void show() const noexcept;
         
