@@ -1,1 +1,1 @@
-flip-board-on-move=false
+FlipBoardOnMove=false
