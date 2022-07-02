@@ -49,6 +49,7 @@ add_executable(
     
     application.cpp 
     board.cpp 
+    game-scene.cpp 
     main.cpp 
     move-checker.cpp
     option-loader.cpp
@@ -59,6 +60,7 @@ add_executable(
     
     application.hpp 
     board.hpp 
+    game-scene.hpp 
     move-checker.hpp
     option-loader.hpp
     piece-manager.hpp 
