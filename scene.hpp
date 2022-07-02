@@ -13,6 +13,10 @@ namespace chess
         
         virtual void render() {};
         
+        virtual void on_mouse_click(int button, int action) {};
+        
+        virtual void on_mouse_move(double xpos, double ypos) {};
+        
         virtual ~scene_t() {}
     };
 }

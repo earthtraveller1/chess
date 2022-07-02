@@ -30,6 +30,16 @@ namespace chess
             m_active_scene->render();
         }
         
+        inline void active_on_mouse_click(int p_button, int p_action)
+        {
+            m_active_scene->on_mouse_click(p_button, p_action);
+        }
+        
+        inline void active_on_mouse_move(double p_xpos, double p_ypos)
+        {
+            m_active_scene->on_mouse_move(p_xpos, p_ypos);
+        }
+        
     private:
         std::shared_ptr<scene_t> m_active_scene;
     };
