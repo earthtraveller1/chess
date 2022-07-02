@@ -63,6 +63,7 @@ add_executable(
     option-loader.hpp
     piece-manager.hpp 
     renderer.hpp 
+    scene.hpp 
     utilities.hpp 
     window.hpp 
 )
