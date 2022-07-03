@@ -26,7 +26,7 @@ namespace chess
         
         void render();
         
-        inline static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
+        inline static void mouse_button_callback(GLFWwindow* window, int button, int action, int)
         {
             reinterpret_cast<application_t*>(glfwGetWindowUserPointer(window))->m_scene_manager.active_on_mouse_click(button, action);
         }
