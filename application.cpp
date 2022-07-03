@@ -6,7 +6,7 @@
 #include "window.hpp"
 #include "utilities.hpp"
 #include "option-loader.hpp"
-#include "game-scene.hpp"
+#include "menu-scene.hpp"
 
 #include "application.hpp"
 
@@ -33,7 +33,7 @@ application_t::context_debugger::context_debugger()
 
 application_t::application_t(): 
     m_window(window_t::get_instance()),
-    m_scene_manager(std::make_shared<game_scene_t>(m_window.get_width(), m_window.get_height()))
+    m_scene_manager(std::make_shared<menu_scene_t>(m_scene_manager, m_window.get_width(), m_window.get_height()))
 {
     m_window.set_user_pointer(this);
     m_window.set_mouse_button_event_handler(mouse_button_callback);
