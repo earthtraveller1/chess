@@ -1,6 +1,7 @@
 #include <stdexcept>
 #include <iostream>
 #include <cstdlib>
+#include <filesystem>
 
 #include "application.hpp"
 #include "utilities.hpp"
@@ -8,6 +9,8 @@
 
 #ifdef _WIN32
 #include <Windows.h>
+#else
+#include <unistd.h>
 #endif
 
 namespace 
@@ -32,6 +35,29 @@ namespace
         
         return EXIT_SUCCESS;
     }
+    
+    std::string get_executable_location()
+    {
+        #ifdef _WIN32
+        return ".";
+        #else
+        char buffer[4096];
+        if (readlink("/proc/self/exe", buffer, 4096) != -1)
+        {
+            std::string result(buffer);
+            return result.substr(0, result.find_last_of('/'));
+        }
+        else 
+        {
+            return ".";
+        }
+        #endif
+    }
+    
+    void set_current_working_directory(std::string_view p_new_working_directory)
+    {
+        std::filesystem::current_path(p_new_working_directory);
+    }
 }
 
 #if 0
@@ -49,6 +75,12 @@ int main()
 int main()
 {
     std::cout << "[INFO]: Hello!\n";
+    
+    // Set the current working directory as the location of the executable.
+    auto program_location { get_executable_location() };
+    std::cout << "[INFO]: The program is now running in " << program_location << std::endl;
+    set_current_working_directory(program_location);
+    
     return run();
 }
 //#endif
