@@ -5,6 +5,7 @@
 
 #include "scene.hpp"
 #include "renderer.hpp"
+#include "button-manager.hpp"
 
 namespace chess
 {
@@ -26,6 +27,9 @@ namespace chess
     private:
         // The scene manager
         scene_manager_t& m_scene_manager;
+        
+        // For controlling the buttons
+        button_manager_t m_button_manager;
         
         renderer_t m_renderer;
         

@@ -1,5 +1,6 @@
 #include "scene-manager.hpp"
 #include "utilities.hpp"
+#include "game-scene.hpp"
 
 #include "menu-scene.hpp"
 
@@ -34,9 +35,21 @@ void menu_scene_t::render()
     
     m_renderer.draw_quad(background);
     
+    auto play_button_x { (8.0f - 3.0f) / 2.0f };
+    auto play_button_y { (8.0f - 1.5f) / 2.0f };
+    
     renderer_t::quad_t play_button {};
-    play_button.color = { 1.0f, 1.0f, 1.0f, 1.0f };
-    play_button.position = { (8.0f - 3.0f) / 2.0f, (8.0f - 1.5f) / 2.0f };
+    
+    if (m_button_manager.is_button_hovered(play_button_x, play_button_y, 3.0, 1.5))
+    {
+        play_button.color = { 0.7f, 0.7f, 0.7f, 0.7f };
+    }
+    else 
+    {
+        play_button.color = { 1.0f, 1.0f, 1.0f, 1.0f };
+    }
+    
+    play_button.position = { play_button_x, play_button_y };
     play_button.size = { 3.0f, 1.5f };
     play_button.uv.position = { 0.0f, 0.0f };
     play_button.uv.size = { 1.0f, 1.0f };
@@ -49,12 +62,16 @@ void menu_scene_t::render()
 
 void menu_scene_t::on_mouse_click(int p_button, int p_action)
 {
-    UNUSED_PARAM(p_button);
-    UNUSED_PARAM(p_action);
+    auto play_button_x { (8.0f - 3.0f) / 2.0f };
+    auto play_button_y { (8.0f - 1.5f) / 2.0f };
+    
+    if (m_button_manager.is_button_hovered(play_button_x, play_button_y, 3.0, 1.5))
+    {
+        m_scene_manager.set_active(std::make_shared<game_scene_t>(m_window_width, m_window_height));
+    }
 }
 
 void menu_scene_t::on_mouse_move(double p_xpos, double p_ypos)
 {
-    UNUSED_PARAM(p_xpos);
-    UNUSED_PARAM(p_ypos);
+    m_button_manager.update_mouse_positions((p_xpos / m_window_width) * 8.0, (p_ypos / m_window_height) * 8.0);
 }
