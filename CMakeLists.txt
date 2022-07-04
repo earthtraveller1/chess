@@ -61,6 +61,7 @@ add_executable(
     
     application.hpp 
     board.hpp 
+    button-manager.hpp 
     game-scene.hpp 
     menu-scene.hpp 
     move-checker.hpp
