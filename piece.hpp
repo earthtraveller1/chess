@@ -16,6 +16,9 @@ namespace chess
         // Has the peice moved at all yet?
         bool has_moved { false };
         
+        // Can the piece be captured through en passant?
+        bool can_be_en_passant_captured { false };
+        
         piece_position_t position;
         
         enum class army_e

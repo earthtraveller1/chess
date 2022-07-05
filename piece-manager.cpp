@@ -48,6 +48,22 @@ void piece_manager_t::set_dragging(bool p_dragging) noexcept
                 m_pieces[new_piece_x][new_piece_y].role = piece_t::role_e::QUEEN;
             }
             
+            // Reset the en passant capturability of all the pieces.
+            for (auto& column : m_pieces)
+            {
+                for (auto& piece : column)
+                {
+                    piece.can_be_en_passant_captured = false;
+                }
+            }
+
+            // If the piece is a pawn and has moved two positions vertically, 
+            // make it so that it can be en passant captured
+            if (std::abs(m_dragged_piece.position.row - previous_position.row) == 2 && m_dragged_piece.role == piece_t::role_e::PAWN)
+            {
+                m_pieces[new_piece_x][new_piece_y].can_be_en_passant_captured = true;
+            }
+            
             if (m_should_flip_each_turn)
             {
                 m_flipped = !m_flipped;
@@ -418,5 +434,13 @@ void piece_manager_t::put_pieces_to_starting_place()
         black_royal_2.position = { 3, 0 };
         
         m_pieces[3][0] = black_royal_2;
+    }
+    
+    for (auto& column: m_pieces)
+    {
+        for (auto& piece: column)
+        {
+            piece.can_be_en_passant_captured = false;
+        }
     }
 }
