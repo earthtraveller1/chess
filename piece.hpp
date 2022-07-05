@@ -18,9 +18,6 @@ namespace chess
         
         piece_position_t position;
         
-        // The previous position of the piece.
-        piece_position_t previous_position;
-        
         enum class army_e
         {
             WHITE = 0, BLACK

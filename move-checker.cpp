@@ -392,8 +392,9 @@ bool move_checker_t::is_pawn_move_legal(const piece_t& p_piece, const piece_posi
     }
 }
 
-bool move_checker_t::handle_en_passant(const piece_t& p_piece)
+bool move_checker_t::handle_en_passant(const piece_t&)
 {
+    #if 0
     auto target_piece { m_piece_manager.m_pieces[p_piece.position.column][p_piece.army == piece_t::army_e::WHITE ? p_piece.position.row + 1 : p_piece.position.row - 1] };
     
     // For en passant to work, the target piece must not be empty
@@ -420,6 +421,8 @@ bool move_checker_t::handle_en_passant(const piece_t& p_piece)
     m_piece_manager.get_piece(target_piece.position).is_empty = true;
     
     return true;
+    #endif
+    return false;
 }
 
 bool move_checker_t::is_space_in_between_empty(const piece_position_t& p_a, const piece_position_t& p_b)

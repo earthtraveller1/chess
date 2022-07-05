@@ -41,7 +41,6 @@ void piece_manager_t::set_dragging(bool p_dragging) noexcept
         {
             m_pieces[new_piece_x][new_piece_y] = m_dragged_piece;
             m_pieces[new_piece_x][new_piece_y].has_moved = true;
-            m_pieces[new_piece_x][new_piece_y].previous_position = previous_position;
             
             // If the piece should be promoted, make it a queen.
             if (m_move_checker.should_promote(m_dragged_piece))
@@ -419,13 +418,5 @@ void piece_manager_t::put_pieces_to_starting_place()
         black_royal_2.position = { 3, 0 };
         
         m_pieces[3][0] = black_royal_2;
-    }
-    
-    for (auto& row: m_pieces)
-    {
-        for (auto& piece: row)
-        {
-            piece.previous_position = piece.position;
-        }
     }
 }
