@@ -254,6 +254,26 @@ bool move_checker_t::handle_castling(const piece_t& p_piece)
             if (!(m_piece_manager.get_piece({ 6, rook_row }).is_empty) || !(m_piece_manager.get_piece({ 5, rook_row }).is_empty))
                 return false;
             
+            const auto enemy_army { p_piece.army == piece_t::army_e::WHITE ? piece_t::army_e::BLACK : piece_t::army_e::WHITE };
+            
+            // Check if the King's new position is being attacked
+            if (is_space_attacked(p_piece.position, enemy_army))
+            {
+                return false;
+            }
+            
+            // Check if the spaces in between the King is being attacked
+            if (is_space_attacked({ 6, rook_row}, enemy_army) || is_space_attacked({ 5, rook_row }, enemy_army))
+            {
+                return false;
+            }
+            
+            // Check if the King was originally in check
+            if (is_space_attacked({ 4, rook_row }, enemy_army))
+            {
+                return false;
+            }
+            
             auto rook_to_move { m_piece_manager.get_piece({ 7, rook_row }) };
             m_piece_manager.get_piece(rook_to_move.position).is_empty = true;
             m_piece_manager.get_piece({ 5, rook_row }) = rook_to_move;
@@ -274,6 +294,18 @@ bool move_checker_t::handle_castling(const piece_t& p_piece)
                 !(m_piece_manager.get_piece({ 1, rook_row }).is_empty) || 
                 !(m_piece_manager.get_piece({ 2, rook_row }).is_empty) ||
                 !(m_piece_manager.get_piece({ 3, rook_row }).is_empty))
+            {
+                return false;
+            }
+            
+            const auto enemy_army { p_piece.army == piece_t::army_e::WHITE ? piece_t::army_e::BLACK : piece_t::army_e::WHITE };
+            
+            // Checks if any the squares that cannot be in check is in check.
+            if (
+                is_space_attacked({ 2, rook_row }, enemy_army) ||
+                is_space_attacked({ 3, rook_row }, enemy_army) ||
+                is_space_attacked({ 4, rook_row }, enemy_army)
+            )
             {
                 return false;
             }
