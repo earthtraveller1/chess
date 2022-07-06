@@ -1,13 +1,15 @@
 #include "option-loader.hpp"
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include "scene-manager.hpp"
 
 #include "game-scene.hpp"
 
 using chess::game_scene_t;
 
-game_scene_t::game_scene_t(uint16_t p_window_width, uint16_t p_window_height):
+game_scene_t::game_scene_t(scene_manager_t& p_scene_manager, uint16_t p_window_width, uint16_t p_window_height):
     m_board(),
+    m_scene_manager(p_scene_manager),
     m_piece_manager(m_board, option_loader_t("options.txt").get_option_value("FlipBoardOnMove") == "true"),
     m_renderer(8, "renderer-shader.vert", "renderer-shader.frag"),
     m_is_paused(false),
@@ -104,6 +106,21 @@ void game_scene_t::on_mouse_click(int p_button, int p_action)
             }
         }
     }
+    else
+    {
+        if (p_button == GLFW_MOUSE_BUTTON_LEFT && p_action == GLFW_PRESS)
+        {
+            if (m_button_manager.is_button_hovered((8.0 - 3.0) / 2.0, 3.0, 3.0, 3.0 / 4.0))
+            {
+                m_is_paused = false;
+            }
+            
+            if (m_button_manager.is_button_hovered((8.0 - 3.0) / 2.0, 4.0, 3.0, 3.0 / 4.0))
+            {
+                m_scene_manager.set_active(std::make_shared<game_scene_t>(m_scene_manager, m_window_width, m_window_height));
+            }
+        }
+    }
 }
 
 void game_scene_t::on_mouse_move(double xpos, double ypos)
@@ -115,10 +132,8 @@ void game_scene_t::on_mouse_move(double xpos, double ypos)
 
         m_piece_manager.update_mouse_position(normalized_x, normalized_y);
     }
-    else
-    {
-        m_button_manager.update_mouse_positions((xpos / m_window_width) * 8.0, (ypos / m_window_height) * 8.0);
-    }
+    
+    m_button_manager.update_mouse_positions((xpos / m_window_width) * 8.0, (ypos / m_window_height) * 8.0);
 }
 
 void game_scene_t::on_key_event(int p_key, int p_action)
@@ -126,5 +141,6 @@ void game_scene_t::on_key_event(int p_key, int p_action)
     if (p_key == GLFW_KEY_ESCAPE && p_action == GLFW_PRESS)
     {
         m_is_paused = !m_is_paused;
+        m_piece_manager.set_dragging(false);
     }
 }
