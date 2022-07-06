@@ -9,10 +9,12 @@
 
 namespace chess
 {
+    class scene_manager_t;
+    
     class game_scene_t: public scene_t
     {
     public:
-        game_scene_t(uint16_t p_window_width, uint16_t p_window_height);
+        game_scene_t(scene_manager_t& scene_manager, uint16_t p_window_width, uint16_t p_window_height);
         
         void render() override;
         
@@ -25,6 +27,9 @@ namespace chess
     private:
         // Renders the chessboard background.
         board_t m_board;
+        
+        // For restarting the scene.
+        scene_manager_t& m_scene_manager;
         
         // Manages and renders the pieces.
         piece_manager_t m_piece_manager;

@@ -69,7 +69,7 @@ void menu_scene_t::on_mouse_click(int p_button, int p_action)
     
     if (m_button_manager.is_button_hovered(play_button_x, play_button_y, 3.0, 1.5) && p_button == GLFW_MOUSE_BUTTON_LEFT && p_action == GLFW_PRESS)
     {
-        m_scene_manager.set_active(std::make_shared<game_scene_t>(m_window_width, m_window_height));
+        m_scene_manager.set_active(std::make_shared<game_scene_t>(m_scene_manager, m_window_width, m_window_height));
     }
 }
 
