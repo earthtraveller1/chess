@@ -38,6 +38,7 @@ application_t::application_t():
     m_window.set_user_pointer(this);
     m_window.set_mouse_button_event_handler(mouse_button_callback);
     m_window.set_mouse_position_event_handler(cursor_pos_callback);
+    m_window.set_key_event_handler(key_callback);
     
     m_window.show();
 }
