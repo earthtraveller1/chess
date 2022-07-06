@@ -22,6 +22,12 @@ namespace chess
         // Set the mouse position event handler
         void set_mouse_position_event_handler(GLFWcursorposfun event_handler);
         
+        // Set the key event handler
+        inline void set_key_event_handler(GLFWkeyfun event_handler)
+        {
+            glfwSetKeyCallback(m_window, event_handler);
+        }
+        
         // Set the user pointer of the window
         template<typename T>
         void set_user_pointer(T* p_user_pointer)
