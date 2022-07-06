@@ -28,8 +28,8 @@
      inkscape:document-units="px"
      showgrid="false"
      inkscape:zoom="1.829812"
-     inkscape:cx="342.3849"
-     inkscape:cy="159.85249"
+     inkscape:cx="320.79798"
+     inkscape:cy="160.39899"
      inkscape:window-width="3840"
      inkscape:window-height="2047"
      inkscape:window-x="0"
@@ -43,7 +43,7 @@
      inkscape:groupmode="layer"
      id="layer1">
     <rect
-       style="fill:#000000;fill-opacity:1;stroke:#ffffff;stroke-width:0;stroke-linejoin:round;stroke-dasharray:none"
+       style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0;stroke-linejoin:round;stroke-dasharray:none"
        id="rect5066"
        width="270.93335"
        height="67.73333"
@@ -51,7 +51,7 @@
        y="3.5355339e-07" />
     <text
        xml:space="preserve"
-       style="font-weight:bold;font-size:54.8967px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#ffffff;fill-opacity:1;stroke-width:1.37242"
+       style="font-weight:bold;font-size:54.8967px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#000000;fill-opacity:1;stroke-width:1.37242"
        x="9.1881504"
        y="53.972347"
        id="text5064"><tspan
@@ -59,6 +59,6 @@
          id="tspan5062"
          x="9.1881504"
          y="53.972347"
-         style="fill:#ffffff;fill-opacity:1;stroke-width:1.37242">RESUME</tspan></text>
+         style="fill:#000000;fill-opacity:1;stroke-width:1.37242">RESUME</tspan></text>
   </g>
 </svg>

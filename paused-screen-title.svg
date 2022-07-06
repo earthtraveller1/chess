@@ -23,13 +23,13 @@
      borderopacity="1.0"
      inkscape:showpageshadow="2"
      inkscape:pageopacity="0.0"
-     inkscape:pagecheckerboard="0"
+     inkscape:pagecheckerboard="true"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="px"
      showgrid="false"
      inkscape:zoom="0.914906"
-     inkscape:cx="1154.7634"
-     inkscape:cy="561.25984"
+     inkscape:cx="1111.5896"
+     inkscape:cy="562.35285"
      inkscape:window-width="3840"
      inkscape:window-height="2047"
      inkscape:window-x="0"
@@ -44,7 +44,7 @@
      id="layer1">
     <text
        xml:space="preserve"
-       style="font-weight:bold;font-size:126.438px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';stroke-width:3.16095"
+       style="font-weight:bold;font-size:126.438px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';stroke-width:3.16095;fill:#ffffff;fill-opacity:1"
        x="-11.606557"
        y="113.75854"
        id="text186"><tspan
@@ -52,6 +52,6 @@
          id="tspan184"
          x="-11.606557"
          y="113.75854"
-         style="stroke-width:3.16095">PAUSED</tspan></text>
+         style="stroke-width:3.16095;fill:#ffffff;fill-opacity:1">PAUSED</tspan></text>
   </g>
 </svg>
