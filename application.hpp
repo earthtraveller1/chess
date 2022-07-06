@@ -36,6 +36,11 @@ namespace chess
             reinterpret_cast<application_t*>(glfwGetWindowUserPointer(window))->m_scene_manager.active_on_mouse_move(xpos, ypos);
         }
         
+        inline static void key_callback(GLFWwindow* window, int key, int, int action, int)
+        {
+            reinterpret_cast<application_t*>(glfwGetWindowUserPointer(window))->m_scene_manager.active_on_key_event(key, action);
+        }
+        
         bool is_open() const;
         
         ~application_t();
