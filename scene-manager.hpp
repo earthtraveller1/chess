@@ -40,6 +40,11 @@ namespace chess
             m_active_scene->on_mouse_move(p_xpos, p_ypos);
         }
         
+        inline void active_on_key_event(int key, int action)
+        {
+            m_active_scene->on_key_event(key, action);
+        }
+        
     private:
         std::shared_ptr<scene_t> m_active_scene;
     };

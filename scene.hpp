@@ -27,6 +27,8 @@ namespace chess
             UNUSED_PARAM(ypos);
         }
         
+        virtual void on_key_event(int, int) {}
+        
         virtual ~scene_t() {}
     };
 }
