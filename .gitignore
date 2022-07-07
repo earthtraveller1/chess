@@ -455,3 +455,7 @@ build.ninja
 
 # Visual Studio Recipes
 *.recipe
+
+# Windows Executable Resources
+/resource.h
+*.rc
