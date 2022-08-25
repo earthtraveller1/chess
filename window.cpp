@@ -1,6 +1,7 @@
+#include <glad/glad.h>
+
 #include <GLFW/glfw3.h>
 #include <array>
-#include <glad/glad.h>
 #include <iostream>
 #include <stdexcept>
 
